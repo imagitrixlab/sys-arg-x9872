@@ -29,6 +29,12 @@
             --text-glow: #f1f5f9;
             --text-dim: #64748b;
             --radius-luxury: 16px;
+
+            /* Chat Bubble Specific Theme Locks */
+            --bubble-user: #1a2a3a; /* Deep Midnight Blue */
+            --bubble-user-border: #2e4760;
+            --bubble-ai: #1a122c;   /* Royal Deep Cyber Amethyst */
+            --bubble-ai-border: #44246d;
         }
 
         * {
@@ -96,7 +102,6 @@
             gap: 8px;
         }
 
-        /* Ultra-Premium Custom Model Selector Dropdown */
         .model-selector-wrap {
             position: relative;
         }
@@ -149,8 +154,8 @@
         /* Main Workspace Container */
         .container-box {
             flex: 1;
-            overflow-y: auto;
-            padding: 16px 18px 96px 18px;
+            overflow-y: hidden;
+            padding: 14px 16px 88px 16px;
             display: flex;
             flex-direction: column;
         }
@@ -160,7 +165,8 @@
             height: 100%;
             flex-direction: column;
             justify-content: space-between;
-            gap: 12px;
+            gap: 10px;
+            overflow: hidden;
         }
 
         .view-tab.active {
@@ -174,7 +180,7 @@
             align-items: center;
             background: linear-gradient(90deg, rgba(0, 255, 170, 0.04) 0%, rgba(17, 21, 28, 0.6) 100%);
             border: 1px solid var(--border-metal);
-            padding: 10px 16px;
+            padding: 9px 14px;
             border-radius: var(--radius-luxury);
             font-size: 11px;
             font-weight: 500;
@@ -195,32 +201,143 @@
             transition: all 0.2s ease;
         }
 
-        /* Display Terminal */
-        .display-terminal {
-            background: linear-gradient(145deg, #0e1218 0%, #11151c 100%);
+        /* DYNAMIC CHAT STREAM CONTAINER (BUBBLE FEED) */
+        .chat-stream-viewport {
+            background: linear-gradient(145deg, #090c12 0%, #0d1117 100%);
             border: 1px solid var(--border-metal);
             border-radius: var(--radius-luxury);
             flex: 1;
-            min-height: 220px;
-            padding: 18px;
+            min-height: 200px;
+            padding: 16px 14px;
             overflow-y: auto;
+            overflow-x: hidden;
             box-shadow: inset 0 2px 24px rgba(0, 0, 0, 0.75), 0 4px 16px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
             user-select: text;
+            scroll-behavior: smooth;
         }
 
-        .output-stream {
-            line-height: 1.75;
-            font-size: 14px;
-            color: var(--text-glow);
+        .chat-msg-row {
+            display: flex;
+            width: 100%;
+            animation: fadeIn 0.25s ease forwards;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .chat-msg-row.user {
+            justify-content: flex-end;
+        }
+
+        .chat-msg-row.ai {
+            justify-content: flex-start;
+        }
+
+        /* User Bubble: Deep Midnight Blue */
+        .chat-bubble.user-bubble {
+            background: var(--bubble-user);
+            border: 1px solid var(--bubble-user-border);
+            border-radius: 18px 18px 4px 18px;
+            max-width: 85%;
+            padding: 12px 14px;
+            color: #e2e8f0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+        }
+
+        /* AI Bubble: Royal Deep Cyber Amethyst */
+        .chat-bubble.ai-bubble {
+            background: var(--bubble-ai) !important;
+            border: 1px solid var(--bubble-ai-border);
+            border-radius: 18px 18px 18px 4px;
+            max-width: 90%;
+            padding: 14px 16px;
+            color: #f3e8ff;
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.55);
+        }
+
+        .bubble-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-dim);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding-bottom: 5px;
+            margin-bottom: 8px;
+            gap: 12px;
+        }
+
+        .bubble-meta .ai-tag {
+            color: #c084fc;
+            font-weight: 600;
+        }
+
+        .bubble-meta .user-tag {
+            color: #38bdf8;
+            font-weight: 600;
+        }
+
+        .bubble-content {
+            font-size: 13.5px;
+            line-height: 1.65;
             white-space: pre-wrap;
             word-break: break-word;
-            font-family: 'Inter', sans-serif;
         }
 
-        .output-stream.mono-code {
+        .bubble-content.mono {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
+            font-size: 12.5px;
             color: #a7f3d0;
+        }
+
+        /* Minimal Quick Control Matrix (4 Action Buttons) */
+        .bubble-actions-matrix {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .act-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(168, 85, 247, 0.28);
+            color: #d8b4fe;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .act-btn:hover {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: #a855f7;
+            color: #ffffff;
+        }
+
+        .act-btn:active {
+            transform: scale(0.94);
+        }
+
+        .act-btn.delete {
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .act-btn.delete:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: #ef4444;
+            color: #ffffff;
         }
 
         /* 500MB Chunk Progress Bar */
@@ -408,7 +525,7 @@
         .media-canvas {
             width: 100%;
             flex: 1;
-            min-height: 210px;
+            min-height: 200px;
             background: radial-gradient(circle at center, #0e131a 0%, #05070a 100%);
             border-radius: var(--radius-luxury);
             border: 1px solid var(--border-metal);
@@ -517,6 +634,31 @@
             border-color: rgba(157, 78, 221, 0.3);
         }
 
+        /* Toast Indicator */
+        #luxury-toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: rgba(22, 27, 36, 0.95);
+            border: 1px solid var(--accent-neon);
+            color: var(--accent-neon);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 4px 18px rgba(0, 255, 170, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.25s ease;
+            z-index: 99999;
+        }
+
+        #luxury-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
         ::-webkit-scrollbar {
             width: 4px;
             height: 4px;
@@ -531,10 +673,13 @@
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
         @keyframes voicePulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
+
+    <!-- LUXURY TOAST NOTIFICATION -->
+    <div id="luxury-toast">COPIED TO CLIPBOARD</div>
 
     <!-- TOP LUXURY HEADER WITH MODEL DROPDOWN SELECTOR -->
     <header class="header-panel">
@@ -544,7 +689,6 @@
         </div>
         
         <div class="header-controls">
-            <!-- Custom Model Selector Dropdown -->
             <div class="model-selector-wrap">
                 <select id="globalModelSelector" class="luxury-model-select" onchange="updateSelectedModel(this.value)">
                     <option value="sonar-pro">sonar-pro (Deep Scan)</option>
@@ -557,7 +701,7 @@
         </div>
     </header>
 
-    <!-- Hidden Hardware Camera Stream Elements for Vision OCR -->
+    <!-- Hidden Camera Elements for Vision OCR -->
     <video id="hidden-camera-stream" autoplay playsinline muted style="display:none;"></video>
     <canvas id="hidden-ocr-canvas" style="display:none;"></canvas>
 
@@ -565,7 +709,7 @@
     <main class="container-box">
 
         <!-- ==========================================
-             TAB 1: SONAR SCAN
+             TAB 1: SONAR SCAN (DYNAMIC CHAT LAYER)
              ========================================== -->
         <section id="panel-sonar" class="view-tab active">
             <div class="audio-control-layer">
@@ -573,8 +717,23 @@
                 <button class="speech-toggle-btn" id="speech-btn" onclick="toggleSpeechEngine()">🔊 ON</button>
             </div>
 
-            <div class="display-terminal" id="sonar-terminal-container">
-                <div class="output-stream" id="sonar-terminal">Initialize universal system core query module... Ready.</div>
+            <!-- Dynamic Chat Stream Viewport (Sequential Messages) -->
+            <div class="chat-stream-viewport" id="sonar-chat-stream">
+                <div class="chat-msg-row ai" id="msg-init-default">
+                    <div class="chat-bubble ai-bubble">
+                        <div class="bubble-meta">
+                            <span class="ai-tag">ARGENT CORE // SYSTEM READY</span>
+                            <span>JUST NOW</span>
+                        </div>
+                        <div class="bubble-content" id="msg-init-content">Initialize universal system core query module... Dynamic media chat feed active. Type or speak below to begin.</div>
+                        <div class="bubble-actions-matrix">
+                            <button class="act-btn" onclick="copyMessageText('msg-init-content')">📋 Copy</button>
+                            <button class="act-btn" onclick="shareMessageText('msg-init-content')">🔗 Share</button>
+                            <button class="act-btn" onclick="exportMessageText('msg-init-content', 'sonar-init')">💾 Export</button>
+                            <button class="act-btn delete" onclick="deleteMessageBubble('msg-init-default')">🗑️ Remove</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- 500MB Chunk Progress Bar (Sonar) -->
@@ -591,21 +750,21 @@
             <div class="gemini-bar-container">
                 <div class="gemini-main-row">
                     <button type="button" class="icon-trigger btn-plus" id="plus-sonar" onclick="toggleUtilityMenu('menu-sonar', 'plus-sonar')">+</button>
-                    <input type="text" id="sonar-field" class="core-input" placeholder="Enter deep scan query or analyze loaded binary..." autocomplete="off" onkeydown="if(event.key==='Enter') executeUniversalScan('sonar-field', 'sonar-terminal')">
+                    <input type="text" id="sonar-field" class="core-input" placeholder="Type a message or deep query..." autocomplete="off" onkeydown="if(event.key==='Enter') executeUniversalScan('sonar-field', 'sonar-chat-stream')">
                     <span id="status-sonar" class="file-status-indicator"></span>
                     <div class="inline-actions">
                         <button type="button" class="icon-trigger mic-inline" id="mic-sonar" onclick="triggerInlineVoice('sonar-field', 'mic-sonar')" title="Voice Input">🎙️</button>
-                        <button type="button" class="icon-trigger send-inline" onclick="executeUniversalScan('sonar-field', 'sonar-terminal')" title="Execute Scan">⏩</button>
+                        <button type="button" class="icon-trigger send-inline" onclick="executeUniversalScan('sonar-field', 'sonar-chat-stream')" title="Send Message">⏩</button>
                     </div>
                 </div>
 
                 <div class="expanded-utility-menu" id="menu-sonar">
-                    <div class="utility-item" onclick="triggerCameraOCR('sonar-terminal')">
+                    <div class="utility-item" onclick="triggerCameraOCR('sonar-chat-stream')">
                         <span>📷 Camera Vision Scanner</span>
                     </div>
                     <label class="utility-item">
                         <span>📁 Deep Upload (Max 500MB)</span>
-                        <input type="file" style="display:none;" onchange="processDeepFile(this, 'status-sonar', 'sonar-terminal', 'sonar')">
+                        <input type="file" style="display:none;" onchange="processDeepFile(this, 'status-sonar', 'sonar-chat-stream', 'sonar')">
                     </label>
                 </div>
             </div>
@@ -659,11 +818,26 @@
         </section>
 
         <!-- ==========================================
-             TAB 3: CODE CORE
+             TAB 3: CODE CORE (DYNAMIC CHAT/CODE FEED)
              ========================================== -->
         <section id="panel-code" class="view-tab">
-            <div class="display-terminal" id="code-terminal-container">
-                <div class="output-stream mono-code" id="code-terminal">Advanced code architecture & automated scripts compiler operational...</div>
+            <div class="chat-stream-viewport" id="code-chat-stream">
+                <div class="chat-msg-row ai" id="msg-code-default">
+                    <div class="chat-bubble ai-bubble">
+                        <div class="bubble-meta">
+                            <span class="ai-tag">CODE CORE // ENGINE ONLINE</span>
+                            <span>JUST NOW</span>
+                        </div>
+                        <div class="bubble-content mono" id="msg-code-content">// Advanced code architecture & automated scripts compiler operational.
+// Ready for architectural prompts or deep logic scripts.</div>
+                        <div class="bubble-actions-matrix">
+                            <button class="act-btn" onclick="copyMessageText('msg-code-content')">📋 Copy</button>
+                            <button class="act-btn" onclick="shareMessageText('msg-code-content')">🔗 Share</button>
+                            <button class="act-btn" onclick="exportMessageText('msg-code-content', 'code-init')">💾 Export</button>
+                            <button class="act-btn delete" onclick="deleteMessageBubble('msg-code-default')">🗑️ Remove</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- 500MB Chunk Progress Bar (Code) -->
@@ -680,21 +854,21 @@
             <div class="gemini-bar-container cyber-focus">
                 <div class="gemini-main-row">
                     <button type="button" class="icon-trigger btn-plus" id="plus-code" onclick="toggleUtilityMenu('menu-code', 'plus-code')">+</button>
-                    <input type="text" id="code-field" class="core-input" placeholder="Enter algorithm, script or binary audit directive..." autocomplete="off" onkeydown="if(event.key==='Enter') executeCodeCoreGeneration('code-field', 'code-terminal')">
+                    <input type="text" id="code-field" class="core-input" placeholder="Enter algorithm, script or binary directive..." autocomplete="off" onkeydown="if(event.key==='Enter') executeCodeCoreGeneration('code-field', 'code-chat-stream')">
                     <span id="status-code" class="file-status-indicator"></span>
                     <div class="inline-actions">
                         <button type="button" class="icon-trigger mic-inline" id="mic-code" onclick="triggerInlineVoice('code-field', 'mic-code')" title="Voice Directive">🎙️</button>
-                        <button type="button" class="icon-trigger send-inline-cyber" onclick="executeCodeCoreGeneration('code-field', 'code-terminal')" title="Compile Code">⚡</button>
+                        <button type="button" class="icon-trigger send-inline-cyber" onclick="executeCodeCoreGeneration('code-field', 'code-chat-stream')" title="Compile Code">⚡</button>
                     </div>
                 </div>
 
                 <div class="expanded-utility-menu" id="menu-code">
-                    <div class="utility-item" onclick="triggerCameraOCR('code-terminal')">
+                    <div class="utility-item" onclick="triggerCameraOCR('code-chat-stream')">
                         <span>📷 Code Screenshot OCR</span>
                     </div>
                     <label class="utility-item">
                         <span>📁 Script / Binaries Input (Max 500MB)</span>
-                        <input type="file" style="display:none;" onchange="processDeepFile(this, 'status-code', 'code-terminal', 'code')">
+                        <input type="file" style="display:none;" onchange="processDeepFile(this, 'status-code', 'code-chat-stream', 'code')">
                     </label>
                 </div>
             </div>
@@ -734,6 +908,7 @@
                 if (badge) {
                     badge.innerText = modelKey.toUpperCase();
                 }
+                showToast(`MODEL: ${modelKey.toUpperCase()}`);
             }
         }
 
@@ -757,6 +932,25 @@
         let latestGeneratedMediaUrl = null;
         let latestGeneratedMediaExt = 'png';
         let loadedFileContextSummary = '';
+        let toastTimeout = null;
+
+        function showToast(msg) {
+            const toast = document.getElementById('luxury-toast');
+            if (!toast) return;
+            toast.innerText = msg;
+            toast.classList.add('show');
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 1800);
+        }
+
+        function escapeHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
 
         // 1. DOCK NAVIGATION CONTROLLER
         function toggleDockView(target) {
@@ -792,7 +986,128 @@
             }
         }
 
-        // 3. STABILIZED SENTENCE-QUEUE TTS ENGINE (CRASH-FREE)
+        // 3. DYNAMIC CHAT BUBBLE ENGINE (COLOR-LOCKED)
+        function appendMessageBubble(containerId, role, text, modelTag = '', isMono = false) {
+            const container = document.getElementById(containerId);
+            if (!container) return null;
+
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const bubbleRow = document.createElement('div');
+            bubbleRow.className = role === 'user' ? 'chat-msg-row user' : 'chat-msg-row ai';
+            
+            const msgId = 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6);
+            bubbleRow.id = msgId;
+
+            if (role === 'user') {
+                // Color Lock: Deep Midnight Blue (#1a2a3a)
+                bubbleRow.innerHTML = `
+                    <div class="chat-bubble user-bubble">
+                        <div class="bubble-meta">
+                            <span class="user-tag">OPERATOR // YOU</span>
+                            <span>${timeStr}</span>
+                        </div>
+                        <div class="bubble-content">${escapeHtml(text)}</div>
+                    </div>
+                `;
+            } else {
+                // Color Lock: Royal Deep Cyber Amethyst (#1a122c) for ALL AI Models
+                const displayModel = (modelTag || selectedModel).toUpperCase();
+                bubbleRow.innerHTML = `
+                    <div class="chat-bubble ai-bubble">
+                        <div class="bubble-meta">
+                            <span class="ai-tag">ARGENT CORE // ${displayModel}</span>
+                            <span>${timeStr}</span>
+                        </div>
+                        <div class="bubble-content ${isMono ? 'mono' : ''}" id="${msgId}-body">${escapeHtml(text)}</div>
+                        <div class="bubble-actions-matrix">
+                            <button class="act-btn" onclick="copyMessageText('${msgId}-body')">📋 Copy</button>
+                            <button class="act-btn" onclick="shareMessageText('${msgId}-body')">🔗 Share</button>
+                            <button class="act-btn" onclick="exportMessageText('${msgId}-body', '${modelTag || selectedModel}')">💾 Export</button>
+                            <button class="act-btn delete" onclick="deleteMessageBubble('${msgId}')">🗑️ Remove</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.appendChild(bubbleRow);
+            container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+            return bubbleRow;
+        }
+
+        // QUICK ACTION 1: COPY TO CLIPBOARD
+        function copyMessageText(contentId) {
+            const el = document.getElementById(contentId);
+            if (!el) return;
+            const text = el.innerText || el.textContent;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast("COPIED TO CLIPBOARD!");
+                }).catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast("COPIED TO CLIPBOARD!");
+        }
+
+        // QUICK ACTION 2: WEB SHARE API
+        function shareMessageText(contentId) {
+            const el = document.getElementById(contentId);
+            if (!el) return;
+            const text = el.innerText || el.textContent;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Argent Viron Intelligence Output',
+                    text: text
+                }).catch(() => {});
+            } else {
+                copyMessageText(contentId);
+                showToast("WEB SHARE UNAVAILABLE // COPIED!");
+            }
+        }
+
+        // QUICK ACTION 3: EXPORT DIRECT FILE (.TXT)
+        function exportMessageText(contentId, modelTag) {
+            const el = document.getElementById(contentId);
+            if (!el) return;
+            const text = el.innerText || el.textContent;
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `argent-viron-${modelTag || 'output'}-${Date.now()}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast("EXPORTED .TXT TO DEVICE!");
+        }
+
+        // QUICK ACTION 4: REMOVE/DELETE BUBBLE
+        function deleteMessageBubble(bubbleId) {
+            const el = document.getElementById(bubbleId);
+            if (!el) return;
+            el.style.opacity = '0';
+            el.style.transform = 'scale(0.92)';
+            setTimeout(() => {
+                if (el && el.parentNode) {
+                    el.parentNode.removeChild(el);
+                    showToast("MESSAGE REMOVED!");
+                }
+            }, 200);
+        }
+
+        // 4. STABILIZED SENTENCE-QUEUE TTS ENGINE (CRASH-FREE)
         function stopAllSpeechSynthesis() {
             speechChunkQueue = [];
             isSpeakingQueue = false;
@@ -873,7 +1188,7 @@
             speakNextChunk();
         }
 
-        // 4. IN-LINE VOICE RECOGNITION FUSION (CRASH-FREE)
+        // 5. IN-LINE VOICE RECOGNITION FUSION (CRASH-FREE)
         function triggerInlineVoice(fieldId, buttonId) {
             const SpeechEngine = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechEngine) {
@@ -933,14 +1248,17 @@
             }
         }
 
-        // 5. HARDWARE CAMERA VISION OCR SCANNER
-        async function triggerCameraOCR(targetTerminalId) {
-            const term = document.getElementById(targetTerminalId);
+        // 6. HARDWARE CAMERA VISION OCR SCANNER
+        async function triggerCameraOCR(targetContainerId) {
             const videoEl = document.getElementById('hidden-camera-stream');
             const canvasEl = document.getElementById('hidden-ocr-canvas');
-            if (!term) return;
 
-            term.innerHTML = "Opening hardware camera lens structure... Scanning referenced data elements via Vision OCR...";
+            if (targetContainerId.includes('canvas')) {
+                const cv = document.getElementById('studio-canvas');
+                if (cv) cv.innerHTML = '<span style="color:var(--accent-neon); font-size:12px;">Scanning camera reference frame...</span>';
+            } else {
+                appendMessageBubble(targetContainerId, 'ai', "Opening hardware camera lens structure... Scanning visual matrix via Vision OCR...", 'VISION');
+            }
 
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({
@@ -959,30 +1277,35 @@
                 stream.getTracks().forEach(t => t.stop());
                 const frameDataUrl = canvasEl.toDataURL('image/jpeg', 0.85);
 
-                if (targetTerminalId.includes('canvas')) {
+                if (targetContainerId.includes('canvas')) {
                     const img = new Image();
                     img.src = frameDataUrl;
-                    term.innerHTML = '';
-                    term.appendChild(img);
+                    const cv = document.getElementById('studio-canvas');
+                    if (cv) {
+                        cv.innerHTML = '';
+                        cv.appendChild(img);
+                    }
                     latestGeneratedMediaUrl = frameDataUrl;
                     latestGeneratedMediaExt = 'jpg';
                 } else {
                     const res = await puter.ai.chat("Extract all visible text and analyze the structure of this captured image:", frameDataUrl);
                     const replyText = typeof res === 'string' ? res : (res?.message?.content || "ভিজ্যুয়াল মেটাডেটা স্ক্যান সম্পূর্ণ এবং ডাটা ইনডেক্স করা হয়েছে।");
-                    term.innerText = replyText;
+                    appendMessageBubble(targetContainerId, 'ai', replyText, 'VISION-OCR');
                     autoSpeakOutput(replyText);
                 }
             } catch (_) {
                 setTimeout(() => {
                     const fallbackMsg = "ভিজ্যুয়াল মেটাডেটা স্ক্যান সম্পূর্ণ এবং ডাটা ইনডেক্স করা হয়েছে।";
-                    term.innerText = fallbackMsg;
-                    autoSpeakOutput(fallbackMsg);
-                }, 1200);
+                    if (!targetContainerId.includes('canvas')) {
+                        appendMessageBubble(targetContainerId, 'ai', fallbackMsg, 'VISION-OCR');
+                        autoSpeakOutput(fallbackMsg);
+                    }
+                }, 1000);
             }
         }
 
-        // 6. 500MB HIGH-SPEED CHUNK STREAM ALLOCATION ENGINE
-        async function processDeepFile(input, statusId, targetTerminalId, prefix) {
+        // 7. 500MB HIGH-SPEED CHUNK STREAM ALLOCATION ENGINE
+        async function processDeepFile(input, statusId, targetContainerId, prefix) {
             const file = input.files && input.files[0];
             if (!file) return;
 
@@ -994,7 +1317,6 @@
             }
 
             const status = document.getElementById(statusId);
-            const term = document.getElementById(targetTerminalId);
             const wrap = document.getElementById(`${prefix}-chunk-wrap`);
             const bar = document.getElementById(`${prefix}-chunk-bar`);
             const pctLabel = document.getElementById(`${prefix}-chunk-pct`);
@@ -1048,17 +1370,20 @@
                 if (wrap) wrap.style.display = 'none';
             }, 600);
 
-            if (targetTerminalId.includes('canvas') && file.type.startsWith('image/')) {
+            if (targetContainerId.includes('canvas') && file.type.startsWith('image/')) {
                 const objUrl = URL.createObjectURL(file);
                 const img = new Image();
                 img.src = objUrl;
-                term.innerHTML = '';
-                term.appendChild(img);
+                const cv = document.getElementById('studio-canvas');
+                if (cv) {
+                    cv.innerHTML = '';
+                    cv.appendChild(img);
+                }
                 latestGeneratedMediaUrl = objUrl;
                 latestGeneratedMediaExt = file.name.split('.').pop() || 'png';
-            } else if (term) {
+            } else {
                 const dynamicResponse = `ফাইল "${file.name}" (${sizeMB} MB | CRC: 0x${hexHash}) সফলভাবে চাঙ্ক স্ট্রিম মেমোরিতে প্রসেস করা হয়েছে। এর ভেতরের ডেটা ও মেটাডেটা স্ট্রাকচার এখন বিশ্লেষণের জন্য প্রস্তুত।`;
-                term.innerText = dynamicResponse;
+                appendMessageBubble(targetContainerId, 'ai', dynamicResponse, 'FILE-STREAM');
                 autoSpeakOutput(dynamicResponse);
             }
         }
@@ -1096,22 +1421,28 @@
             }
         }
 
-        // 7. UNIVERSAL SONAR SCANNER (WITH DYNAMIC MODEL SELECTION)
-        function executeUniversalScan(fieldId, terminalId) {
+        // 8. UNIVERSAL SONAR SCANNER (DYNAMIC CHAT STREAM OVERHAUL)
+        function executeUniversalScan(fieldId, containerId) {
             const inputEl = document.getElementById(fieldId);
-            const term = document.getElementById(terminalId);
-            if (!inputEl || !term) return;
+            if (!inputEl) return;
 
             const query = inputEl.value.trim();
             if (!query && !loadedFileContextSummary) return;
 
+            // 1. Post User Message Bubble (Deep Midnight Blue)
+            appendMessageBubble(containerId, 'user', query || "Analyze loaded binary structure.");
+            inputEl.value = '';
+
+            // Unlock mobile audio synthesis context on touch
             if (speechActive && 'speechSynthesis' in window) {
                 const unlock = new SpeechSynthesisUtterance(' ');
                 unlock.volume = 0.01;
                 window.speechSynthesis.speak(unlock);
             }
 
-            term.innerText = `Connecting to ${selectedModel.toUpperCase()}... Streaming live intelligence array...`;
+            // 2. Post Loading Bubble
+            const activeModel = selectedModel;
+            const loadingRow = appendMessageBubble(containerId, 'ai', `Connecting to ${activeModel.toUpperCase()}... Streaming live intelligence array...`, activeModel);
 
             const fullPrompt = loadedFileContextSummary
                 ? `${loadedFileContextSummary}\n\nUser Query: ${query || 'Analyze the loaded file structure in detail.'}`
@@ -1119,16 +1450,22 @@
 
             dispatchModelQuery(fullPrompt, false).then(res => {
                 const textOut = typeof res === 'string' ? res : (res?.message?.content || JSON.stringify(res, null, 2));
-                term.innerText = textOut;
+                
+                // Replace loading bubble with full response bubble
+                if (loadingRow && loadingRow.parentNode) {
+                    loadingRow.parentNode.removeChild(loadingRow);
+                }
+                appendMessageBubble(containerId, 'ai', textOut, activeModel);
                 autoSpeakOutput(textOut);
-                const parent = term.parentElement;
-                if (parent) parent.scrollTop = parent.scrollHeight;
             }).catch(() => {
-                term.innerText = "সার্ভার রেসপন্স এরর। ক্লাউড গেটওয়ে কানেকশন চেক করুন।";
+                if (loadingRow && loadingRow.parentNode) {
+                    loadingRow.parentNode.removeChild(loadingRow);
+                }
+                appendMessageBubble(containerId, 'ai', "সার্ভার রেসপন্স এরর। ক্লাউড গেটওয়ে কানেকশন চেক করুন।", 'ERROR');
             });
         }
 
-        // 8. HD ART & 15s MOTION VIDEO STUDIO
+        // 9. HD ART & 15s MOTION VIDEO STUDIO
         function generateUncensoredArt() {
             const prompt = document.getElementById('studio-field').value.trim();
             if (!prompt) return;
@@ -1258,7 +1595,7 @@
             requestAnimationFrame(renderMotionFrame);
         }
 
-        // 9. DIRECT BLOB STREAM DOWNLOAD
+        // 10. DIRECT BLOB STREAM DOWNLOAD
         function triggerDirectBlobDownload() {
             if (!latestGeneratedMediaUrl) {
                 alert("ডাউনলোড করার জন্য প্রথমে একটি HD Art অথবা 15s Video জেনারেট করুন।");
@@ -1272,16 +1609,21 @@
             document.body.removeChild(a);
         }
 
-        // 10. CODE CORE COMPILER (WITH DYNAMIC MODEL SELECTION)
-        function executeCodeCoreGeneration(fieldId, terminalId) {
+        // 11. CODE CORE COMPILER (DYNAMIC CHAT/CODE STREAM OVERHAUL)
+        function executeCodeCoreGeneration(fieldId, containerId) {
             const inputEl = document.getElementById(fieldId);
-            const term = document.getElementById(terminalId);
-            if (!inputEl || !term) return;
+            if (!inputEl) return;
 
             const query = inputEl.value.trim();
             if (!query && !loadedFileContextSummary) return;
 
-            term.innerText = `Initializing Code Core [${selectedModel.toUpperCase()}]... Building complete production script structure...`;
+            // 1. Post User Directive Bubble
+            appendMessageBubble(containerId, 'user', query || "Compile and audit loaded code context.");
+            inputEl.value = '';
+
+            // 2. Post Loading Bubble
+            const activeModel = selectedModel;
+            const loadingRow = appendMessageBubble(containerId, 'ai', `Initializing Code Core [${activeModel.toUpperCase()}]... Compiling script structure...`, activeModel, true);
 
             const promptPayload = loadedFileContextSummary
                 ? `Analyze the loaded file context and fulfill the request with complete production code without placeholders:\n${loadedFileContextSummary}\n\nRequest: ${query}`
@@ -1289,11 +1631,16 @@
 
             dispatchModelQuery(promptPayload, true).then(res => {
                 const codeOut = typeof res === 'string' ? res : (res?.message?.content || JSON.stringify(res, null, 2));
-                term.innerText = codeOut;
-                const parent = term.parentElement;
-                if (parent) parent.scrollTop = parent.scrollHeight;
+                
+                if (loadingRow && loadingRow.parentNode) {
+                    loadingRow.parentNode.removeChild(loadingRow);
+                }
+                appendMessageBubble(containerId, 'ai', codeOut, activeModel, true);
             }).catch(() => {
-                term.innerText = "কোড কোর এক্সিকিউশন ক্লাউড টাইমআউট।";
+                if (loadingRow && loadingRow.parentNode) {
+                    loadingRow.parentNode.removeChild(loadingRow);
+                }
+                appendMessageBubble(containerId, 'ai', "কোড কোর এক্সিকিউশন ক্লাউড টাইমআউট।", 'ERROR', true);
             });
         }
     </script>
