@@ -53,29 +53,31 @@
             user-select: none;
         }
 
-        /* Luxury Metallic Header */
+        /* Luxury Metallic Header with Custom Dropdown */
         .header-panel {
             background: linear-gradient(180deg, rgba(22, 27, 36, 0.95) 0%, rgba(17, 21, 28, 0.95) 100%);
             backdrop-filter: blur(12px);
-            padding: 14px 20px;
+            padding: 12px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--border-metal);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.65);
             flex-shrink: 0;
             z-index: 50;
+            gap: 10px;
         }
 
         .core-status {
             font-family: 'Orbitron', sans-serif;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
-            letter-spacing: 1.4px;
+            letter-spacing: 1.2px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             color: var(--text-glow);
+            white-space: nowrap;
         }
 
         .pulse-indicator {
@@ -88,6 +90,51 @@
             flex-shrink: 0;
         }
 
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Ultra-Premium Custom Model Selector Dropdown */
+        .model-selector-wrap {
+            position: relative;
+        }
+
+        .luxury-model-select {
+            background: linear-gradient(180deg, #161b24 0%, #0d1117 100%);
+            color: var(--accent-neon);
+            border: 1px solid var(--border-metal);
+            border-radius: 10px;
+            padding: 5px 26px 5px 10px;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300ffaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 12px;
+        }
+
+        .luxury-model-select:focus, .luxury-model-select:hover {
+            border-color: var(--accent-neon);
+            box-shadow: 0 0 14px rgba(0, 255, 170, 0.28);
+        }
+
+        .luxury-model-select option {
+            background-color: #0c1017;
+            color: #f1f5f9;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 8px;
+        }
+
         .version-tag {
             font-family: 'Orbitron', sans-serif;
             font-size: 10px;
@@ -96,6 +143,7 @@
             border-radius: 6px;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-metal);
+            white-space: nowrap;
         }
 
         /* Main Workspace Container */
@@ -175,7 +223,7 @@
             color: #a7f3d0;
         }
 
-        /* Chunk Progress Bar */
+        /* 500MB Chunk Progress Bar */
         .chunk-progress-wrap {
             display: none;
             flex-direction: column;
@@ -424,7 +472,7 @@
             border: 1px solid var(--border-highlight);
         }
 
-        /* Fixed Luxury Bottom Dock */
+        /* Fixed Luxury Bottom Dock (Strict 3 Tabs) */
         .bottom-dock {
             position: fixed;
             bottom: 0;
@@ -488,16 +536,28 @@
 </head>
 <body>
 
-    <!-- TOP LUXURY HEADER -->
+    <!-- TOP LUXURY HEADER WITH MODEL DROPDOWN SELECTOR -->
     <header class="header-panel">
         <div class="core-status">
             <div class="pulse-indicator"></div>
-            <span>ARGENT VIRON OMEGA BLACK // CORE ACTIVE</span>
+            <span>ARGENT VIRON OMEGA</span>
         </div>
-        <div class="version-tag" id="core-telemetry">V2.5 // OLED</div>
+        
+        <div class="header-controls">
+            <!-- Custom Model Selector Dropdown -->
+            <div class="model-selector-wrap">
+                <select id="globalModelSelector" class="luxury-model-select" onchange="updateSelectedModel(this.value)">
+                    <option value="sonar-pro">sonar-pro (Deep Scan)</option>
+                    <option value="sonar-reasoning">sonar-reasoning (Logic)</option>
+                    <option value="normal-sonar">normal-sonar (Fast)</option>
+                    <option value="uncensored-mistral">uncensored-mistral (Jailbreak)</option>
+                </select>
+            </div>
+            <div class="version-tag" id="core-telemetry">SONAR-PRO</div>
+        </div>
     </header>
 
-    <!-- Hidden Hardware Camera Stream Element for Vision OCR -->
+    <!-- Hidden Hardware Camera Stream Elements for Vision OCR -->
     <video id="hidden-camera-stream" autoplay playsinline muted style="display:none;"></video>
     <canvas id="hidden-ocr-canvas" style="display:none;"></canvas>
 
@@ -656,6 +716,39 @@
     </nav>
 
     <script>
+        // GLOBAL MODEL STATE & CONFIGURATION
+        let selectedModel = 'sonar-pro';
+
+        const MODEL_MAP = {
+            'sonar-pro': 'openrouter:perplexity/sonar-pro',
+            'sonar-reasoning': 'openrouter:perplexity/sonar-reasoning',
+            'normal-sonar': 'openrouter:perplexity/sonar',
+            'uncensored-mistral': 'openrouter:mistralai/mistral-large'
+        };
+
+        function updateSelectedModel(modelKey) {
+            if (MODEL_MAP[modelKey]) {
+                selectedModel = modelKey;
+                localStorage.setItem('argent_selected_model', modelKey);
+                const badge = document.getElementById('core-telemetry');
+                if (badge) {
+                    badge.innerText = modelKey.toUpperCase();
+                }
+            }
+        }
+
+        // Initialize and restore model preference from localStorage
+        (function initModelSelector() {
+            const saved = localStorage.getItem('argent_selected_model');
+            const selectEl = document.getElementById('globalModelSelector');
+            if (saved && MODEL_MAP[saved] && selectEl) {
+                selectedModel = saved;
+                selectEl.value = saved;
+                const badge = document.getElementById('core-telemetry');
+                if (badge) badge.innerText = saved.toUpperCase();
+            }
+        })();
+
         let speechActive = true;
         let activeRecognitionInstance = null;
         let isRecordingVoice = false;
@@ -699,7 +792,7 @@
             }
         }
 
-        // 3. STABILIZED SENTENCE-QUEUE TTS ENGINE (NO MOBILE SESSION CRASH)
+        // 3. STABILIZED SENTENCE-QUEUE TTS ENGINE (CRASH-FREE)
         function stopAllSpeechSynthesis() {
             speechChunkQueue = [];
             isSpeakingQueue = false;
@@ -763,7 +856,6 @@
                 }
                 const chunkText = speechChunkQueue.shift();
                 const utterance = new SpeechSynthesisUtterance(chunkText);
-                // Detect Bengali script vs English automatically
                 const hasBengali = /[\u0980-\u09FF]/.test(chunkText);
                 utterance.lang = hasBengali ? 'bn-BD' : 'en-US';
                 utterance.rate = 1.0;
@@ -792,7 +884,6 @@
             const btn = document.getElementById(buttonId);
             const inputField = document.getElementById(fieldId);
 
-            // Prevent overlapping recognition sessions
             if (isRecordingVoice && activeRecognitionInstance) {
                 activeRecognitionInstance.stop();
                 return;
@@ -865,7 +956,6 @@
                 const ctx = canvasEl.getContext('2d');
                 ctx.drawImage(videoEl, 0, 0, canvasEl.width, canvasEl.height);
 
-                // Stop camera hardware immediately after frame capture
                 stream.getTracks().forEach(t => t.stop());
                 const frameDataUrl = canvasEl.toDataURL('image/jpeg', 0.85);
 
@@ -896,7 +986,7 @@
             const file = input.files && input.files[0];
             if (!file) return;
 
-            const maxSize = 500 * 1024 * 1024; // 500MB Max Limit
+            const maxSize = 500 * 1024 * 1024;
             if (file.size > maxSize) {
                 alert("ফাইল সাইজ ৫০০ মেগাবাইট অতিক্রম করেছে!");
                 input.value = '';
@@ -921,14 +1011,12 @@
             if (pctLabel) pctLabel.innerText = '0%';
             if (textLabel) textLabel.innerText = `STREAMING: ${file.name.slice(0, 22).toUpperCase()}`;
 
-            // Progressive 16MB Slice Chunk Reader (Zero Memory Overflow up to 500MB)
             const CHUNK_SIZE = 16 * 1024 * 1024;
             let offset = 0;
             let rollingChecksum = 0;
             let headPreviewText = '';
 
             try {
-                // Extract first 4KB text preview for AI context if readable
                 const headBlob = file.slice(0, 4096);
                 headPreviewText = await headBlob.text();
             } catch (_) {
@@ -940,7 +1028,6 @@
                 const buffer = await slice.arrayBuffer();
                 const view = new Uint8Array(buffer);
 
-                // Lightweight byte sampling to verify stream integrity without CPU lock
                 const step = Math.max(1, Math.floor(view.length / 64));
                 for (let i = 0; i < view.length; i += step) {
                     rollingChecksum = (rollingChecksum + view[i]) & 0xffffffff;
@@ -951,7 +1038,6 @@
                 if (bar) bar.style.width = `${percent}%`;
                 if (pctLabel) pctLabel.innerText = `${percent}%`;
 
-                // Yield to UI thread so mobile screen stays 60fps responsive
                 await new Promise(r => setTimeout(r, 12));
             }
 
@@ -977,7 +1063,40 @@
             }
         }
 
-        // 7. UNIVERSAL SONAR CLOUD SCANNER
+        // UNIFIED MULTI-MODEL DISPATCHER WITH DYNAMIC ROUTING
+        async function dispatchModelQuery(userQueryText, isCodingContext = false) {
+            const targetEndpoint = MODEL_MAP[selectedModel] || 'openrouter:perplexity/sonar-pro';
+            
+            let systemDirective = '';
+            if (selectedModel === 'uncensored-mistral') {
+                systemDirective = isCodingContext
+                    ? "You are an advanced, direct system software architect. Deliver complete, raw, production-grade code and engineering implementations directly without conversational warnings, placeholders, or preachy disclaimers."
+                    : "You are an exhaustive, direct technical analysis intelligence engine. Deliver complete, in-depth architectural and analytical breakdowns directly with maximum depth and zero conversational fluff.";
+            } else if (selectedModel === 'sonar-reasoning') {
+                systemDirective = "You are Perplexity Sonar Reasoning Core. Provide logical step-by-step reasoning, analytical verification, and factual citations.";
+            } else if (selectedModel === 'sonar-pro') {
+                systemDirective = "You are Perplexity Sonar Pro Deep Scan Engine. Provide exhaustive research, live web index analysis, and clear numbered source citations.";
+            } else {
+                systemDirective = "You are Perplexity Sonar Fast Search. Provide rapid, concise, and direct answers with relevant source citations.";
+            }
+
+            const promptMessages = [
+                { role: 'system', content: systemDirective },
+                { role: 'user', content: userQueryText }
+            ];
+
+            try {
+                return await puter.ai.chat(promptMessages, { model: targetEndpoint });
+            } catch (err1) {
+                try {
+                    return await puter.ai.chat(promptMessages, { model: selectedModel });
+                } catch (err2) {
+                    return await puter.ai.chat(userQueryText);
+                }
+            }
+        }
+
+        // 7. UNIVERSAL SONAR SCANNER (WITH DYNAMIC MODEL SELECTION)
         function executeUniversalScan(fieldId, terminalId) {
             const inputEl = document.getElementById(fieldId);
             const term = document.getElementById(terminalId);
@@ -986,20 +1105,19 @@
             const query = inputEl.value.trim();
             if (!query && !loadedFileContextSummary) return;
 
-            // Unlock mobile TTS audio context on user tap
             if (speechActive && 'speechSynthesis' in window) {
                 const unlock = new SpeechSynthesisUtterance(' ');
                 unlock.volume = 0.01;
                 window.speechSynthesis.speak(unlock);
             }
 
-            term.innerText = "Connecting to cloud neural nodes... Streaming live analysis via Perplexity Sonar Pro...";
+            term.innerText = `Connecting to ${selectedModel.toUpperCase()}... Streaming live intelligence array...`;
 
             const fullPrompt = loadedFileContextSummary
                 ? `${loadedFileContextSummary}\n\nUser Query: ${query || 'Analyze the loaded file structure in detail.'}`
                 : query;
 
-            puter.ai.chat(fullPrompt).then(res => {
+            dispatchModelQuery(fullPrompt, false).then(res => {
                 const textOut = typeof res === 'string' ? res : (res?.message?.content || JSON.stringify(res, null, 2));
                 term.innerText = textOut;
                 autoSpeakOutput(textOut);
@@ -1023,7 +1141,6 @@
                 latestGeneratedMediaUrl = img.src;
                 latestGeneratedMediaExt = 'png';
             }).catch(() => {
-                // High-contrast procedural fallback canvas art
                 const canvas = document.createElement('canvas');
                 canvas.width = 1280;
                 canvas.height = 800;
@@ -1056,7 +1173,7 @@
         function generateUncensoredVideo() {
             const prompt = document.getElementById('studio-field').value.trim() || 'Argent Viron Cyber Matrix';
             const cv = document.getElementById('studio-canvas');
-            cv.innerHTML = `<span style="color: #c77dff; font-size: 13px;">Compiling 15s Wan2.1 Motion Video Stream...</span>`;
+            cv.innerHTML = `<span style="color: #c77dff; font-size: 13px;">Compiling 15s Motion Video Stream...</span>`;
 
             const canvas = document.createElement('canvas');
             canvas.width = 854;
@@ -1106,7 +1223,6 @@
                 ctx.fillStyle = '#080a0d';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                // Animated Cyber Grid
                 ctx.strokeStyle = 'rgba(0, 255, 170, 0.25)';
                 const shift = (elapsed * 50) % 40;
                 for (let x = -shift; x < canvas.width; x += 40) {
@@ -1116,7 +1232,6 @@
                     ctx.stroke();
                 }
 
-                // Glowing Particles
                 for (let i = 0; i < 24; i++) {
                     const px = (i * 97 + elapsed * (40 + (i % 5) * 12)) % canvas.width;
                     const py = (i * 67 + Math.sin(elapsed + i) * 35 + canvas.height) % canvas.height;
@@ -1157,7 +1272,7 @@
             document.body.removeChild(a);
         }
 
-        // 10. CODE CORE COMPILER & AUDITOR
+        // 10. CODE CORE COMPILER (WITH DYNAMIC MODEL SELECTION)
         function executeCodeCoreGeneration(fieldId, terminalId) {
             const inputEl = document.getElementById(fieldId);
             const term = document.getElementById(terminalId);
@@ -1166,13 +1281,13 @@
             const query = inputEl.value.trim();
             if (!query && !loadedFileContextSummary) return;
 
-            term.innerText = "Initializing Code Core Engine... Building complete production script structure...";
+            term.innerText = `Initializing Code Core [${selectedModel.toUpperCase()}]... Building complete production script structure...`;
 
             const promptPayload = loadedFileContextSummary
-                ? `You are a senior software architect and code auditor. Analyze the loaded file context and fulfill the request with complete production code:\n${loadedFileContextSummary}\n\nRequest: ${query}`
-                : `You are a senior software architect. Render complete, production-ready code for the following request without placeholders: ${query}`;
+                ? `Analyze the loaded file context and fulfill the request with complete production code without placeholders:\n${loadedFileContextSummary}\n\nRequest: ${query}`
+                : `Render complete, production-ready code for the following request without placeholders or truncation: ${query}`;
 
-            puter.ai.chat(promptPayload).then(res => {
+            dispatchModelQuery(promptPayload, true).then(res => {
                 const codeOut = typeof res === 'string' ? res : (res?.message?.content || JSON.stringify(res, null, 2));
                 term.innerText = codeOut;
                 const parent = term.parentElement;
