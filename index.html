@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#06060b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="SONAR SEC-OPS" />
+  <title>SONAR SEC-OPS // Argon- Edition Mobile AI PWA</title>
+
+  <!-- Puter.js v2 Official Cloud SDK -->
+  <script src="https://js.puter.com/v2/"></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Vector Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#06060b',
+            obsidianCard: '#0c0d16',
+            obsidianSurface: '#121422',
+            emeraldNeon: '#10b981',
+            violetElectric: '#8b5cf6'
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: #06060b;
+      color: #e2e8f0;
+      overscroll-behavior: none;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .glow-emerald {
+      border: 1px solid rgba(16, 185, 129, 0.38);
+      box-shadow: 0 0 18px rgba(16, 185, 129, 0.12), inset 0 0 12px rgba(16, 185, 129, 0.04);
+    }
+
+    .glow-violet {
+      border: 1px solid rgba(139, 92, 246, 0.42);
+      box-shadow: 0 0 18px rgba(139, 92, 246, 0.14), inset 0 0 12px rgba(139, 92, 246, 0.04);
+    }
+
+    .cyber-grid-bg {
+      background-image: 
+        linear-gradient(to right, rgba(16, 185, 129, 0.045) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(139, 92, 246, 0.045) 1px, transparent 1px);
+      background-size: 22px 22px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #06060b;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #10b981, #8b5cf6);
+      border-radius: 9999px;
+    }
+
+    @keyframes pulseRadar {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.75); }
+      70% { transform: scale(1.04); box-shadow: 0 0 0 16px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .mic-active {
+      animation: pulseRadar 1.35s infinite;
+    }
+
+    @keyframes scanLaser {
+      0% { top: 6%; opacity: 0.85; }
+      50% { top: 90%; opacity: 1; }
+      100% { top: 6%; opacity: 0.85; }
+    }
+
+    .laser-line {
+      position: absolute;
+      left: 8px;
+      right: 8px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #10b981, #8b5cf6, transparent);
+      box-shadow: 0 0 12px #10b981;
+      animation: scanLaser 2.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    /* Toast Notification Transition */
+    #cyberToast {
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+    }
+  </style>
+</head>
+<body class="h-[100dvh] w-screen overflow-hidden flex flex-col bg-obsidian cyber-grid-bg select-none relative">
+
+  <!-- FLOATING CYBER TOAST NOTIFICATION -->
+  <div id="cyberToast" class="fixed top-14 left-1/2 -translate-x-1/2 -translate-y-8 opacity-0 pointer-events-none z-50 px-3.5 py-1.5 rounded-full bg-obsidianSurface/95 border border-emerald-400/60 text-emerald-300 text-[11px] mono shadow-lg shadow-emerald-500/20 flex items-center gap-1.5">
+    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i>
+    <span id="cyberToastMsg">SYSTEM READY</span>
+  </div>
+
+  <!-- TOP TELEMETRY HEADER & PERPLEXITY SONAR MODEL DROPDOWN -->
+  <header class="shrink-0 px-3 py-2 bg-obsidianCard/95 backdrop-blur-md border-b border-emerald-500/30 flex items-center justify-between gap-2 z-30">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-violet-600 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+        <i data-lucide="shield-check" class="w-4 h-4 text-obsidian font-bold"></i>
+      </div>
+      <div>
+        <div class="flex items-center gap-1.5">
+          <h1 class="text-xs font-bold tracking-wider uppercase bg-gradient-to-r from-emerald-400 via-teal-200 to-violet-400 bg-clip-text text-transparent">
+            SONAR SEC-OPS
+          </h1>
+          <span id="latencyBadge" class="text-[9px] mono px-1.5 py-0.5 rounded bg-violet-500/20 text-violet-300 border border-violet-500/30">v4.0</span>
+        </div>
+        <p id="globalStatusText" class="text-[10px] text-emerald-400 mono flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> PUTER CLOUD READY
+        </p>
+      </div>
+    </div>
+
+    <!-- Perplexity Sonar Model Dropdown -->
+    <div class="flex items-center gap-1.5">
+      <label for="sonarModelDropdown" class="sr-only">Select Perplexity Sonar Model</label>
+      <select
+        id="sonarModelDropdown"
+        class="bg-obsidianSurface text-emerald-300 text-xs mono px-2.5 py-1.5 rounded-lg glow-emerald focus:outline-none focus:border-violet-400 transition cursor-pointer"
+      >
+        <option value="sonar-pro" data-provider="openrouter:perplexity/sonar-pro">sonar-pro (Deep Scan)</option>
+        <option value="sonar-reasoning" data-provider="openrouter:perplexity/sonar-reasoning">sonar-reasoning (Logic)</option>
+        <option value="sonar" data-provider="openrouter:perplexity/sonar">sonar (Fast Live)</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- MAIN FIXED VIEWPORT WORKSPACE (5 TABS) -->
+  <main class="flex-1 overflow-hidden relative">
+
+    <!-- =========================================================
+         TAB 1: SONAR PRO DEEP SCAN ENGINE
+         ========================================================= -->
+    <section id="tab-sonar" class="tab-view h-full w-full flex flex-col p-3 gap-2">
+      <!-- Quick Recon Presets & Controls -->
+      <div class="shrink-0 flex items-center justify-between gap-1.5 overflow-x-auto pb-1">
+        <div class="flex items-center gap-1.5">
+          <button data-preset="Latest critical CVEs this week with mitigation links and technical breakdown" class="preset-chip shrink-0 text-[10px] mono px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 active:scale-95">
+            CVE Radar
+          </button>
+          <button data-preset="Explain OWASP Top 10 API security vulnerabilities with real-world remediation patterns" class="preset-chip shrink-0 text-[10px] mono px-2.5 py-1 rounded-md bg-violet-500/10 text-violet-300 border border-violet-500/30 active:scale-95">
+            OWASP API Audit
+          </button>
+          <button data-preset="Smart contract reentrancy & read-only vulnerability analysis with Solidity patch examples" class="preset-chip shrink-0 text-[10px] mono px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 active:scale-95">
+            Web3 Sec-Check
+          </button>
+        </div>
+        <div class="flex items-center gap-1 shrink-0">
+          <button id="exportSonarLogBtn" title="Export Chat Log" class="text-[10px] mono px-2 py-1 rounded bg-violet-500/15 text-violet-300 border border-violet-500/30 active:scale-95">
+            Export
+          </button>
+          <button id="clearSonarLogBtn" class="text-[10px] mono px-2 py-1 rounded bg-rose-500/15 text-rose-300 border border-rose-500/30 active:scale-95">
+            Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Search & Citation Output Stream (Auto-Scroll Enabled) -->
+      <div id="sonarStreamWindow" class="flex-1 overflow-y-auto space-y-2.5 pr-1 select-text">
+        <div class="p-3 rounded-xl bg-obsidianCard glow-emerald text-xs text-slate-300 leading-relaxed">
+          <div class="flex items-center justify-between text-[10px] mono text-emerald-400 mb-1">
+            <span class="flex items-center gap-1"><i data-lucide="radar" class="w-3.5 h-3.5"></i> SONAR PRO DEEP SCAN ENGINE</span>
+            <span>AUTO-SCROLL: ON</span>
+          </div>
+          উপরে ড্রপডাউন থেকে <b>sonar</b>, <b>sonar-pro</b>, বা <b>sonar-reasoning</b> মডেল সিলেক্ট করে যেকোনো লাইভ সাইবার রিসার্চ, পেপার, সোর্স ফাইল বা টেকনিক্যাল টপিক সার্চ করো। সাইটেশন ও সোর্স লিংকগুলো সরাসরি ক্লিকযোগ্য হবে এবং সেশন মেমোরিতে সংরক্ষিত থাকবে।
+        </div>
+      </div>
+
+      <!-- Search Input Bar -->
+      <div class="shrink-0 flex items-center gap-2 pt-0.5">
+        <input
+          id="sonarQueryInput"
+          type="text"
+          autocomplete="off"
+          placeholder="Run live Perplexity Sonar scan with citations..."
+          class="flex-1 bg-obsidianCard text-slate-100 text-xs px-3.5 py-3 rounded-xl glow-violet focus:outline-none focus:border-emerald-400"
+        />
+        <button
+          id="sonarSendBtn"
+          class="px-4 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-violet-600 text-obsidian font-bold text-xs flex items-center justify-center shadow-lg shadow-emerald-500/20 active:scale-95 transition"
+        >
+          <i data-lucide="send" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 2: HD ART & 15s VIDEO STUDIO
+         ========================================================= -->
+    <section id="tab-studio" class="tab-view hidden h-full w-full flex flex-col p-3 gap-2.5 overflow-y-auto">
+      <div class="p-2.5 rounded-xl bg-obsidianCard glow-violet space-y-2 shrink-0">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
+            <i data-lucide="sparkles" class="w-4 h-4 text-violet-400"></i>
+            Puter Cloud HD Art & 15s Wan-Motion Pipeline
+          </span>
+          <span id="studioBadge" class="text-[10px] mono px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300">STANDBY</span>
+        </div>
+
+        <textarea
+          id="studioPromptInput"
+          rows="2"
+          placeholder="Describe your HD visual or 15-second cinematic cyberpunk scene..."
+          class="w-full bg-obsidianSurface text-slate-100 text-xs p-2.5 rounded-lg border border-violet-500/30 focus:outline-none focus:border-emerald-400 resize-none"
+        ></textarea>
+
+        <div class="grid grid-cols-2 gap-2">
+          <button
+            id="generateArtBtn"
+            class="py-2.5 px-3 rounded-lg bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 text-xs font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition"
+          >
+            <i data-lucide="image" class="w-4 h-4"></i> Generate HD Art
+          </button>
+          <button
+            id="generateVideoBtn"
+            class="py-2.5 px-3 rounded-lg bg-violet-600/25 border border-violet-400/50 text-violet-200 text-xs font-semibold flex items-center justify-center gap-1.5 active:scale-95 transition"
+          >
+            <i data-lucide="film" class="w-4 h-4"></i> 15s AI Video
+          </button>
+        </div>
+      </div>
+
+      <!-- Studio Render Viewport -->
+      <div class="flex-1 min-h-[205px] rounded-xl bg-obsidianCard glow-emerald flex flex-col items-center justify-center p-2 relative overflow-hidden">
+        <div id="studioEmptyState" class="text-center px-4 space-y-1">
+          <i data-lucide="clapperboard" class="w-8 h-8 text-violet-400 mx-auto opacity-75"></i>
+          <p class="text-xs text-slate-400">
+            এইচডি ইমেজ অথবা ১৫ সেকেন্ডের সিনেমাটিক এআই ভিডিও জেনারেট করলে এখানে প্রিভিউ দেখাবে।
+          </p>
+        </div>
+
+        <img id="artPreviewImg" class="hidden max-h-full max-w-full rounded-lg object-contain shadow-xl" alt="HD Generated Art" />
+        <canvas id="wanVideoCanvas" width="1280" height="720" class="hidden max-h-full max-w-full rounded-lg object-contain"></canvas>
+        <video id="videoPreviewPlayer" controls loop playsinline class="hidden max-h-full max-w-full rounded-lg object-contain shadow-xl"></video>
+
+        <!-- Real-Time 15s Render Progress Overlay -->
+        <div id="videoProgressOverlay" class="hidden absolute bottom-2.5 left-2.5 right-2.5 bg-obsidian/95 p-2.5 rounded-lg border border-emerald-500/40">
+          <div class="flex items-center justify-between text-[10px] mono text-emerald-300 mb-1.5">
+            <span id="videoRenderLabel">Synthesizing 15s HD Motion Stream...</span>
+            <div class="flex items-center gap-2">
+              <span id="videoRenderPct">0%</span>
+              <button id="stopVideoEarlyBtn" class="px-1.5 py-0.5 rounded bg-rose-500/20 border border-rose-400/50 text-rose-300 text-[9px]">
+                Save Now
+              </button>
+            </div>
+          </div>
+          <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+            <div id="videoRenderBar" class="h-full bg-gradient-to-r from-emerald-400 to-violet-500 w-0 transition-all"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- One-Click Download Action -->
+      <a
+        id="downloadStudioMediaBtn"
+        href="#"
+        download="sonar-studio-output"
+        class="shrink-0 pointer-events-none opacity-40 w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-violet-600 text-obsidian font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg transition"
+      >
+        <i data-lucide="download" class="w-4 h-4"></i> One-Click Download HD Media
+      </a>
+    </section>
+
+    <!-- =========================================================
+         TAB 3: DEEP VISION OCR DOC READER
+         ========================================================= -->
+    <section id="tab-vision" class="tab-view hidden h-full w-full flex flex-col p-3 gap-2 overflow-y-auto">
+      <div class="grid grid-cols-3 gap-1.5 shrink-0">
+        <button
+          id="openRearCamBtn"
+          class="py-2 px-2 rounded-lg bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 text-[11px] font-semibold flex items-center justify-center gap-1 active:scale-95"
+        >
+          <i data-lucide="camera" class="w-3.5 h-3.5"></i> Back Cam
+        </button>
+        <button
+          id="toggleOcrContrastBtn"
+          class="py-2 px-2 rounded-lg bg-obsidianSurface border border-slate-600 text-slate-300 text-[11px] mono flex items-center justify-center gap-1 active:scale-95"
+        >
+          <i data-lucide="contrast" class="w-3.5 h-3.5"></i> Filter: OFF
+        </button>
+        <button
+          id="scanToSonarBtn"
+          class="py-2 px-2 rounded-lg bg-violet-600/25 border border-violet-400/50 text-violet-200 text-[11px] font-semibold flex items-center justify-center gap-1 active:scale-95"
+        >
+          <i data-lucide="scan-text" class="w-3.5 h-3.5"></i> Scan & Audit
+        </button>
+      </div>
+
+      <!-- Live Camera & Custom OCR Downscaling Canvas Engine -->
+      <div class="relative h-44 shrink-0 rounded-xl bg-obsidianCard glow-emerald overflow-hidden flex items-center justify-center">
+        <video id="rearCameraVideo" autoplay playsinline muted class="w-full h-full object-cover hidden"></video>
+        <canvas id="ocrCaptureCanvas" class="w-full h-full object-contain hidden"></canvas>
+        <div id="laserOverlay" class="laser-line hidden"></div>
+
+        <div id="visionEmptyNotice" class="text-xs text-slate-400 text-center px-4">
+          ফোনের ব্যাক ক্যামেরা অন করে যেকোনো সোর্স কোড, বইয়ের পাতা বা ডকুমেন্ট স্ক্যান করো অথবা ছবি আপলোড দাও। (Smart 1280px Optimizer Active)
+        </div>
+
+        <label class="absolute bottom-2 right-2 bg-obsidian/90 text-emerald-300 text-[10px] mono px-2.5 py-1 rounded-lg border border-emerald-500/40 cursor-pointer flex items-center gap-1 shadow-md">
+          <i data-lucide="upload" class="w-3 h-3"></i> Upload Image
+          <input id="ocrFileUploader" type="file" accept="image/*" class="hidden" />
+        </label>
+      </div>
+
+      <!-- Custom Analysis Directive -->
+      <input
+        id="visionDirectiveInput"
+        type="text"
+        value="Perform high-precision OCR text extraction, identify any code or architecture diagrams, and analyze security or technical logic."
+        class="shrink-0 bg-obsidianCard text-slate-200 text-xs px-3 py-2 rounded-lg border border-violet-500/35 focus:outline-none"
+      />
+
+      <!-- OCR + Sonar Deep Analysis Output -->
+      <div id="visionResultBox" class="flex-1 overflow-y-auto p-3 rounded-xl bg-obsidianCard glow-violet text-xs text-slate-200 mono whitespace-pre-wrap select-text">
+[OCR & VISION ENGINE READY] ক্যামেরা ফ্রেম ক্যাপচার করার পর নির্বাচিত Sonar মডেলে ডিপ অ্যানালিসিস রিপোর্ট এখানে আসবে...
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 4: ADVANCED CODE & SECURITY AUDIT CORE
+         ========================================================= -->
+    <section id="tab-audit" class="tab-view hidden h-full w-full flex flex-col p-3 gap-2">
+      <!-- Top Audit Controls & Action Bar -->
+      <div class="shrink-0 flex items-center justify-between gap-1.5 px-2.5 py-1.5 rounded-xl bg-obsidianCard glow-violet">
+        <div class="flex items-center gap-1.5">
+          <i data-lucide="terminal-square" class="w-4 h-4 text-emerald-400"></i>
+          <select id="auditModeSelect" class="bg-obsidianSurface text-emerald-300 text-[11px] mono px-2 py-1 rounded border border-emerald-500/30 focus:outline-none">
+            <option value="audit">Security Audit & Patch</option>
+            <option value="architect">Full-Stack Code Gen</option>
+            <option value="optimize">Algorithm Refactor</option>
+          </select>
+        </div>
+
+        <!-- One-Click Copy, Download & Clear Buttons -->
+        <div class="flex items-center gap-1">
+          <button
+            id="copyAuditCodeBtn"
+            class="px-2 py-1 rounded-lg bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 text-[10px] mono flex items-center gap-1 active:scale-95 transition"
+          >
+            <i data-lucide="copy" class="w-3 h-3"></i> Copy Code
+          </button>
+          <button
+            id="downloadAuditCodeBtn"
+            title="Download Code File"
+            class="px-2 py-1 rounded-lg bg-violet-500/20 border border-violet-400/50 text-violet-300 text-[10px] mono flex items-center gap-1 active:scale-95 transition"
+          >
+            <i data-lucide="download" class="w-3 h-3"></i> Save
+          </button>
+          <button
+            id="clearAuditCodeBtn"
+            class="px-2 py-1 rounded-lg bg-rose-500/20 border border-rose-400/50 text-rose-300 text-[10px] mono flex items-center gap-1 active:scale-95 transition"
+          >
+            <i data-lucide="trash-2" class="w-3 h-3"></i> Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Dedicated Code Terminal Output Window -->
+      <pre id="auditCodeTerminal" class="flex-1 overflow-auto p-3 rounded-xl bg-[#040509] border border-emerald-500/35 text-emerald-300 text-xs mono leading-relaxed select-text">// [SECURITY AUDIT & CODE CORE READY]
+// যেকোনো সোর্স কোড পেস্ট করো অথবা নতুন অ্যালগরিদম/সিকিউরিটি প্যাচ জেনারেট করতে নিচে কমান্ড লেখো।</pre>
+
+      <!-- Code / Audit Input Bar -->
+      <div class="shrink-0 flex items-center gap-2">
+        <input
+          id="auditPromptInput"
+          type="text"
+          autocomplete="off"
+          placeholder="Paste code for vulnerability audit or request a security patch script..."
+          class="flex-1 bg-obsidianCard text-slate-100 text-xs mono px-3.5 py-3 rounded-xl glow-emerald focus:outline-none"
+        />
+        <button
+          id="runAuditBtn"
+          class="px-4 py-3 rounded-xl bg-emerald-500 text-obsidian font-bold text-xs mono flex items-center gap-1 active:scale-95 transition"
+        >
+          <i data-lucide="cpu" class="w-4 h-4"></i> RUN
+        </button>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         TAB 5: FREEDOM VOICE & SOUND RIG
+         ========================================================= -->
+    <section id="tab-voice" class="tab-view hidden h-full w-full flex flex-col p-3 gap-2 overflow-y-auto">
+      <div class="p-3 rounded-2xl bg-obsidianCard glow-emerald flex flex-col items-center justify-center gap-2 shrink-0 relative overflow-hidden">
+        <!-- Live Audio Waveform Visualizer Canvas -->
+        <canvas id="voiceWaveCanvas" width="320" height="36" class="w-full h-9 rounded bg-obsidianSurface/60 border border-emerald-500/20"></canvas>
+
+        <div class="flex items-center gap-4 my-0.5">
+          <button
+            id="voiceMicBtn"
+            class="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-500 to-violet-600 flex items-center justify-center text-obsidian shadow-xl transition"
+          >
+            <i data-lucide="mic" class="w-7 h-7"></i>
+          </button>
+          <div class="flex flex-col">
+            <p id="voiceRigStatus" class="text-xs mono text-emerald-300 font-semibold">
+              Tap Mic for Voice Input
+            </p>
+            <span id="ttsQueueCounter" class="text-[10px] mono text-violet-300">
+              TTS Queue: Idle | Speed: <span id="ttsRateLabel">1.0x</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="w-full grid grid-cols-3 gap-1.5">
+          <select id="voiceLangSelect" class="bg-obsidianSurface text-slate-200 text-[10px] mono p-1.5 rounded-lg border border-emerald-500/40">
+            <option value="bn-BD">বাংলা (bn-BD)</option>
+            <option value="en-US" selected>English (en-US)</option>
+            <option value="hi-IN">हिन्दी (hi-IN)</option>
+          </select>
+          <select id="synthVoiceDropdown" class="bg-obsidianSurface text-slate-200 text-[10px] mono p-1.5 rounded-lg border border-violet-500/40">
+            <option value="">System Neural TTS</option>
+          </select>
+          <select id="ttsRateSelect" class="bg-obsidianSurface text-emerald-300 text-[10px] mono p-1.5 rounded-lg border border-emerald-500/40">
+            <option value="0.9">Speed: 0.9x</option>
+            <option value="1.0" selected>Speed: 1.0x</option>
+            <option value="1.15">Speed: 1.15x</option>
+            <option value="1.3">Speed: 1.3x</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Voice Transcript & Speech Synthesis Deck -->
+      <div class="flex-1 flex flex-col gap-2 overflow-hidden">
+        <textarea
+          id="voiceInputTextarea"
+          rows="2"
+          placeholder="ভয়েস রিকগনিশন ট্রান্সক্রিপ্ট এখানে আসবে (সরাসরি এডিট বা টাইপও করতে পারবে)..."
+          class="w-full shrink-0 bg-obsidianCard text-slate-100 text-xs p-2.5 rounded-xl border border-emerald-500/35 focus:outline-none resize-none"
+        ></textarea>
+
+        <div class="grid grid-cols-3 gap-1.5 shrink-0">
+          <button
+            id="askSonarByVoiceBtn"
+            class="py-2 px-2 rounded-lg bg-emerald-500/20 border border-emerald-400/50 text-emerald-300 text-[11px] font-semibold flex items-center justify-center gap-1 active:scale-95"
+          >
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Ask & Speak
+          </button>
+          <button
+            id="speakLastOutputBtn"
+            class="py-2 px-2 rounded-lg bg-violet-500/20 border border-violet-400/50 text-violet-200 text-[11px] font-semibold flex items-center justify-center gap-1 active:scale-95"
+          >
+            <i data-lucide="volume-2" class="w-3.5 h-3.5"></i> Read Aloud
+          </button>
+          <button
+            id="muteSpeechBtn"
+            class="py-2 px-2 rounded-lg bg-rose-500/20 border border-rose-400/50 text-rose-300 text-[11px] font-semibold flex items-center justify-center gap-1 active:scale-95"
+          >
+            <i data-lucide="volume-x" class="w-3.5 h-3.5"></i> Stop Audio
+          </button>
+        </div>
+
+        <div id="voiceResponseStream" class="flex-1 overflow-y-auto p-3 rounded-xl bg-obsidianCard glow-violet text-xs text-slate-200 leading-relaxed whitespace-pre-wrap select-text">
+ভয়েস ইনপুট দিয়ে প্রশ্ন করলে অথবা অন্য ট্যাবের বড় উত্তর ও কোড এখানে Smart Sentence-Queue TTS ইঞ্জিনের মাধ্যমে কোনো কাটাকাটি ছাড়াই স্পষ্ট ভয়েসে শুনে নিতে পারবে।
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================
+       BOTTOM 5-TAB NAVIGATION BAR
+       ========================================================= -->
+  <nav class="shrink-0 bg-obsidianCard/95 backdrop-blur-md border-t border-violet-500/30 px-2 py-1.5 grid grid-cols-5 gap-1 z-30">
+    <button data-tab="tab-sonar" class="tab-nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-emerald-400 bg-emerald-500/10 border border-emerald-500/35 transition">
+      <i data-lucide="radar" class="w-4 h-4"></i>
+      <span class="text-[10px] font-medium mt-0.5">Sonar Scan</span>
+    </button>
+    <button data-tab="tab-studio" class="tab-nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-slate-400 hover:text-slate-200 transition">
+      <i data-lucide="film" class="w-4 h-4"></i>
+      <span class="text-[10px] font-medium mt-0.5">15s Studio</span>
+    </button>
+    <button data-tab="tab-vision" class="tab-nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-slate-400 hover:text-slate-200 transition">
+      <i data-lucide="scan-eye" class="w-4 h-4"></i>
+      <span class="text-[10px] font-medium mt-0.5">Vision OCR</span>
+    </button>
+    <button data-tab="tab-audit" class="tab-nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-slate-400 hover:text-slate-200 transition">
+      <i data-lucide="shield-alert" class="w-4 h-4"></i>
+      <span class="text-[10px] font-medium mt-0.5">Code Audit</span>
+    </button>
+    <button data-tab="tab-voice" class="tab-nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-slate-400 hover:text-slate-200 transition">
+      <i data-lucide="audio-waveform" class="w-4 h-4"></i>
+      <span class="text-[10px] font-medium mt-0.5">Voice Rig</span>
+    </button>
+  </nav>
+
+  <!-- =========================================================
+       ARGON-GRADE APPLICATION LOGIC ENGINE
+       ========================================================= -->
+  <script>
+    // 0. Initial Icon Render & PWA Manifest Injection
+    lucide.createIcons();
+
+    (function initPWAManifest() {
+      const manifest = {
+        name: 'SONAR SEC-OPS Mobile AI Suite',
+        short_name: 'SONAR OPS',
+        start_url: '.',
+        display: 'standalone',
+        background_color: '#06060b',
+        theme_color: '#06060b',
+        icons: [{
+          src: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjMDYwNjBiIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iMzAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzEwYjk4MSIgc3Ryb2tlLXdpZHRoPSI4Ii8+PC9zdmc+',
+          sizes: '192x192',
+          type: 'image/svg+xml'
+        }]
+      };
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = 'data:application/manifest+json;charset=utf-8,' + encodeURIComponent(JSON.stringify(manifest));
+      document.head.appendChild(link);
+    })();
+
+    // Global State & Telemetry
+    const globalStatusText = document.getElementById('globalStatusText');
+    const latencyBadge = document.getElementById('latencyBadge');
+    const sonarModelDropdown = document.getElementById('sonarModelDropdown');
+    const cyberToast = document.getElementById('cyberToast');
+    const cyberToastMsg = document.getElementById('cyberToastMsg');
+
+    let lastGlobalAiResponse = '';
+    let cameraStream = null;
+    let currentVideoBlobUrl = null;
+    let isRenderingVideo = false;
+    let activeMediaRecorder = null;
+    let toastTimer = null;
+
+    function showCyberToast(msg) {
+      cyberToastMsg.textContent = msg;
+      cyberToast.classList.remove('-translate-y-8', 'opacity-0');
+      cyberToast.classList.add('translate-y-0', 'opacity-100');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        cyberToast.classList.remove('translate-y-0', 'opacity-100');
+        cyberToast.classList.add('-translate-y-8', 'opacity-0');
+      }, 2400);
+    }
+
+    function updateGlobalStatus(label, busy = false) {
+      globalStatusText.innerHTML = busy
+        ? `<span class="w-1.5 h-1.5 rounded-full bg-violet-400 animate-ping"></span> ${label}`
+        : `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> ${label}`;
+    }
+
+    function getActiveSonarConfig() {
+      const opt = sonarModelDropdown.options[sonarModelDropdown.selectedIndex];
+      return {
+        shortName: opt.value,
+        providerModel: opt.getAttribute('data-provider')
+      };
+    }
+
+    // Persist selected model in localStorage
+    const savedModel = localStorage.getItem('sonar_selected_model');
+    if (savedModel) {
+      for (let i = 0; i < sonarModelDropdown.options.length; i++) {
+        if (sonarModelDropdown.options[i].value === savedModel) {
+          sonarModelDropdown.selectedIndex = i;
+          break;
+        }
+      }
+    }
+    sonarModelDropdown.addEventListener('change', () => {
+      const cfg = getActiveSonarConfig();
+      localStorage.setItem('sonar_selected_model', cfg.shortName);
+      showCyberToast(`Switched to ${cfg.shortName.toUpperCase()}`);
+    });
+
+    // Multi-Stage Resilient Puter.js Perplexity Sonar Dispatcher
+    async function dispatchToSonar(promptOrMessages, imageAttachment = null) {
+      const { shortName, providerModel } = getActiveSonarConfig();
+      const t0 = performance.now();
+      updateGlobalStatus(`SCANNING [${shortName.toUpperCase()}]...`, true);
+
+      try {
+        let rawResp;
+        if (imageAttachment) {
+          try {
+            rawResp = await puter.ai.chat(promptOrMessages, imageAttachment, { model: providerModel });
+          } catch (_) {
+            rawResp = await puter.ai.chat(promptOrMessages, imageAttachment);
+          }
+        } else {
+          try {
+            rawResp = await puter.ai.chat(promptOrMessages, { model: providerModel });
+          } catch (_) {
+            try {
+              rawResp = await puter.ai.chat(promptOrMessages, { model: shortName });
+            } catch (__){
+              rawResp = await puter.ai.chat(promptOrMessages);
+            }
+          }
+        }
+
+        const dt = ((performance.now() - t0) / 1000).toFixed(1);
+        latencyBadge.textContent = `${dt}s`;
+        updateGlobalStatus('PUTER CLOUD READY', false);
+
+        let extractedText = '';
+        if (typeof rawResp === 'string') {
+          extractedText = rawResp;
+        } else if (rawResp?.message?.content) {
+          extractedText = Array.isArray(rawResp.message.content)
+            ? rawResp.message.content.map(item => item.text || '').join('\n')
+            : rawResp.message.content;
+        } else {
+          extractedText = JSON.stringify(rawResp, null, 2);
+        }
+
+        if (Array.isArray(rawResp?.citations) && rawResp.citations.length > 0) {
+          extractedText += '\n\nSources & Citations:\n' + rawResp.citations.map((u, i) => `[${i + 1}] ${u}`).join('\n');
+        }
+
+        lastGlobalAiResponse = extractedText;
+        return extractedText;
+      } catch (err) {
+        updateGlobalStatus('READY (RETRY)', false);
+        throw new Error(err?.message || 'Unable to reach Puter AI gateway.');
+      }
+    }
+
+    // =========================================================
+    // TAB ROUTER WITH AUTOMATIC HARDWARE RESOURCE CLEANUP
+    // =========================================================
+    const tabNavBtns = document.querySelectorAll('.tab-nav-btn');
+    const tabViews = document.querySelectorAll('.tab-view');
+
+    tabNavBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-tab');
+
+        // Stop rear camera stream when leaving Vision tab to prevent battery drain
+        if (targetId !== 'tab-vision' && cameraStream) {
+          cameraStream.getTracks().forEach(track => track.stop());
+          cameraStream = null;
+          const rearVideo = document.getElementById('rearCameraVideo');
+          const laser = document.getElementById('laserOverlay');
+          if (rearVideo) rearVideo.classList.add('hidden');
+          if (laser) laser.classList.add('hidden');
+        }
+
+        tabViews.forEach(v => v.classList.add('hidden'));
+        document.getElementById(targetId).classList.remove('hidden');
+
+        tabNavBtns.forEach(b => {
+          b.className = 'tab-nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-slate-400 hover:text-slate-200 transition';
+        });
+        btn.className = 'tab-nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-emerald-400 bg-emerald-500/10 border border-emerald-500/35 transition';
+      });
+    });
+
+    // =========================================================
+    // 1. SONAR PRO DEEP SCAN ENGINE (WITH SAFE MARKDOWN & CITATIONS)
+    // =========================================================
+    const sonarStreamWindow = document.getElementById('sonarStreamWindow');
+    const sonarQueryInput = document.getElementById('sonarQueryInput');
+    const sonarSendBtn = document.getElementById('sonarSendBtn');
+    const clearSonarLogBtn = document.getElementById('clearSonarLogBtn');
+    const exportSonarLogBtn = document.getElementById('exportSonarLogBtn');
+    const presetChips = document.querySelectorAll('.preset-chip');
+
+    function renderSafeMarkdownAndLinks(rawText) {
+      let safe = rawText
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      // Format fenced code blocks
+      safe = safe.replace(/```([\s\S]*?)```/g, '<pre class="my-2 p-2.5 rounded-lg bg-[#040509] border border-emerald-500/30 text-emerald-300 mono text-[11px] overflow-x-auto">$1</pre>');
+      // Format inline code
+      safe = safe.replace(/`([^`\n]+)`/g, '<code class="px-1.5 py-0.5 rounded bg-obsidianSurface text-emerald-300 mono text-[11px]">$1</code>');
+      // Format bold text
+      safe = safe.replace(/\*\*([^*]+)\*\*/g, '<strong class="text-emerald-300 font-semibold">$1</strong>');
+      // Format clickable URLs (excluding trailing punctuation)
+      safe = safe.replace(/(https?:\/\/[^\s)\]<]+)(?=[.,;:]?(?:\s|$|\)|\]))/g, '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-emerald-400 underline hover:text-violet-300 break-all">$1</a>');
+      // Format citation markers like [1], [2]
+      safe = safe.replace(/\[(\d+)\]/g, '<span class="px-1 py-0.5 mx-0.5 rounded bg-violet-500/25 text-violet-300 mono text-[10px] border border-violet-500/40">[$1]</span>');
+      return safe;
+    }
+
+    function appendSonarEntry(role, content, modelTag = '', saveToHistory = true) {
+      const card = document.createElement('div');
+      if (role === 'user') {
+        card.className = 'p-3 rounded-xl bg-violet-950/40 glow-violet text-xs text-slate-100 ml-6';
+        card.innerHTML = `<div class="text-[10px] mono text-violet-300 mb-1 flex justify-between"><span>QUERY // OPERATOR</span><span>${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span></div><div>${renderSafeMarkdownAndLinks(content)}</div>`;
+      } else {
+        card.className = 'p-3 rounded-xl bg-obsidianCard glow-emerald text-xs text-slate-200 mr-2 leading-relaxed whitespace-pre-wrap';
+        card.innerHTML = `<div class="flex justify-between text-[10px] mono text-emerald-400 mb-1"><span>PERPLEXITY // ${modelTag}</span><span>LIVE CITATIONS</span></div><div>${renderSafeMarkdownAndLinks(content)}</div>`;
+      }
+      sonarStreamWindow.appendChild(card);
+      sonarStreamWindow.scrollTo({ top: sonarStreamWindow.scrollHeight, behavior: 'smooth' });
+      lucide.createIcons();
+
+      if (saveToHistory) {
+        try {
+          const history = JSON.parse(localStorage.getItem('sonar_chat_history') || '[]');
+          history.push({ role, content, modelTag });
+          if (history.length > 20) history.shift();
+          localStorage.setItem('sonar_chat_history', JSON.stringify(history));
+        } catch (_) {}
+      }
+    }
+
+    // Restore previous session logs on load
+    (function restoreSonarHistory() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('sonar_chat_history') || '[]');
+        saved.forEach(item => appendSonarEntry(item.role, item.content, item.modelTag, false));
+      } catch (_) {}
+    })();
+
+    async function executeSonarScan(customQuery = null) {
+      const queryText = (customQuery ?? sonarQueryInput.value).trim();
+      if (!queryText) return;
+      sonarQueryInput.value = '';
+
+      const { shortName } = getActiveSonarConfig();
+      appendSonarEntry('user', queryText);
+
+      const loader = document.createElement('div');
+      loader.className = 'p-3 rounded-xl bg-obsidianCard border border-emerald-500/30 text-xs text-emerald-300 mono animate-pulse';
+      loader.textContent = `[${shortName.toUpperCase()}] Scanning live web repositories, CVEs & technical sources...`;
+      sonarStreamWindow.appendChild(loader);
+      sonarStreamWindow.scrollTo({ top: sonarStreamWindow.scrollHeight, behavior: 'smooth' });
+
+      try {
+        const messages = [
+          {
+            role: 'system',
+            content: 'You are Perplexity Sonar Pro Deep Scan Engine for cybersecurity research, ethical lab testing, and source auditing. Provide thorough technical breakdowns and always include direct reference URLs and numbered citations.'
+          },
+          { role: 'user', content: queryText }
+        ];
+        const answer = await dispatchToSonar(messages);
+        loader.remove();
+        appendSonarEntry('assistant', answer, shortName.toUpperCase());
+      } catch (err) {
+        loader.remove();
+        appendSonarEntry('assistant', `Scan Error: ${err.message}`, 'GATEWAY');
+      }
+    }
+
+    sonarSendBtn.addEventListener('click', () => executeSonarScan());
+    sonarQueryInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') executeSonarScan();
+    });
+    presetChips.forEach(chip => {
+      chip.addEventListener('click', () => executeSonarScan(chip.getAttribute('data-preset')));
+    });
+    clearSonarLogBtn.addEventListener('click', () => {
+      sonarStreamWindow.innerHTML = '';
+      localStorage.removeItem('sonar_chat_history');
+      showCyberToast('Sonar Log Cleared');
+    });
+    exportSonarLogBtn.addEventListener('click', () => {
+      const textData = sonarStreamWindow.innerText.trim();
+      if (!textData) return;
+      const blob = new Blob([textData], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `sonar-recon-log-${Date.now()}.txt`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      showCyberToast('Log Exported');
+    });
+
+    // =========================================================
+    // 2. 15s VIDEO & HD ART STUDIO (TAINT-SAFE & MEMORY-MANAGED)
+    // =========================================================
+    const studioPromptInput = document.getElementById('studioPromptInput');
+    const generateArtBtn = document.getElementById('generateArtBtn');
+    const generateVideoBtn = document.getElementById('generateVideoBtn');
+    const stopVideoEarlyBtn = document.getElementById('stopVideoEarlyBtn');
+    const studioBadge = document.getElementById('studioBadge');
+    const studioEmptyState = document.getElementById('studioEmptyState');
+    const artPreviewImg = document.getElementById('artPreviewImg');
+    const wanVideoCanvas = document.getElementById('wanVideoCanvas');
+    const videoPreviewPlayer = document.getElementById('videoPreviewPlayer');
+    const videoProgressOverlay = document.getElementById('videoProgressOverlay');
+    const videoRenderBar = document.getElementById('videoRenderBar');
+    const videoRenderPct = document.getElementById('videoRenderPct');
+    const downloadStudioMediaBtn = document.getElementById('downloadStudioMediaBtn');
+
+    function activateStudioDownload(dataUrl, fileName) {
+      downloadStudioMediaBtn.href = dataUrl;
+      downloadStudioMediaBtn.download = fileName;
+      downloadStudioMediaBtn.classList.remove('pointer-events-none', 'opacity-40');
+    }
+
+    function drawCyberFrame(ctx, w, h, elapsedSec, totalSec, promptStr, baseImg) {
+      ctx.save();
+      let drawnImage = false;
+      if (baseImg && baseImg.complete && baseImg.naturalWidth > 0) {
+        try {
+          const zoom = 1 + (elapsedSec / totalSec) * 0.22;
+          const dw = w * zoom;
+          const dh = h * zoom;
+          const dx = (w - dw) / 2 + Math.sin(elapsedSec * 0.5) * 28;
+          const dy = (h - dh) / 2 + Math.cos(elapsedSec * 0.35) * 18;
+          ctx.drawImage(baseImg, dx, dy, dw, dh);
+          drawnImage = true;
+        } catch (_) {
+          drawnImage = false;
+        }
+      }
+
+      if (!drawnImage) {
+        const bgGrad = ctx.createLinearGradient(0, 0, w, h);
+        bgGrad.addColorStop(0, '#06060b');
+        bgGrad.addColorStop(0.5, '#151230');
+        bgGrad.addColorStop(1, '#062c22');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, w, h);
+      }
+
+      // Cyberpunk Perspective Matrix Grid
+      ctx.strokeStyle = 'rgba(16, 185, 129, 0.24)';
+      ctx.lineWidth = 1.5;
+      const shift = (elapsedSec * 60) % 60;
+      for (let x = -shift; x < w; x += 60) {
+        ctx.beginPath();
+        ctx.moveTo(x, h * 0.62);
+        ctx.lineTo((x - w / 2) * 2.1 + w / 2, h);
+        ctx.stroke();
+      }
+
+      // Volumetric Neon Particles
+      for (let i = 0; i < 36; i++) {
+        const px = (i * 137 + elapsedSec * (45 + (i % 6) * 14)) % w;
+        const py = (i * 89 + Math.sin(elapsedSec * 1.2 + i) * 55 + h) % h;
+        ctx.fillStyle = i % 2 === 0 ? 'rgba(16, 185, 129, 0.78)' : 'rgba(139, 92, 246, 0.78)';
+        ctx.beginPath();
+        ctx.arc(px, py, (i % 4) + 1.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Cinema Telemetry HUD Overlay
+      ctx.fillStyle = 'rgba(6, 6, 11, 0.74)';
+      ctx.fillRect(24, h - 68, w - 48, 44);
+      ctx.strokeStyle = 'rgba(139, 92, 246, 0.65)';
+      ctx.strokeRect(24, h - 68, w - 48, 44);
+
+      ctx.fillStyle = '#10b981';
+      ctx.font = 'bold 18px "JetBrains Mono", monospace';
+      ctx.fillText(`WAN-MOTION // ${elapsedSec.toFixed(1)}s / ${totalSec.toFixed(1)}s`, 42, h - 40);
+
+      ctx.fillStyle = '#e2e8f0';
+      ctx.font = '16px "Space Grotesk", sans-serif';
+      ctx.fillText(promptStr.slice(0, 52), 340, h - 40);
+      ctx.restore();
+    }
+
+    generateArtBtn.addEventListener('click', async () => {
+      if (isRenderingVideo) {
+        showCyberToast('Wait for video render to finish');
+        return;
+      }
+      const prompt = studioPromptInput.value.trim() || 'Cyberpunk SOC Neural Terminal, 8k Octane Render';
+      studioEmptyState.classList.add('hidden');
+      videoPreviewPlayer.classList.add('hidden');
+      wanVideoCanvas.classList.add('hidden');
+      studioBadge.textContent = 'RENDERING HD...';
+      updateGlobalStatus('GENERATING HD ART...', true);
+
+      try {
+        const imgElement = await puter.ai.txt2img(prompt);
+        if (imgElement.decode) {
+          try { await imgElement.decode(); } catch (_) {}
+        }
+        artPreviewImg.src = imgElement.src;
+        artPreviewImg.classList.remove('hidden');
+        activateStudioDownload(imgElement.src, `sonar-hd-art-${Date.now()}.png`);
+        studioBadge.textContent = 'HD ART READY';
+        updateGlobalStatus('PUTER CLOUD READY', false);
+        showCyberToast('HD Art Generated');
+      } catch (_) {
+        const ctx = wanVideoCanvas.getContext('2d');
+        drawCyberFrame(ctx, wanVideoCanvas.width, wanVideoCanvas.height, 2.5, 15, prompt, null);
+        const fallbackUrl = wanVideoCanvas.toDataURL('image/png');
+        artPreviewImg.src = fallbackUrl;
+        artPreviewImg.classList.remove('hidden');
+        activateStudioDownload(fallbackUrl, `sonar-hd-art-${Date.now()}.png`);
+        studioBadge.textContent = 'HD ART READY';
+        updateGlobalStatus('PUTER CLOUD READY', false);
+        showCyberToast('Procedural HD Art Ready');
+      }
+    });
+
+    generateVideoBtn.addEventListener('click', async () => {
+      if (isRenderingVideo) {
+        showCyberToast('15s Video already rendering...');
+        return;
+      }
+      isRenderingVideo = true;
+
+      // Free previous video Blob memory to prevent mobile RAM crash
+      if (currentVideoBlobUrl) {
+        URL.revokeObjectURL(currentVideoBlobUrl);
+        currentVideoBlobUrl = null;
+      }
+
+      const prompt = studioPromptInput.value.trim() || 'Cyberpunk Midnight Obsidian Core';
+      studioEmptyState.classList.add('hidden');
+      artPreviewImg.classList.add('hidden');
+      videoPreviewPlayer.classList.add('hidden');
+      wanVideoCanvas.classList.remove('hidden');
+      videoProgressOverlay.classList.remove('hidden');
+
+      studioBadge.textContent = 'INIT MOTION...';
+      updateGlobalStatus('BUILDING 15S VIDEO...', true);
+
+      let keyframeImage = null;
+      try {
+        keyframeImage = await puter.ai.txt2img(prompt);
+        keyframeImage.crossOrigin = 'anonymous';
+        if (keyframeImage.decode) {
+          await keyframeImage.decode();
+        }
+      } catch (_) {
+        keyframeImage = null;
+      }
+
+      const ctx = wanVideoCanvas.getContext('2d');
+      drawCyberFrame(ctx, wanVideoCanvas.width, wanVideoCanvas.height, 0, 15, prompt, keyframeImage);
+
+      const stream = wanVideoCanvas.captureStream(30);
+      let supportedMime = '';
+      if (typeof MediaRecorder !== 'undefined' && typeof MediaRecorder.isTypeSupported === 'function') {
+        if (MediaRecorder.isTypeSupported('video/mp4')) {
+          supportedMime = 'video/mp4';
+        } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9')) {
+          supportedMime = 'video/webm;codecs=vp9';
+        } else if (MediaRecorder.isTypeSupported('video/webm')) {
+          supportedMime = 'video/webm';
+        }
+      }
+
+      const recorderOptions = supportedMime ? { mimeType: supportedMime } : undefined;
+      const recorder = new MediaRecorder(stream, recorderOptions);
+      activeMediaRecorder = recorder;
+      const recordedChunks = [];
+
+      recorder.ondataavailable = e => {
+        if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+      };
+
+      const totalDurationSeconds = 15;
+      const startTimestamp = performance.now();
+
+      recorder.onstop = () => {
+        isRenderingVideo = false;
+        activeMediaRecorder = null;
+        const outType = supportedMime || 'video/mp4';
+        const videoBlob = new Blob(recordedChunks, { type: outType });
+        currentVideoBlobUrl = URL.createObjectURL(videoBlob);
+        wanVideoCanvas.classList.add('hidden');
+        videoProgressOverlay.classList.add('hidden');
+        videoPreviewPlayer.src = currentVideoBlobUrl;
+        videoPreviewPlayer.classList.remove('hidden');
+        videoPreviewPlayer.play().catch(() => {});
+        const ext = outType.includes('mp4') ? 'mp4' : 'webm';
+        activateStudioDownload(currentVideoBlobUrl, `sonar-15s-video-${Date.now()}.${ext}`);
+        studioBadge.textContent = '15S VIDEO READY';
+        updateGlobalStatus('PUTER CLOUD READY', false);
+        showCyberToast('15s HD Video Ready');
+      };
+
+      recorder.start(250);
+      studioBadge.textContent = 'RECORDING 15S...';
+
+      function stepVideoAnimation(now) {
+        if (!isRenderingVideo) return;
+        const elapsed = (now - startTimestamp) / 1000;
+        const pct = Math.min(100, Math.round((elapsed / totalDurationSeconds) * 100));
+        videoRenderBar.style.width = `${pct}%`;
+        videoRenderPct.textContent = `${pct}%`;
+
+        drawCyberFrame(ctx, wanVideoCanvas.width, wanVideoCanvas.height, elapsed, totalDurationSeconds, prompt, keyframeImage);
+
+        if (elapsed < totalDurationSeconds && recorder.state === 'recording') {
+          requestAnimationFrame(stepVideoAnimation);
+        } else if (recorder.state === 'recording') {
+          recorder.stop();
+        }
+      }
+      requestAnimationFrame(stepVideoAnimation);
+    });
+
+    stopVideoEarlyBtn.addEventListener('click', () => {
+      if (activeMediaRecorder && activeMediaRecorder.state === 'recording') {
+        activeMediaRecorder.stop();
+      }
+    });
+
+    // =========================================================
+    // 3. DEEP VISION OCR DOC READER (WITH 1280px SMART DOWNSCALER)
+    // =========================================================
+    const openRearCamBtn = document.getElementById('openRearCamBtn');
+    const toggleOcrContrastBtn = document.getElementById('toggleOcrContrastBtn');
+    const scanToSonarBtn = document.getElementById('scanToSonarBtn');
+    const rearCameraVideo = document.getElementById('rearCameraVideo');
+    const ocrCaptureCanvas = document.getElementById('ocrCaptureCanvas');
+    const laserOverlay = document.getElementById('laserOverlay');
+    const visionEmptyNotice = document.getElementById('visionEmptyNotice');
+    const ocrFileUploader = document.getElementById('ocrFileUploader');
+    const visionDirectiveInput = document.getElementById('visionDirectiveInput');
+    const visionResultBox = document.getElementById('visionResultBox');
+
+    let useHighContrastOcr = false;
+
+    toggleOcrContrastBtn.addEventListener('click', () => {
+      useHighContrastOcr = !useHighContrastOcr;
+      toggleOcrContrastBtn.innerHTML = `<i data-lucide="contrast" class="w-3.5 h-3.5"></i> Filter: ${useHighContrastOcr ? 'ON' : 'OFF'}`;
+      toggleOcrContrastBtn.className = useHighContrastOcr
+        ? 'py-2 px-2 rounded-lg bg-emerald-500/20 border border-emerald-400 text-emerald-300 text-[11px] mono flex items-center justify-center gap-1 active:scale-95'
+        : 'py-2 px-2 rounded-lg bg-obsidianSurface border border-slate-600 text-slate-300 text-[11px] mono flex items-center justify-center gap-1 active:scale-95';
+      lucide.createIcons();
+      showCyberToast(`OCR High-Contrast Filter: ${useHighContrastOcr ? 'ON' : 'OFF'}`);
+    });
+
+    // Scales 50MP mobile camera images down to max 1280px & applies optional OCR contrast
+    function drawNormalizedImageToOcrCanvas(sourceEl, rawW, rawH) {
+      const MAX_DIM = 1280;
+      let targetW = rawW;
+      let targetH = rawH;
+      if (targetW > MAX_DIM || targetH > MAX_DIM) {
+        if (targetW > targetH) {
+          targetH = Math.round((targetH * MAX_DIM) / targetW);
+          targetW = MAX_DIM;
+        } else {
+          targetW = Math.round((targetW * MAX_DIM) / targetH);
+          targetH = MAX_DIM;
+        }
+      }
+      ocrCaptureCanvas.width = targetW;
+      ocrCaptureCanvas.height = targetH;
+      const ctx = ocrCaptureCanvas.getContext('2d');
+      ctx.filter = useHighContrastOcr ? 'grayscale(100%) contrast(165%) brightness(108%)' : 'none';
+      ctx.drawImage(sourceEl, 0, 0, targetW, targetH);
+      ctx.filter = 'none';
+      return ocrCaptureCanvas.toDataURL('image/jpeg', 0.86);
+    }
+
+    openRearCamBtn.addEventListener('click', async () => {
+      try {
+        if (cameraStream) {
+          cameraStream.getTracks().forEach(track => track.stop());
+        }
+        cameraStream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: { ideal: 'environment' },
+            width: { ideal: 1280 },
+            height: { ideal: 720 }
+          },
+          audio: false
+        });
+        rearCameraVideo.srcObject = cameraStream;
+        visionEmptyNotice.classList.add('hidden');
+        ocrCaptureCanvas.classList.add('hidden');
+        rearCameraVideo.classList.remove('hidden');
+        laserOverlay.classList.remove('hidden');
+        showCyberToast('Rear Camera Active');
+      } catch (err) {
+        visionResultBox.textContent = `[CAMERA INFO] ${err.message}\nতুমি ডানদিকের 'Upload Image' বাটনে ট্যাপ করেও যেকোনো কোড বা ডকুমেন্টের ছবি সরাসরি স্ক্যান করতে পারো।`;
+      }
+    });
+
+    async function processCanvasThroughSonar(imageDataUrl) {
+      const { shortName } = getActiveSonarConfig();
+      visionResultBox.textContent = `[${shortName.toUpperCase()} VISION OCR] Extracting text, code structures & object data...`;
+      try {
+        const directive = visionDirectiveInput.value.trim();
+        const analysis = await dispatchToSonar(directive, imageDataUrl);
+        visionResultBox.textContent = analysis;
+        showCyberToast('OCR Analysis Complete');
+      } catch (err) {
+        visionResultBox.textContent = `[VISION ERROR] ${err.message}`;
+      }
+    }
+
+    scanToSonarBtn.addEventListener('click', async () => {
+      if (!rearCameraVideo.classList.contains('hidden') && rearCameraVideo.videoWidth > 0) {
+        const dataUrl = drawNormalizedImageToOcrCanvas(rearCameraVideo, rearCameraVideo.videoWidth, rearCameraVideo.videoHeight);
+        rearCameraVideo.classList.add('hidden');
+        laserOverlay.classList.add('hidden');
+        ocrCaptureCanvas.classList.remove('hidden');
+        await processCanvasThroughSonar(dataUrl);
+      } else if (!ocrCaptureCanvas.classList.contains('hidden') && ocrCaptureCanvas.width > 0) {
+        const dataUrl = ocrCaptureCanvas.toDataURL('image/jpeg', 0.86);
+        await processCanvasThroughSonar(dataUrl);
+      } else {
+        visionResultBox.textContent = 'অনুগ্রহ করে প্রথমে ক্যামেরা চালু করো অথবা একটি ছবি আপলোড করো।';
+      }
+    });
+
+    ocrFileUploader.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        const img = new Image();
+        img.onload = async () => {
+          const optimizedDataUrl = drawNormalizedImageToOcrCanvas(img, img.width, img.height);
+          visionEmptyNotice.classList.add('hidden');
+          rearCameraVideo.classList.add('hidden');
+          laserOverlay.classList.add('hidden');
+          ocrCaptureCanvas.classList.remove('hidden');
+          await processCanvasThroughSonar(optimizedDataUrl);
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // =========================================================
+    // 4. ADVANCED CODE & SECURITY AUDIT CORE
+    // =========================================================
+    const auditModeSelect = document.getElementById('auditModeSelect');
+    const copyAuditCodeBtn = document.getElementById('copyAuditCodeBtn');
+    const downloadAuditCodeBtn = document.getElementById('downloadAuditCodeBtn');
+    const clearAuditCodeBtn = document.getElementById('clearAuditCodeBtn');
+    const auditCodeTerminal = document.getElementById('auditCodeTerminal');
+    const auditPromptInput = document.getElementById('auditPromptInput');
+    const runAuditBtn = document.getElementById('runAuditBtn');
+
+    // Restore last code output if available
+    const savedAuditCode = localStorage.getItem('sonar_last_audit_code');
+    if (savedAuditCode) {
+      auditCodeTerminal.textContent = savedAuditCode;
+    }
+
+    async function executeCodeAuditTask() {
+      const userPrompt = auditPromptInput.value.trim();
+      if (!userPrompt) return;
+      auditPromptInput.value = '';
+
+      const mode = auditModeSelect.value;
+      const { shortName } = getActiveSonarConfig();
+      auditCodeTerminal.textContent = `// [${shortName.toUpperCase()} // ${mode.toUpperCase()}] Analyzing logic & generating production output...\n`;
+
+      const systemDirectives = {
+        audit: 'You are a Principal Application Security Auditor. Analyze the provided code or architecture for vulnerabilities, race conditions, injection flaws, or logic bugs, and output the complete remediated production code.',
+        architect: 'You are a Principal Full-Stack Systems Architect. Write complete, self-contained, production-ready code with zero placeholders or truncation.',
+        optimize: 'You are an Algorithm & Systems Performance Engineer. Refactor and optimize the requested logic for maximum speed, memory safety, and clean architecture.'
+      };
+
+      try {
+        const payload = [
+          { role: 'system', content: systemDirectives[mode] },
+          { role: 'user', content: userPrompt }
+        ];
+        const output = await dispatchToSonar(payload);
+        auditCodeTerminal.textContent = output;
+        try { localStorage.setItem('sonar_last_audit_code', output); } catch (_) {}
+        showCyberToast('Code Audit Complete');
+      } catch (err) {
+        auditCodeTerminal.textContent = `// [AUDIT ERROR]: ${err.message}`;
+      }
+    }
+
+    runAuditBtn.addEventListener('click', executeCodeAuditTask);
+    auditPromptInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') executeCodeAuditTask();
+    });
+
+    copyAuditCodeBtn.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(auditCodeTerminal.textContent);
+      showCyberToast('Code Copied to Clipboard');
+    });
+
+    downloadAuditCodeBtn.addEventListener('click', () => {
+      const codeText = auditCodeTerminal.textContent.trim();
+      if (!codeText) return;
+      const blob = new Blob([codeText], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `sonar-code-audit-${Date.now()}.txt`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      showCyberToast('Code File Saved');
+    });
+
+    clearAuditCodeBtn.addEventListener('click', () => {
+      auditCodeTerminal.textContent = '// [TERMINAL CLEARED] Ready.';
+      localStorage.removeItem('sonar_last_audit_code');
+      showCyberToast('Terminal Cleared');
+    });
+
+    // =========================================================
+    // 5. FREEDOM VOICE & SOUND RIG (CHUNKED TTS QUEUE + WAVEFORM)
+    // =========================================================
+    const voiceMicBtn = document.getElementById('voiceMicBtn');
+    const voiceRigStatus = document.getElementById('voiceRigStatus');
+    const ttsQueueCounter = document.getElementById('ttsQueueCounter');
+    const voiceLangSelect = document.getElementById('voiceLangSelect');
+    const synthVoiceDropdown = document.getElementById('synthVoiceDropdown');
+    const ttsRateSelect = document.getElementById('ttsRateSelect');
+    const voiceInputTextarea = document.getElementById('voiceInputTextarea');
+    const askSonarByVoiceBtn = document.getElementById('askSonarByVoiceBtn');
+    const speakLastOutputBtn = document.getElementById('speakLastOutputBtn');
+    const muteSpeechBtn = document.getElementById('muteSpeechBtn');
+    const voiceResponseStream = document.getElementById('voiceResponseStream');
+    const voiceWaveCanvas = document.getElementById('voiceWaveCanvas');
+
+    let isSpeakingQueue = false;
+    let ttsChunksQueue = [];
+
+    // Animated Audio Waveform Visualizer
+    (function animateVoiceWave() {
+      const ctx = voiceWaveCanvas.getContext('2d');
+      let phase = 0;
+      function renderWave() {
+        const w = voiceWaveCanvas.width;
+        const h = voiceWaveCanvas.height;
+        ctx.clearRect(0, 0, w, h);
+        const active = isSpeakingQueue || isMicRecording;
+        const bars = 32;
+        const barW = Math.floor(w / bars) - 2;
+
+        for (let i = 0; i < bars; i++) {
+          const amp = active
+            ? Math.max(4, Math.abs(Math.sin(phase + i * 0.45)) * (h - 6))
+            : 4;
+          const x = i * (barW + 2) + 2;
+          const y = (h - amp) / 2;
+          ctx.fillStyle = i % 2 === 0 ? '#10b981' : '#8b5cf6';
+          ctx.fillRect(x, y, barW, amp);
+        }
+        phase += active ? 0.18 : 0.03;
+        requestAnimationFrame(renderWave);
+      }
+      requestAnimationFrame(renderWave);
+    })();
+
+    function loadSystemVoices() {
+      if (!('speechSynthesis' in window)) return;
+      const voices = window.speechSynthesis.getVoices();
+      synthVoiceDropdown.innerHTML = '<option value="">System Neural TTS</option>';
+      voices.forEach((voice, i) => {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `${voice.name} (${voice.lang})`;
+        synthVoiceDropdown.appendChild(option);
+      });
+    }
+    loadSystemVoices();
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = loadSystemVoices;
+    }
+
+    // Splits long text into <175 char chunks so mobile browsers never cut off after 15 seconds
+    function splitTextIntoSafeSpeechChunks(rawText) {
+      const cleaned = rawText
+        .replace(/```[\s\S]*?```/g, ' [Code Block] ')
+        .replace(/[`*#_~]/g, ' ')
+        .replace(/https?:\/\/[^\s]+/g, ' [Link] ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      if (!cleaned) return [];
+      const rawSentences = cleaned.split(/(?<=[.?!।\n])\s+/);
+      const chunks = [];
+      let current = '';
+
+      for (const s of rawSentences) {
+        if ((current + ' ' + s).trim().length <= 170) {
+          current = (current + ' ' + s).trim();
+        } else {
+          if (current) chunks.push(current);
+          if (s.length <= 170) {
+            current = s;
+          } else {
+            for (let i = 0; i < s.length; i += 170) {
+              chunks.push(s.slice(i, i + 170));
+            }
+            current = '';
+          }
+        }
+      }
+      if (current) chunks.push(current);
+      return chunks;
+    }
+
+    function speakTextViaRig(rawText) {
+      if (!('speechSynthesis' in window) || !rawText) return;
+      window.speechSynthesis.cancel();
+      ttsChunksQueue = splitTextIntoSafeSpeechChunks(rawText);
+      if (ttsChunksQueue.length === 0) return;
+
+      isSpeakingQueue = true;
+      const totalChunks = ttsChunksQueue.length;
+
+      function playNextChunk() {
+        if (!isSpeakingQueue || ttsChunksQueue.length === 0) {
+          isSpeakingQueue = false;
+          ttsQueueCounter.textContent = `TTS Queue: Idle | Speed: ${ttsRateSelect.value}x`;
+          return;
+        }
+
+        const nextText = ttsChunksQueue.shift();
+        const currentIdx = totalChunks - ttsChunksQueue.length;
+        ttsQueueCounter.textContent = `Speaking Chunk ${currentIdx}/${totalChunks} | ${ttsRateSelect.value}x`;
+
+        const utter = new SpeechSynthesisUtterance(nextText);
+        const voices = window.speechSynthesis.getVoices();
+        const chosenIdx = synthVoiceDropdown.value;
+        if (chosenIdx !== '' && voices[chosenIdx]) {
+          utter.voice = voices[chosenIdx];
+        } else {
+          utter.lang = voiceLangSelect.value;
+        }
+        utter.rate = parseFloat(ttsRateSelect.value) || 1.0;
+
+        utter.onend = () => {
+          if (isSpeakingQueue) playNextChunk();
+        };
+        utter.onerror = () => {
+          isSpeakingQueue = false;
+          ttsQueueCounter.textContent = `TTS Queue: Idle | Speed: ${ttsRateSelect.value}x`;
+        };
+
+        window.speechSynthesis.speak(utter);
+      }
+
+      playNextChunk();
+    }
+
+    const NativeSpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognizer = null;
+    let isMicRecording = false;
+
+    if (NativeSpeechRecognition) {
+      recognizer = new NativeSpeechRecognition();
+      recognizer.continuous = false;
+      recognizer.interimResults = true;
+
+      recognizer.onstart = () => {
+        isMicRecording = true;
+        voiceMicBtn.classList.add('mic-active');
+        voiceRigStatus.textContent = 'Listening... Speak Command';
+      };
+
+      recognizer.onresult = event => {
+        let transcriptText = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcriptText += event.results[i][0].transcript;
+        }
+        voiceInputTextarea.value = transcriptText;
+      };
+
+      recognizer.onerror = event => {
+        isMicRecording = false;
+        voiceMicBtn.classList.remove('mic-active');
+        voiceRigStatus.textContent = `Mic Status: ${event.error}`;
+      };
+
+      recognizer.onend = () => {
+        isMicRecording = false;
+        voiceMicBtn.classList.remove('mic-active');
+        voiceRigStatus.textContent = 'Tap Mic for Voice Input';
+      };
+    } else {
+      voiceRigStatus.textContent = 'SpeechRecognition unavailable on this browser';
+    }
+
+    voiceMicBtn.addEventListener('click', () => {
+      if (!recognizer) return;
+      if (isMicRecording) {
+        recognizer.stop();
+      } else {
+        recognizer.lang = voiceLangSelect.value;
+        recognizer.start();
+      }
+    });
+
+    askSonarByVoiceBtn.addEventListener('click', async () => {
+      const query = voiceInputTextarea.value.trim();
+      if (!query) return;
+
+      // Unlock mobile audio synthesis channel immediately on user tap
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const unlockUtter = new SpeechSynthesisUtterance(' ');
+        unlockUtter.volume = 0.01;
+        window.speechSynthesis.speak(unlockUtter);
+      }
+
+      voiceResponseStream.textContent = 'Querying Perplexity Sonar & preparing chunked neural audio...';
+      try {
+        const reply = await dispatchToSonar(query);
+        voiceResponseStream.textContent = reply;
+        speakTextViaRig(reply);
+      } catch (err) {
+        voiceResponseStream.textContent = `Voice Query Error: ${err.message}`;
+      }
+    });
+
+    speakLastOutputBtn.addEventListener('click', () => {
+      const targetText =
+        lastGlobalAiResponse ||
+        voiceResponseStream.textContent.trim() ||
+        auditCodeTerminal.textContent.trim();
+      speakTextViaRig(targetText);
+    });
+
+    muteSpeechBtn.addEventListener('click', () => {
+      isSpeakingQueue = false;
+      ttsChunksQueue = [];
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      ttsQueueCounter.textContent = `TTS Queue: Stopped | Speed: ${ttsRateSelect.value}x`;
+      showCyberToast('Audio Stopped');
+    });
+  </script>
+</body>
+</html>
