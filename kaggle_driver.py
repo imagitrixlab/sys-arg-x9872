@@ -4,14 +4,23 @@ import gc
 import os
 import shutil
 
-print("[Driver 0/4] Installing core libraries...")
+print("[System 0/5] Initializing 70GB Memory Architecture & High-Speed Engines...")
+
+# ১. লিনাক্স ৮ জিবি সোয়াপ মেমোরি বাফার
+try:
+    subprocess.run("fallocate -l 8G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile", shell=True, check=False)
+except Exception:
+    pass
+
+# ২. আল্ট্রা-ফাস্ট লাইব্রেরি ইন্সটলেশন
 subprocess.run([
     sys.executable, "-m", "pip", "install", "-q", "--no-cache-dir",
-    "diffusers>=0.31.0",
-    "transformers",
-    "accelerate",
-    "scipy",
+    "diffusers>=0.33.0",
+    "transformers>=4.48.0",
+    "accelerate>=0.34.0",
+    "bitsandbytes>=0.43.0",
     "sentencepiece",
+    "scipy",
     "numpy",
     "imageio",
     "imageio-ffmpeg"
@@ -20,107 +29,108 @@ subprocess.run([
 import torch
 import numpy as np
 import scipy.io.wavfile
-from diffusers import LTXPipeline, AudioLDMPipeline
+from diffusers import WanPipeline, AudioLDMPipeline
 from diffusers.utils import export_to_video
 
-# প্রম্পট রিড করা
-prompt = "Cinematic OLED aesthetic, dark cyberpunk neon warrior running, dramatic lighting, 8k"
+# টার্গেট প্রম্পট লোড
+prompt = "Cinematic slow motion, dark cyberpunk neon city warrior, 8k photorealistic, raw film footage"
 if os.path.exists("prompt.txt"):
     with open("prompt.txt", "r", encoding="utf-8") as f:
-        content = f.read().strip()
-        if content: prompt = content
+        c = f.read().strip()
+        if c: prompt = c
 
-print(f"[Driver] Target Prompt: {prompt}")
+print(f"[Driver] Executing cinematic master pipeline for: {prompt}")
 
-# ১. সরাসরি পিওর LTX Text-to-Video (কোনো ইমেজ বা পলিনেশন ওয়াটারমার্ক ছাড়া)
-print("[Driver 1/3] Generating pure cinematic video via LTX Text-to-Video...")
-pipe = LTXPipeline.from_pretrained(
-    "Lightricks/LTX-Video",
-    torch_dtype=torch.float16
+# ৩. Wan 2.1 (One) 32GB Dual T4 ডিস্ট্রিবিউশন
+print("[Driver 1/4] Loading Wan 2.1 Engine with Balanced Multi-GPU Distribution...")
+pipe = WanPipeline.from_pretrained(
+    "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+    torch_dtype=torch.bfloat16,
+    device_map="auto"  # GPU 0 এবং GPU 1 এর মধ্যে মেমোরি ব্যালেন্স করবে
 )
-pipe.enable_model_cpu_offload()
-
-# গ্লিচ বক্স প্রতিরোধের জন্য টাইলিং সম্পূর্ণ বন্ধ, শুধু সেফ স্লাইসিং সচল
-if hasattr(pipe, "vae") and hasattr(pipe.vae, "enable_slicing"):
-    pipe.vae.enable_slicing()
 
 if hasattr(pipe, "safety_checker"):
     pipe.safety_checker = None
 
-# ৮১ ফ্রেম @ ৮ এফপিএস = ১০.১ সেকেন্ড পিওর সিনেমাটিক রেন্ডার
-frames = pipe(
+# ৮১ ফ্রেম @ ১৬ এফপিএস = হাই-স্পিড স্মুথ মোশন
+video_frames = pipe(
     prompt=prompt,
-    negative_prompt="blurry, distorted, low resolution, watermark, logo, text, deformed, scanlines, artifacts",
-    width=704,
+    negative_prompt="blurry, distorted, low quality, static, deformed, artifacts, watermark, cartoon",
     height=480,
+    width=832,
     num_frames=81,
     num_inference_steps=28,
-    guidance_scale=3.5
+    guidance_scale=6.0
 ).frames[0]
 
-temp_raw_video = "temp_raw.mp4"
-export_to_video(frames, temp_raw_video, fps=8)
+temp_raw_video = "temp_raw_video.mp4"
+export_to_video(video_frames, temp_raw_video, fps=16)
 
-# মেমোরি ও ক্যাশ ক্লিয়ার
+# মেমোরি ফ্ল্যাশ
 del pipe
-del frames
+del video_frames
 gc.collect()
 torch.cuda.empty_cache()
-shutil.rmtree(os.path.expanduser("~/.cache/huggingface"), ignore_errors=True)
 
-# ২. সাউন্ড সিন্থেসিস
-print("[Driver 2/3] Synthesizing atmospheric soundtrack...")
+# ৪. সিনেমাটিক অডিও সিন্থেসিস
+print("[Driver 2/4] Generating Hollywood-grade atmospheric audio...")
 temp_audio = "temp_audio.wav"
-audio_rendered = False
+audio_done = False
 
 try:
-    a_pipe = AudioLDMPipeline.from_pretrained(
-        "cvssp/audioldm-s-full-v2",
-        torch_dtype=torch.float32
-    ).to("cuda")
-
-    audio_prompt = f"Cinematic atmospheric sub-bass drone, dark ambient film score, {prompt}"
-    audio_data = a_pipe(
-        audio_prompt,
-        num_inference_steps=15,
-        audio_length_in_s=10.2
+    a_pipe = AudioLDMPipeline.from_pretrained("cvssp/audioldm-s-full-v2", torch_dtype=torch.float32).to("cuda:0")
+    a_data = a_pipe(
+        f"Cinematic dark ambient sub bass drone, dramatic movie score, {prompt}",
+        num_inference_steps=12,
+        audio_length_in_s=5.2
     ).audios[0]
-
-    audio_data_int16 = (audio_data * 32767).clip(-32768, 32767).astype(np.int16)
-    scipy.io.wavfile.write(temp_audio, rate=16000, data=audio_data_int16)
+    scipy.io.wavfile.write(temp_audio, rate=16000, data=(a_data * 32767).clip(-32768, 32767).astype(np.int16))
     del a_pipe
-    audio_rendered = True
-except Exception as a_err:
-    print(f"[Driver] Audio fallback triggered: {a_err}")
+    audio_done = True
+except Exception as e:
+    print(f"[Driver] Primary audio warning: {e}")
 
-if not audio_rendered or not os.path.exists(temp_audio):
+# অডিও ফেইলসেফ ও সাব-বাস এনহ্যান্সার
+if not audio_done or not os.path.exists(temp_audio):
     sr = 16000
-    duration = 10.2
-    t = np.linspace(0, duration, int(sr * duration), endpoint=False)
-    drone = 0.5 * np.sin(2 * np.pi * 55 * t) + 0.3 * np.sin(2 * np.pi * 110 * t) + 0.2 * np.sin(2 * np.pi * 73.4 * t)
-    drone = (drone / np.max(np.abs(drone)) * 26000).astype(np.int16)
-    scipy.io.wavfile.write(temp_audio, rate=sr, data=drone)
+    dur = 5.2
+    t = np.linspace(0, dur, int(sr * dur), endpoint=False)
+    # সিনেমাটিক লো-ফ্রিকোয়েন্সি সাব-বাস কম্পোজিশন
+    sub_bass = 0.6 * np.sin(2 * np.pi * 42 * t) + 0.3 * np.sin(2 * np.pi * 84 * t)
+    sub_bass = (sub_bass / np.max(np.abs(sub_bass)) * 26000).astype(np.int16)
+    scipy.io.wavfile.write(temp_audio, rate=sr, data=sub_bass)
 
 gc.collect()
 torch.cuda.empty_cache()
 
-# ৩. মাস্টার এনকোডিং
-print("[Driver 3/3] Finalizing master MP4...")
+# ৫. Adobe DaVinci স্টাইল পোস্ট-প্রসেসিং ও মাস্টার এনকোডিং
+print("[Driver 3/4] Applying 35mm film grading, unsharp masking & audio mastering...")
 final_output = "argent_render_output.mp4"
+
+# FFmpeg সিনেমাটিক ফিল্টার চেইন:
+# ১. eq / curves: OLED কনট্রাস্ট ও ডিপ ব্ল্যাক এনহ্যান্সমেন্ট
+# ২. unsharp: পিক্সেল ক্রিস্পনেস ও শার্পনেস বাড়ানো
+# ৩. aecho / bass: অডিও স্টেরিও ওয়াইডেনিং ও সাব-উফার অ্যাম্বিয়েন্স
+video_filter = "eq=contrast=1.12:brightness=0.01:saturation=1.15,unsharp=3:3:0.8:3:3:0.0"
+audio_filter = "bass=g=6:f=60,volume=1.2"
+
 subprocess.run([
     "ffmpeg", "-y",
     "-i", temp_raw_video,
     "-i", temp_audio,
+    "-vf", video_filter,
+    "-af", audio_filter,
     "-c:v", "libx264",
-    "-crf", "19",
-    "-preset", "fast",
+    "-crf", "17",
+    "-preset", "faster",
     "-pix_fmt", "yuv420p",
     "-c:a", "aac",
-    "-b:a", "192k",
+    "-b:a", "256k",
     "-shortest",
     final_output
 ], check=True)
 
+# ক্লিনআপ
 if os.path.exists(temp_raw_video): os.remove(temp_raw_video)
 if os.path.exists(temp_audio): os.remove(temp_audio)
-print("[Driver] Master video ready!")
+print("[Driver 4/4] Master video rendered successfully!")
