@@ -30,10 +30,9 @@
             --text-dim: #64748b;
             --radius-luxury: 16px;
 
-            /* Chat Bubble Specific Theme Locks */
-            --bubble-user: #1a2a3a; /* Deep Midnight Blue */
+            --bubble-user: #1a2a3a;
             --bubble-user-border: #2e4760;
-            --bubble-ai: #1a122c;   /* Royal Deep Cyber Amethyst */
+            --bubble-ai: #1a122c;
             --bubble-ai-border: #44246d;
         }
 
@@ -59,7 +58,6 @@
             user-select: none;
         }
 
-        /* Luxury Metallic Header with Custom Dropdown */
         .header-panel {
             background: linear-gradient(180deg, rgba(22, 27, 36, 0.95) 0%, rgba(17, 21, 28, 0.95) 100%);
             backdrop-filter: blur(12px);
@@ -151,7 +149,6 @@
             white-space: nowrap;
         }
 
-        /* Main Workspace Container */
         .container-box {
             flex: 1;
             overflow-y: hidden;
@@ -173,7 +170,6 @@
             display: flex;
         }
 
-        /* Audio Control Bar */
         .audio-control-layer {
             display: flex;
             justify-content: space-between;
@@ -201,7 +197,6 @@
             transition: all 0.2s ease;
         }
 
-        /* DYNAMIC CHAT STREAM CONTAINER */
         .chat-stream-viewport {
             background: linear-gradient(145deg, #090c12 0%, #0d1117 100%);
             border: 1px solid var(--border-metal);
@@ -226,13 +221,8 @@
             transition: opacity 0.2s ease, transform 0.2s ease;
         }
 
-        .chat-msg-row.user {
-            justify-content: flex-end;
-        }
-
-        .chat-msg-row.ai {
-            justify-content: flex-start;
-        }
+        .chat-msg-row.user { justify-content: flex-end; }
+        .chat-msg-row.ai { justify-content: flex-start; }
 
         .chat-bubble.user-bubble {
             background: var(--bubble-user);
@@ -267,15 +257,8 @@
             gap: 12px;
         }
 
-        .bubble-meta .ai-tag {
-            color: #c084fc;
-            font-weight: 600;
-        }
-
-        .bubble-meta .user-tag {
-            color: #38bdf8;
-            font-weight: 600;
-        }
+        .bubble-meta .ai-tag { color: #c084fc; font-weight: 600; }
+        .bubble-meta .user-tag { color: #38bdf8; font-weight: 600; }
 
         .bubble-content {
             font-size: 13.5px;
@@ -322,9 +305,7 @@
             color: #ffffff;
         }
 
-        .act-btn:active {
-            transform: scale(0.94);
-        }
+        .act-btn:active { transform: scale(0.94); }
 
         .act-btn.delete {
             border-color: rgba(239, 68, 68, 0.3);
@@ -337,7 +318,6 @@
             color: #ffffff;
         }
 
-        /* 500MB Chunk Progress Bar */
         .chunk-progress-wrap {
             display: none;
             flex-direction: column;
@@ -372,7 +352,6 @@
             transition: width 0.15s ease;
         }
 
-        /* Luxury Input Bar */
         .gemini-bar-container {
             display: flex;
             flex-direction: column;
@@ -414,9 +393,7 @@
             min-width: 0;
         }
 
-        .core-input::placeholder {
-            color: var(--text-dim);
-        }
+        .core-input::placeholder { color: var(--text-dim); }
 
         .inline-actions {
             display: flex;
@@ -441,9 +418,7 @@
             flex-shrink: 0;
         }
 
-        .icon-trigger:active {
-            transform: scale(0.94);
-        }
+        .icon-trigger:active { transform: scale(0.94); }
 
         .btn-plus {
             font-weight: 700;
@@ -518,7 +493,6 @@
             display: none;
         }
 
-        /* Media Studio Canvas */
         .media-canvas {
             width: 100%;
             flex: 1;
@@ -565,9 +539,7 @@
             transition: all 0.2s ease;
         }
 
-        .grid-trigger:active {
-            transform: scale(0.97);
-        }
+        .grid-trigger:active { transform: scale(0.97); }
 
         .grid-trigger:disabled {
             opacity: 0.45;
@@ -594,7 +566,6 @@
             border: 1px solid var(--border-highlight);
         }
 
-        /* Fixed Luxury Bottom Dock (Strict 3 Tabs) */
         .bottom-dock {
             position: fixed;
             bottom: 0;
@@ -639,7 +610,6 @@
             border-color: rgba(157, 78, 221, 0.3);
         }
 
-        /* Toast Indicator */
         #luxury-toast {
             position: fixed;
             top: 20px;
@@ -664,17 +634,9 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        ::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--bg-main);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--border-highlight);
-            border-radius: 999px;
-        }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-main); }
+        ::-webkit-scrollbar-thumb { background: var(--border-highlight); border-radius: 999px; }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
         @keyframes voicePulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
@@ -683,10 +645,8 @@
 </head>
 <body>
 
-    <!-- LUXURY TOAST NOTIFICATION -->
     <div id="luxury-toast">COPIED TO CLIPBOARD</div>
 
-    <!-- TOP LUXURY HEADER WITH MODEL DROPDOWN SELECTOR -->
     <header class="header-panel">
         <div class="core-status">
             <div class="pulse-indicator"></div>
@@ -706,23 +666,18 @@
         </div>
     </header>
 
-    <!-- Hidden Camera Elements for Vision OCR -->
     <video id="hidden-camera-stream" autoplay playsinline muted style="display:none;"></video>
     <canvas id="hidden-ocr-canvas" style="display:none;"></canvas>
 
-    <!-- MAIN WORKSPACE -->
     <main class="container-box">
 
-        <!-- ==========================================
-             TAB 1: SONAR SCAN (DYNAMIC CHAT LAYER)
-             ========================================== -->
+        <!-- TAB 1: SONAR SCAN -->
         <section id="panel-sonar" class="view-tab active">
             <div class="audio-control-layer">
                 <span>GEMINI MULTI-CHANNEL READ-ALOUD SYSTEM ACTIVE</span>
                 <button class="speech-toggle-btn" id="speech-btn" onclick="toggleSpeechEngine()">🔊 ON</button>
             </div>
 
-            <!-- Dynamic Chat Stream Viewport -->
             <div class="chat-stream-viewport" id="sonar-chat-stream">
                 <div class="chat-msg-row ai" id="msg-init-default">
                     <div class="chat-bubble ai-bubble">
@@ -741,7 +696,6 @@
                 </div>
             </div>
 
-            <!-- 500MB Chunk Progress Bar (Sonar) -->
             <div class="chunk-progress-wrap" id="sonar-chunk-wrap">
                 <div class="chunk-progress-header">
                     <span id="sonar-chunk-label">ALLOCATING CHUNK STREAM...</span>
@@ -778,15 +732,12 @@
             </div>
         </section>
 
-        <!-- ==========================================
-             TAB 2: MEDIA STUDIO (8K FLUX & 12.2s KAGGLE WAN VIDEO)
-             ========================================== -->
+        <!-- TAB 2: MEDIA STUDIO -->
         <section id="panel-studio" class="view-tab">
             <div class="media-canvas" id="studio-canvas">
                 <span style="color: var(--text-dim); font-size: 13px;">Await Kaggle T4 GPU / Wan 2.1 70GB Media Stream mapping...</span>
             </div>
 
-            <!-- 500MB Chunk Progress Bar (Studio) -->
             <div class="chunk-progress-wrap" id="studio-chunk-wrap">
                 <div class="chunk-progress-header">
                     <span id="studio-chunk-label">BUFFERING SOURCE ASSET...</span>
@@ -828,9 +779,7 @@
             </div>
         </section>
 
-        <!-- ==========================================
-             TAB 3: CODE CORE (DYNAMIC CHAT/CODE FEED)
-             ========================================== -->
+        <!-- TAB 3: CODE CORE -->
         <section id="panel-code" class="view-tab">
             <div class="chat-stream-viewport" id="code-chat-stream">
                 <div class="chat-msg-row ai" id="msg-code-default">
@@ -851,7 +800,6 @@
                 </div>
             </div>
 
-            <!-- 500MB Chunk Progress Bar (Code) -->
             <div class="chunk-progress-wrap" id="code-chunk-wrap">
                 <div class="chunk-progress-header">
                     <span id="code-chunk-label">PARSING BINARY CHUNKS...</span>
@@ -887,7 +835,6 @@
 
     </main>
 
-    <!-- BOTTOM 3-TAB LUXURY DOCK -->
     <nav class="bottom-dock">
         <button type="button" id="dock-sonar" class="dock-tab active" onclick="toggleDockView('sonar')">
             <span>🔍 Sonar Scan</span>
@@ -901,7 +848,6 @@
     </nav>
 
     <script>
-        // GLOBAL MODEL STATE & CONFIGURATION
         let selectedModel = 'sonar-pro';
 
         const MODEL_MAP = {
@@ -916,9 +862,7 @@
                 selectedModel = modelKey;
                 localStorage.setItem('argent_selected_model', modelKey);
                 const badge = document.getElementById('core-telemetry');
-                if (badge) {
-                    badge.innerText = modelKey.toUpperCase();
-                }
+                if (badge) badge.innerText = modelKey.toUpperCase();
                 showToast(`MODEL: ${modelKey.toUpperCase()}`);
             }
         }
@@ -950,9 +894,7 @@
             toast.innerText = msg;
             toast.classList.add('show');
             if (toastTimeout) clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2200);
+            toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 2200);
         }
 
         function escapeHtml(str) {
@@ -962,7 +904,6 @@
                 .replace(/>/g, '&gt;');
         }
 
-        // 1. DOCK NAVIGATION CONTROLLER
         function toggleDockView(target) {
             document.querySelectorAll('.view-tab').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.dock-tab').forEach(el => el.classList.remove('active', 'active-cyber'));
@@ -972,16 +913,12 @@
 
             const tabBtn = document.getElementById(`dock-${target}`);
             if (tabBtn) {
-                if (target === 'studio' || target === 'code') {
-                    tabBtn.classList.add('active-cyber');
-                } else {
-                    tabBtn.classList.add('active');
-                }
+                if (target === 'studio' || target === 'code') tabBtn.classList.add('active-cyber');
+                else tabBtn.classList.add('active');
             }
             stopAllSpeechSynthesis();
         }
 
-        // 2. PLUS (+) UTILITY MENU CONTROLLER
         function toggleUtilityMenu(menuId, plusId) {
             const menu = document.getElementById(menuId);
             const plus = document.getElementById(plusId);
@@ -996,7 +933,6 @@
             }
         }
 
-        // 3. DYNAMIC CHAT BUBBLE ENGINE (COLOR-LOCKED)
         function appendMessageBubble(containerId, role, text, modelTag = '', isMono = false) {
             const container = document.getElementById(containerId);
             if (!container) return null;
@@ -1046,13 +982,7 @@
             const el = document.getElementById(contentId);
             if (!el) return;
             const text = el.innerText || el.textContent;
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showToast("COPIED TO CLIPBOARD!");
-                }).catch(() => fallbackCopy(text));
-            } else {
-                fallbackCopy(text);
-            }
+            navigator.clipboard.writeText(text).then(() => showToast("COPIED TO CLIPBOARD!")).catch(() => fallbackCopy(text));
         }
 
         function fallbackCopy(text) {
@@ -1072,13 +1002,9 @@
             if (!el) return;
             const text = el.innerText || el.textContent;
             if (navigator.share) {
-                navigator.share({
-                    title: 'Argent Viron Intelligence Output',
-                    text: text
-                }).catch(() => {});
+                navigator.share({ title: 'Argent Viron Intelligence Output', text: text }).catch(() => {});
             } else {
                 copyMessageText(contentId);
-                showToast("WEB SHARE UNAVAILABLE // COPIED!");
             }
         }
 
@@ -1111,13 +1037,10 @@
             }, 200);
         }
 
-        // 4. TTS ENGINE
         function stopAllSpeechSynthesis() {
             speechChunkQueue = [];
             isSpeakingQueue = false;
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-            }
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
         }
 
         function toggleSpeechEngine() {
@@ -1145,12 +1068,9 @@
                     current = (current + ' ' + sentence).trim();
                 } else {
                     if (current) chunks.push(current);
-                    if (sentence.length <= 165) {
-                        current = sentence;
-                    } else {
-                        for (let i = 0; i < sentence.length; i += 165) {
-                            chunks.push(sentence.slice(i, i + 165));
-                        }
+                    if (sentence.length <= 165) current = sentence;
+                    else {
+                        for (let i = 0; i < sentence.length; i += 165) chunks.push(sentence.slice(i, i + 165));
                         current = '';
                     }
                 }
@@ -1179,12 +1099,8 @@
                 utterance.lang = hasBengali ? 'bn-BD' : 'en-US';
                 utterance.rate = 1.0;
 
-                utterance.onend = () => {
-                    if (isSpeakingQueue) speakNextChunk();
-                };
-                utterance.onerror = () => {
-                    isSpeakingQueue = false;
-                };
+                utterance.onend = () => { if (isSpeakingQueue) speakNextChunk(); };
+                utterance.onerror = () => { isSpeakingQueue = false; };
 
                 window.speechSynthesis.speak(utterance);
             }
@@ -1192,11 +1108,10 @@
             speakNextChunk();
         }
 
-        // 5. IN-LINE VOICE RECOGNITION
         function triggerInlineVoice(fieldId, buttonId) {
             const SpeechEngine = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechEngine) {
-                alert("ভয়েস ইঞ্জিনটি এই ব্রাউজারে সাপোর্ট করছে না। Chrome বা Edge ব্যবহার করুন।");
+                alert("ভয়েস ইঞ্জিনটি এই ব্রাউজারে সাপোর্ট করছে না।");
                 return;
             }
 
@@ -1224,13 +1139,9 @@
             instance.onresult = (e) => {
                 let transcript = '';
                 for (let i = e.resultIndex; i < e.results.length; i++) {
-                    if (e.results[i] && e.results[i][0]) {
-                        transcript += e.results[i][0].transcript;
-                    }
+                    if (e.results[i] && e.results[i][0]) transcript += e.results[i][0].transcript;
                 }
-                if (inputField && transcript) {
-                    inputField.value = transcript;
-                }
+                if (inputField && transcript) inputField.value = transcript;
             };
 
             instance.onerror = () => {
@@ -1244,15 +1155,12 @@
                 if (btn) btn.classList.remove('recording');
             };
 
-            try {
-                instance.start();
-            } catch (_) {
+            try { instance.start(); } catch (_) {
                 isRecordingVoice = false;
                 if (btn) btn.classList.remove('recording');
             }
         }
 
-        // 6. HARDWARE CAMERA VISION OCR
         async function triggerCameraOCR(targetContainerId) {
             const videoEl = document.getElementById('hidden-camera-stream');
             const canvasEl = document.getElementById('hidden-ocr-canvas');
@@ -1261,7 +1169,7 @@
                 const cv = document.getElementById('studio-canvas');
                 if (cv) cv.innerHTML = '<span style="color:var(--accent-neon); font-size:12px;">Scanning camera reference frame...</span>';
             } else {
-                appendMessageBubble(targetContainerId, 'ai', "Opening hardware camera lens structure... Scanning visual matrix via Vision OCR...", 'VISION');
+                appendMessageBubble(targetContainerId, 'ai', "Opening hardware camera lens structure...", 'VISION');
             }
 
             try {
@@ -1285,21 +1193,18 @@
                     const img = new Image();
                     img.src = frameDataUrl;
                     const cv = document.getElementById('studio-canvas');
-                    if (cv) {
-                        cv.innerHTML = '';
-                        cv.appendChild(img);
-                    }
+                    if (cv) { cv.innerHTML = ''; cv.appendChild(img); }
                     latestGeneratedMediaUrl = frameDataUrl;
                     latestGeneratedMediaExt = 'jpg';
                 } else {
-                    const res = await puter.ai.chat("Extract all visible text and analyze the structure of this captured image:", frameDataUrl);
-                    const replyText = typeof res === 'string' ? res : (res?.message?.content || "ভিজ্যুয়াল মেটাডেটা স্ক্যান সম্পূর্ণ এবং ডাটা ইনডেক্স করা হয়েছে।");
+                    const res = await puter.ai.chat("Extract all visible text and analyze the structure:", frameDataUrl);
+                    const replyText = typeof res === 'string' ? res : (res?.message?.content || "ভিজ্যুয়াল মেটাডেটা স্ক্যান সম্পূর্ণ।");
                     appendMessageBubble(targetContainerId, 'ai', replyText, 'VISION-OCR');
                     autoSpeakOutput(replyText);
                 }
             } catch (_) {
                 setTimeout(() => {
-                    const fallbackMsg = "ভিজ্যুয়াল মেটাডেটা স্ক্যান সম্পূর্ণ এবং ডাটা ইনডেক্স করা হয়েছে।";
+                    const fallbackMsg = "ভিজ্যুয়াল মেটাডেটা স্ক্যান সম্পূর্ণ।";
                     if (!targetContainerId.includes('canvas')) {
                         appendMessageBubble(targetContainerId, 'ai', fallbackMsg, 'VISION-OCR');
                         autoSpeakOutput(fallbackMsg);
@@ -1308,7 +1213,6 @@
             }
         }
 
-        // 7. 500MB HIGH-SPEED CHUNK STREAM ALLOCATION ENGINE
         async function processDeepFile(input, statusId, targetContainerId, prefix) {
             const file = input.files && input.files[0];
             if (!file) return;
@@ -1345,9 +1249,7 @@
             try {
                 const headBlob = file.slice(0, 4096);
                 headPreviewText = await headBlob.text();
-            } catch (_) {
-                headPreviewText = '';
-            }
+            } catch (_) { headPreviewText = ''; }
 
             while (offset < file.size) {
                 const slice = file.slice(offset, offset + CHUNK_SIZE);
@@ -1370,43 +1272,37 @@
             const hexHash = ('00000000' + (rollingChecksum >>> 0).toString(16)).slice(-8).toUpperCase();
             loadedFileContextSummary = `[Attached File: ${file.name} | Size: ${sizeMB}MB | Stream Checksum: 0x${hexHash}]\nPreview Snippet:\n${headPreviewText.slice(0, 1200)}`;
 
-            setTimeout(() => {
-                if (wrap) wrap.style.display = 'none';
-            }, 600);
+            setTimeout(() => { if (wrap) wrap.style.display = 'none'; }, 600);
 
             if (targetContainerId.includes('canvas') && file.type.startsWith('image/')) {
                 const objUrl = URL.createObjectURL(file);
                 const img = new Image();
                 img.src = objUrl;
                 const cv = document.getElementById('studio-canvas');
-                if (cv) {
-                    cv.innerHTML = '';
-                    cv.appendChild(img);
-                }
+                if (cv) { cv.innerHTML = ''; cv.appendChild(img); }
                 latestGeneratedMediaUrl = objUrl;
                 latestGeneratedMediaExt = file.name.split('.').pop() || 'png';
             } else {
-                const dynamicResponse = `ফাইল "${file.name}" (${sizeMB} MB | CRC: 0x${hexHash}) সফলভাবে চাঙ্ক স্ট্রিম মেমোরিতে প্রসেস করা হয়েছে। এর ভেতরের ডেটা ও মেটাডেটা স্ট্রাকচার এখন বিশ্লেষণের জন্য প্রস্তুত।`;
+                const dynamicResponse = `ফাইল "${file.name}" (${sizeMB} MB | CRC: 0x${hexHash}) সফলভাবে প্রসেস করা হয়েছে।`;
                 appendMessageBubble(targetContainerId, 'ai', dynamicResponse, 'FILE-STREAM');
                 autoSpeakOutput(dynamicResponse);
             }
         }
 
-        // UNIFIED MULTI-MODEL DISPATCHER
         async function dispatchModelQuery(userQueryText, isCodingContext = false) {
             const targetEndpoint = MODEL_MAP[selectedModel] || 'openrouter:perplexity/sonar-pro';
             
             let systemDirective = '';
             if (selectedModel === 'uncensored-mistral') {
                 systemDirective = isCodingContext
-                    ? "You are an advanced, direct system software architect. Deliver complete, raw, production-grade code and engineering implementations directly without conversational warnings, placeholders, or preachy disclaimers."
-                    : "You are an exhaustive, direct technical analysis intelligence engine. Deliver complete, in-depth architectural and analytical breakdowns directly with maximum depth and zero conversational fluff.";
+                    ? "You are an advanced, direct system software architect. Deliver complete production code directly without conversational warnings."
+                    : "You are an exhaustive, direct technical intelligence engine. Deliver complete analytical breakdowns directly.";
             } else if (selectedModel === 'sonar-reasoning') {
-                systemDirective = "You are Perplexity Sonar Reasoning Core. Provide logical step-by-step reasoning, analytical verification, and factual citations.";
+                systemDirective = "You are Perplexity Sonar Reasoning Core. Provide logical step-by-step reasoning.";
             } else if (selectedModel === 'sonar-pro') {
-                systemDirective = "You are Perplexity Sonar Pro Deep Scan Engine. Provide exhaustive research, live web index analysis, and clear numbered source citations.";
+                systemDirective = "You are Perplexity Sonar Pro Deep Scan Engine. Provide exhaustive research and citations.";
             } else {
-                systemDirective = "You are Perplexity Sonar Fast Search. Provide rapid, concise, and direct answers with relevant source citations.";
+                systemDirective = "You are Perplexity Sonar Fast Search. Provide rapid, concise answers.";
             }
 
             const promptMessages = [
@@ -1425,7 +1321,6 @@
             }
         }
 
-        // 8. UNIVERSAL SONAR SCANNER
         function executeUniversalScan(fieldId, containerId) {
             const inputEl = document.getElementById(fieldId);
             if (!inputEl) return;
@@ -1443,7 +1338,7 @@
             }
 
             const activeModel = selectedModel;
-            const loadingRow = appendMessageBubble(containerId, 'ai', `Connecting to ${activeModel.toUpperCase()}... Streaming live intelligence array...`, activeModel);
+            const loadingRow = appendMessageBubble(containerId, 'ai', `Connecting to ${activeModel.toUpperCase()}...`, activeModel);
 
             const fullPrompt = loadedFileContextSummary
                 ? `${loadedFileContextSummary}\n\nUser Query: ${query || 'Analyze the loaded file structure in detail.'}`
@@ -1451,23 +1346,15 @@
 
             dispatchModelQuery(fullPrompt, false).then(res => {
                 const textOut = typeof res === 'string' ? res : (res?.message?.content || JSON.stringify(res, null, 2));
-                
-                if (loadingRow && loadingRow.parentNode) {
-                    loadingRow.parentNode.removeChild(loadingRow);
-                }
+                if (loadingRow && loadingRow.parentNode) loadingRow.parentNode.removeChild(loadingRow);
                 appendMessageBubble(containerId, 'ai', textOut, activeModel);
                 autoSpeakOutput(textOut);
             }).catch(() => {
-                if (loadingRow && loadingRow.parentNode) {
-                    loadingRow.parentNode.removeChild(loadingRow);
-                }
-                appendMessageBubble(containerId, 'ai', "সার্ভার রেসপন্স এরর। ক্লাউড গেটওয়ে কানেকশন চেক করুন।", 'ERROR');
+                if (loadingRow && loadingRow.parentNode) loadingRow.parentNode.removeChild(loadingRow);
+                appendMessageBubble(containerId, 'ai', "সার্ভার রেসপন্স এরর। ক্লাউড গেটওয়ে কানেকশন চেক করুন।", 'ERROR');
             });
         }
 
-        // 9. HIGH-QUALITY FLUX 8K & WAN 2.1 KAGGLE VIDEO PIPELINE (FULLY INTEGRATED)
-
-        // Utility: Prompt Grabber across fields
         function resolveStudioPrompt() {
             let prompt = (document.getElementById('studio-field')?.value || '').trim();
             if (!prompt) prompt = (document.getElementById('sonar-field')?.value || '').trim();
@@ -1475,11 +1362,10 @@
             return prompt;
         }
 
-        // 8K Flux Art Engine (Instant 3-5s, Uncensored, Clean Widescreen)
         async function generateUncensoredArt() {
             const prompt = resolveStudioPrompt();
             if (!prompt) {
-                alert("অনুগ্রহ করে স্টুডিও বা চ্যাট ফিল্ডে একটি দৃশ্য বা প্রম্পট লিখুন!");
+                alert("অনুগ্রহ করে একটি প্রম্পট লিখুন!");
                 return;
             }
 
@@ -1490,15 +1376,14 @@
             cv.innerHTML = `
                 <div style="display:flex; flex-direction:column; align-items:center; gap:12px; padding:15px;">
                     <div class="pulse-indicator" style="width:14px; height:14px;"></div>
-                    <span style="color:var(--accent-neon); font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:700; letter-spacing:1px;">
+                    <span style="color:var(--accent-neon); font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:700;">
                         SYNTHESIZING 8K FLUX RAW CINEMA...
                     </span>
-                    <span style="color:var(--text-dim); font-size:11px;">Generating ultra-detailed visual frame directly to canvas...</span>
                 </div>
             `;
 
             const seed = Math.floor(Math.random() * 99999999);
-            const enhancedPrompt = encodeURIComponent(`masterpiece, photorealistic 8k, raw film footage, hyper-detailed cinematography, cinematic lighting, ${prompt}`);
+            const enhancedPrompt = encodeURIComponent(`masterpiece, photorealistic 8k, raw film footage, hyper-detailed, ${prompt}`);
             const imgUrl = `https://image.pollinations.ai/prompt/${enhancedPrompt}?model=flux&width=1024&height=1024&nologo=true&seed=${seed}`;
 
             try {
@@ -1518,15 +1403,13 @@
                 showToast("8K FLUX ART GENERATED!");
                 autoSpeakOutput("৮K আল্ট্রা-এইচডি ইমেজ সফলভাবে তৈরি হয়েছে।");
             } catch (err) {
-                console.error("Flux loading error:", err);
-                cv.innerHTML = `<span style="color:#ef4444; font-size:12px; font-family:monospace;">ইমেজ তৈরিতে ক্লাউড টাইমআউট হয়েছে। পুনরায় চেষ্টা করুন।</span>`;
+                cv.innerHTML = `<span style="color:#ef4444; font-size:12px; font-family:monospace;">ইমেজ তৈরিতে ক্লাউড টাইমআউট হয়েছে। পুনরায় চেষ্টা করুন।</span>`;
                 showToast("RENDER ERROR // RETRY");
             } finally {
                 btns.forEach(b => b.disabled = false);
             }
         }
 
-        // 12.2s Cinematic Video Engine (Kaggle Cloud Dual GPU via GitHub Actions API)
         async function generateUncensoredVideo() {
             const prompt = resolveStudioPrompt();
             if (!prompt) {
@@ -1534,10 +1417,9 @@
                 return;
             }
 
-            // Retrieve token locally
             let token = localStorage.getItem('ARGENT_GH_TOKEN') || localStorage.getItem('ARGENT_KEY');
             if (!token) {
-                token = prompt("আপনার তৈরি করা GitHub Access Token (ghp_...) পেস্ট করুন:");
+                token = prompt("আপনার GitHub Personal Access Token (ghp_...) পেস্ট করুন:");
                 if (!token || !token.trim()) return;
                 token = token.trim();
                 localStorage.setItem('ARGENT_GH_TOKEN', token);
@@ -1554,20 +1436,19 @@
             cv.innerHTML = `
                 <div style="display:flex; flex-direction:column; align-items:center; gap:12px; padding:16px;">
                     <div class="pulse-indicator" style="width:16px; height:16px; background-color:#c77dff; box-shadow:0 0 16px #c77dff;"></div>
-                    <span style="color:#c77dff; font-family:'Orbitron', sans-serif; font-size:13px; font-weight:700; letter-spacing:1px;">
+                    <span style="color:#c77dff; font-family:'Orbitron', sans-serif; font-size:13px; font-weight:700;">
                         ARGENT CLOUD GPU PIPELINE DISPATCHED
                     </span>
                     <span id="cloud-poll-status" style="color:var(--accent-neon); font-family:'JetBrains Mono', monospace; font-size:11px;">
-                        Activating Kaggle T4 Dual GPU (Wan 2.1 Ultra Cinema Architecture)...
+                        Activating Kaggle T4 Dual GPU Turbo Architecture...
                     </span>
                     <span style="color:var(--text-dim); font-size:11px; max-width:85%; line-height:1.5;">
-                        Kaggle ক্লাস্টারে 70GB মেমোরি পুল, 81 ফ্রেম মোশন ও DaVinci অডিও সিন্থেসিস রেন্ডার হচ্ছে। পেজ বন্ধ করবেন না, কাজ শেষ হওয়ামাত্রই ভিডিও এখানে প্লে হবে...
+                        Kaggle ক্লাস্টারে ফাস্ট রেন্ডারিং শুরু হয়েছে। রেন্ডার শেষ হওয়ামাত্র ভিডিও এখানে অটো প্লে হবে...
                     </span>
                 </div>
             `;
 
             try {
-                // Trigger GitHub Actions Workflow Dispatch
                 const res = await fetch(`https://api.github.com/repos/${repoPath}/actions/workflows/${workflowFile}/dispatches`, {
                     method: 'POST',
                     headers: {
@@ -1584,29 +1465,25 @@
                 if (res.status === 401 || res.status === 403) {
                     localStorage.removeItem('ARGENT_GH_TOKEN');
                     localStorage.removeItem('ARGENT_KEY');
-                    throw new Error("টোকেন ইনভ্যালিড বা পারমিশন নেই। টোকেন রিসেট করা হয়েছে, পুনরায় ক্লিক করে সঠিক টোকেন দিন।");
+                    throw new Error("টোকেন ইনভ্যালিড। পুনরায় ক্লিক করে সঠিক টোকেন দিন।");
                 }
 
-                if (!res.ok) {
-                    throw new Error(`GitHub Actions ট্রিগার এরর (${res.status})। রিপোজিটরি নেম ও পারমিশন নিশ্চিত করুন।`);
-                }
+                if (!res.ok) throw new Error(`GitHub Actions Trigger Error (${res.status})।`);
 
                 showToast("KAGGLE GPU PIPELINE DISPATCHED!");
                 const dispatchTimestamp = Date.now();
                 let pollAttempts = 0;
-                const maxPollAttempts = 72; // ১২ মিনিট পর্যন্ত প্রতি ১০ সেকেন্ড পর পর স্ক্যান করবে
+                const maxPollAttempts = 90;
                 const statusLabel = document.getElementById('cloud-poll-status');
 
-                // High-Frequency Cache-Busting Poll Loop
                 const pollInterval = setInterval(async () => {
                     pollAttempts++;
                     const elapsedSec = pollAttempts * 10;
                     if (statusLabel) {
-                        statusLabel.innerText = `Kaggle T4 Rendering in progress... [${elapsedSec}s elapsed | Polling Master Release]`;
+                        statusLabel.innerText = `Kaggle T4 Fast Render in progress... [${elapsedSec}s elapsed]`;
                     }
 
                     try {
-                        // Cache-busting releases query (fetches latest 3 releases)
                         const relRes = await fetch(`https://api.github.com/repos/${repoPath}/releases?per_page=3&t=${Date.now()}`, {
                             headers: { 
                                 'Authorization': `Bearer ${token}`,
@@ -1617,28 +1494,39 @@
                         if (relRes.ok) {
                             const releases = await relRes.json();
                             if (Array.isArray(releases) && releases.length > 0) {
-                                // Find any release created after this dispatch was started
                                 for (const rel of releases) {
                                     const relTime = new Date(rel.created_at).getTime();
-                                    if (relTime > dispatchTimestamp - 90000) {
+                                    if (relTime > dispatchTimestamp - 60000) {
                                         const videoAsset = (rel.assets || []).find(a => a.name.endsWith('.mp4'));
-                                        if (videoAsset && videoAsset.browser_download_url) {
+                                        if (videoAsset && videoAsset.url) {
                                             clearInterval(pollInterval);
-                                            btns.forEach(b => b.disabled = false);
+                                            if (statusLabel) statusLabel.innerText = "Buffering video stream into memory...";
 
-                                            latestGeneratedMediaUrl = videoAsset.browser_download_url;
+                                            const assetRes = await fetch(videoAsset.url, {
+                                                headers: {
+                                                    'Authorization': `Bearer ${token}`,
+                                                    'Accept': 'application/octet-stream'
+                                                }
+                                            });
+
+                                            if (!assetRes.ok) throw new Error("Failed to buffer video stream.");
+
+                                            const videoBlob = await assetRes.blob();
+                                            const videoBlobUrl = URL.createObjectURL(videoBlob);
+
+                                            btns.forEach(b => b.disabled = false);
+                                            latestGeneratedMediaUrl = videoBlobUrl;
                                             latestGeneratedMediaExt = 'mp4';
 
-                                            // Embed video player seamlessly inside the box
                                             cv.innerHTML = `
                                                 <video id="argentMasterPlayer" controls autoplay loop playsinline style="width:100%; height:100%; border-radius:12px; object-fit:contain; background:#000; box-shadow: 0 0 25px rgba(157, 78, 221, 0.45);">
-                                                    <source src="${videoAsset.browser_download_url}" type="video/mp4">
+                                                    <source src="${videoBlobUrl}" type="video/mp4">
                                                     Your browser does not support video playback.
                                                 </video>
                                             `;
 
-                                            showToast("WAN 2.1 CINEMATIC VIDEO READY!");
-                                            autoSpeakOutput("আপনার ওয়ান টু পয়েন্ট ওয়ান সিনেমাটিক ভিডিও সফলভাবে রেন্ডার সম্পন্ন হয়েছে।");
+                                            showToast("WAN 2.1 VIDEO READY!");
+                                            autoSpeakOutput("ওয়ান টু পয়েন্ট ওয়ান ভিডিও সফলভাবে রেন্ডার সম্পন্ন হয়েছে।");
                                             return;
                                         }
                                     }
@@ -1649,26 +1537,23 @@
                         console.warn("Release polling error:", e);
                     }
 
-                    // Max timeout after 12 minutes
                     if (pollAttempts >= maxPollAttempts) {
                         clearInterval(pollInterval);
                         btns.forEach(b => b.disabled = false);
                         if (statusLabel) {
-                            statusLabel.innerText = "রেন্ডারিং ব্যাকগ্রাউন্ডে চলছে। কাজ শেষ হলেই GitHub Releases ট্যাবে ভিডিও ফাইলটি পাওয়া যাবে।";
+                            statusLabel.innerText = "রেন্ডারিং ব্যাকগ্রাউন্ডে চলছে। GitHub Releases ট্যাবে ভিডিও ফাইলটি পাওয়া যাবে।";
                         }
                         showToast("PIPELINE PROCESSING IN BACKGROUND");
                     }
-                }, 10000); // প্রতি ১০ সেকেন্ডে চেক করবে
+                }, 10000);
 
             } catch (err) {
-                console.error("Video dispatch error:", err);
                 cv.innerHTML = `<span style="color:#ef4444; font-size:12px; font-family:monospace; padding:12px;">${escapeHtml(err.message)}</span>`;
                 btns.forEach(b => b.disabled = false);
                 showToast("PIPELINE ERROR");
             }
         }
 
-        // Token reset utility
         function resetGitHubToken() {
             const current = localStorage.getItem('ARGENT_GH_TOKEN') || '';
             const val = prompt("আপনার নতুন GitHub Personal Access Token (ghp_...) পেস্ট করুন:", current);
@@ -1679,14 +1564,13 @@
             }
         }
 
-        // 10. DIRECT BLOB & MEDIA DOWNLOAD CONTROLLER (FOR BOTH 8K PHOTO & 12.2s VIDEO)
         async function triggerDirectBlobDownload() {
             if (!latestGeneratedMediaUrl) {
                 alert("ডাউনলোড করার জন্য প্রথমে একটি 8K Art অথবা 12.2s Video জেনারেট করুন।");
                 return;
             }
 
-            showToast("SAVING MASTER MEDIA TO DEVICE...");
+            showToast("SAVING MEDIA TO DEVICE...");
 
             try {
                 if (latestGeneratedMediaUrl.startsWith('blob:') || latestGeneratedMediaUrl.startsWith('data:')) {
@@ -1720,7 +1604,6 @@
             }
         }
 
-        // 11. CODE CORE COMPILER
         function executeCodeCoreGeneration(fieldId, containerId) {
             const inputEl = document.getElementById(fieldId);
             if (!inputEl) return;
@@ -1732,24 +1615,19 @@
             inputEl.value = '';
 
             const activeModel = selectedModel;
-            const loadingRow = appendMessageBubble(containerId, 'ai', `Initializing Code Core [${activeModel.toUpperCase()}]... Compiling script structure...`, activeModel, true);
+            const loadingRow = appendMessageBubble(containerId, 'ai', `Initializing Code Core [${activeModel.toUpperCase()}]...`, activeModel, true);
 
             const promptPayload = loadedFileContextSummary
                 ? `Analyze the loaded file context and fulfill the request with complete production code without placeholders:\n${loadedFileContextSummary}\n\nRequest: ${query}`
-                : `Render complete, production-ready code for the following request without placeholders or truncation: ${query}`;
+                : `Render complete, production-ready code for the following request without placeholders: ${query}`;
 
             dispatchModelQuery(promptPayload, true).then(res => {
                 const codeOut = typeof res === 'string' ? res : (res?.message?.content || JSON.stringify(res, null, 2));
-                
-                if (loadingRow && loadingRow.parentNode) {
-                    loadingRow.parentNode.removeChild(loadingRow);
-                }
+                if (loadingRow && loadingRow.parentNode) loadingRow.parentNode.removeChild(loadingRow);
                 appendMessageBubble(containerId, 'ai', codeOut, activeModel, true);
             }).catch(() => {
-                if (loadingRow && loadingRow.parentNode) {
-                    loadingRow.parentNode.removeChild(loadingRow);
-                }
-                appendMessageBubble(containerId, 'ai', "কোড কোর এক্সিকিউশন ক্লাউড টাইমআউট।", 'ERROR', true);
+                if (loadingRow && loadingRow.parentNode) loadingRow.parentNode.removeChild(loadingRow);
+                appendMessageBubble(containerId, 'ai', "কোড কোর এক্সিকিউশন টাইমআউট।", 'ERROR', true);
             });
         }
     </script>
