@@ -6,13 +6,13 @@ import shutil
 
 print("[System 0/5] Initializing 70GB Memory Pool & Fast Engines...")
 
-# ১. লিনাক্স সোয়াপ বাফার
+# 1. Linux Swap Buffer Allocation
 try:
     subprocess.run("fallocate -l 8G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile", shell=True, check=False)
 except Exception:
     pass
 
-# ২. ডিপেন্ডেন্সি ইন্সটলেশন
+# 2. Dependency Installation
 subprocess.run([
     sys.executable, "-m", "pip", "install", "-q", "--no-cache-dir",
     "diffusers>=0.33.0",
@@ -39,25 +39,32 @@ if os.path.exists("prompt.txt"):
 
 print(f"[Driver] Executing cinematic master pipeline for: {prompt}")
 
-# ৩. Wan 2.1 ইঞ্জিন (Tesla T4 এর জন্য FP16 অপ্টিমাইজড)
-print("[Driver 1/4] Loading Wan 2.1 Engine with CPU Offload & FP16 Precision...")
+# 3. Wan 2.1 Engine (Optimized for Tesla T4 FP16 + VAE Tiling/Slicing)
+print("[Driver 1/4] Loading Wan 2.1 Engine with CPU Offload & VAE Memory Optimization...")
 pipe = WanPipeline.from_pretrained(
     "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
     torch_dtype=torch.float16
 )
 pipe.enable_model_cpu_offload()
 
+# Maliklikan ti OOM iti VAE decoding ti Tesla T4
+if hasattr(pipe, "vae"):
+    if hasattr(pipe.vae, "enable_slicing"):
+        pipe.vae.enable_slicing()
+    if hasattr(pipe.vae, "enable_tiling"):
+        pipe.vae.enable_tiling()
+
 if hasattr(pipe, "safety_checker"):
     pipe.safety_checker = None
 
-# ৮১ ফ্রেম @ ১৬ এফপিএস = ৫.১ সেকেন্ড স্মুথ সিনেমাটিক মোশন
+# 81 frames @ 16 fps = 5.1s smooth motion nga addaan 20 steps tapno napartak
 video_frames = pipe(
     prompt=prompt,
     negative_prompt="blurry, distorted, low quality, static, deformed, artifacts, watermark, cartoon",
     height=480,
     width=832,
     num_frames=81,
-    num_inference_steps=25,
+    num_inference_steps=20,
     guidance_scale=6.0
 ).frames[0]
 
@@ -69,7 +76,7 @@ del video_frames
 gc.collect()
 torch.cuda.empty_cache()
 
-# ৪. সিনেমাটিক অডিও সিন্থেসিস
+# 4. Cinematic Audio Synthesis
 print("[Driver 2/4] Generating Hollywood-grade atmospheric audio...")
 temp_audio = "temp_audio.wav"
 audio_done = False
@@ -78,7 +85,7 @@ try:
     a_pipe = AudioLDMPipeline.from_pretrained("cvssp/audioldm-s-full-v2", torch_dtype=torch.float32).to("cuda")
     a_data = a_pipe(
         f"Cinematic dark ambient sub bass drone, dramatic movie score, {prompt}",
-        num_inference_steps=12,
+        num_inference_steps=10,
         audio_length_in_s=5.2
     ).audios[0]
     scipy.io.wavfile.write(temp_audio, rate=16000, data=(a_data * 32767).clip(-32768, 32767).astype(np.int16))
@@ -98,7 +105,7 @@ if not audio_done or not os.path.exists(temp_audio):
 gc.collect()
 torch.cuda.empty_cache()
 
-# ৫. DaVinci স্টাইল কালার গ্রেডিং, শার্পনিং ও অডিও মাস্টারিং
+# 5. DaVinci Color Grading & Fast H.264 Web Mastering
 print("[Driver 3/4] Applying 35mm film grading & audio mastering...")
 final_output = "argent_render_output.mp4"
 
@@ -112,11 +119,12 @@ subprocess.run([
     "-vf", video_filter,
     "-af", audio_filter,
     "-c:v", "libx264",
-    "-crf", "17",
+    "-crf", "18",
     "-preset", "faster",
     "-pix_fmt", "yuv420p",
     "-c:a", "aac",
     "-b:a", "256k",
+    "-movflags", "+faststart",
     "-shortest",
     final_output
 ], check=True)
