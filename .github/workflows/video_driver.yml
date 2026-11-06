@@ -1,0 +1,85 @@
+name: Argent Video Driver Engine
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: 'Video Generation Prompt'
+        required: true
+        default: 'Cinematic cybernetic android glowing in darkness, ultra detailed 8k photorealistic'
+
+permissions:
+  contents: write
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Authenticate Kaggle API
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          mkdir -p ~/.kaggle
+          echo "{\"username\":\"$KAGGLE_USERNAME\",\"key\":\"$KAGGLE_KEY\"}" > ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json
+          pip install --upgrade kaggle
+
+      - name: Dispatch Kernel to Kaggle Cloud GPU
+        env:
+          INPUT_PROMPT: ${{ github.event.inputs.prompt }}
+        run: |
+          mkdir -p kaggle_job
+          cp kaggle_driver.py kaggle_job/
+          echo "$INPUT_PROMPT" > kaggle_job/prompt.txt
+          
+          cat <<EOF > kaggle_job/kernel-metadata.json
+          {
+            "id": "${{ secrets.KAGGLE_USERNAME }}/argent-video-engine",
+            "title": "argent-video-engine",
+            "code_file": "kaggle_driver.py",
+            "language": "python",
+            "kernel_type": "script",
+            "is_private": true,
+            "enable_gpu": true,
+            "enable_internet": true
+          }
+          EOF
+          
+          kaggle kernels push -p kaggle_job/
+
+      - name: Monitor Execution & Retrieve Output
+        run: |
+          echo "Waiting for Kaggle GPU to boot and render..."
+          while true; do
+            RAW_STATUS=$(kaggle kernels status ${{ secrets.KAGGLE_USERNAME }}/argent-video-engine)
+            echo "$RAW_STATUS"
+            
+            if echo "$RAW_STATUS" | grep -qi "complete"; then
+              echo "Kaggle execution completed successfully!"
+              break
+            elif echo "$RAW_STATUS" | grep -qi "error\|failed"; then
+              echo "Kaggle execution failed!"
+              exit 1
+            fi
+            sleep 25
+          done
+          
+          mkdir -p output
+          kaggle kernels output ${{ secrets.KAGGLE_USERNAME }}/argent-video-engine -p output/
+
+      - name: Publish Rendered Video to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: render-build-${{ github.run_number }}
+          files: output/argent_render_output.mp4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
