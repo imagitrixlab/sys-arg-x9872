@@ -6,7 +6,7 @@ on:
       prompt:
         description: 'Video Generation Prompt'
         required: true
-        default: 'Cinematic cybernetic android glowing in darkness, ultra detailed 8k photorealistic'
+        default: 'Cinematic cybernetic android glowing in darkness, 8k photorealistic'
 
 permissions:
   contents: write
@@ -67,7 +67,10 @@ jobs:
               echo "Kaggle execution completed successfully!"
               break
             elif echo "$RAW_STATUS" | grep -qi "error\|failed"; then
-              echo "Kaggle execution failed!"
+              echo "Kaggle execution failed! Fetching logs..."
+              mkdir -p error_logs
+              kaggle kernels output ${{ secrets.KAGGLE_USERNAME }}/argent-video-engine -p error_logs/ || true
+              cat error_logs/*.log 2>/dev/null || cat error_logs/* 2>/dev/null || true
               exit 1
             fi
             sleep 25
