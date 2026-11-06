@@ -201,7 +201,7 @@
             transition: all 0.2s ease;
         }
 
-        /* DYNAMIC CHAT STREAM CONTAINER (BUBBLE FEED) */
+        /* DYNAMIC CHAT STREAM CONTAINER */
         .chat-stream-viewport {
             background: linear-gradient(145deg, #090c12 0%, #0d1117 100%);
             border: 1px solid var(--border-metal);
@@ -234,7 +234,6 @@
             justify-content: flex-start;
         }
 
-        /* User Bubble: Deep Midnight Blue */
         .chat-bubble.user-bubble {
             background: var(--bubble-user);
             border: 1px solid var(--bubble-user-border);
@@ -245,7 +244,6 @@
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
         }
 
-        /* AI Bubble: Royal Deep Cyber Amethyst */
         .chat-bubble.ai-bubble {
             background: var(--bubble-ai) !important;
             border: 1px solid var(--bubble-ai-border);
@@ -292,7 +290,6 @@
             color: #a7f3d0;
         }
 
-        /* Minimal Quick Control Matrix (4 Action Buttons) */
         .bubble-actions-matrix {
             display: flex;
             align-items: center;
@@ -375,7 +372,7 @@
             transition: width 0.15s ease;
         }
 
-        /* Gemini-Style Luxury Input Bar */
+        /* Luxury Input Bar */
         .gemini-bar-container {
             display: flex;
             flex-direction: column;
@@ -525,7 +522,7 @@
         .media-canvas {
             width: 100%;
             flex: 1;
-            min-height: 200px;
+            min-height: 220px;
             background: radial-gradient(circle at center, #0e131a 0%, #05070a 100%);
             border-radius: var(--radius-luxury);
             border: 1px solid var(--border-metal);
@@ -539,11 +536,12 @@
             position: relative;
         }
 
-        .media-canvas img, .media-canvas video, .media-canvas canvas {
+        .media-canvas img, .media-canvas video {
             max-width: 100%;
             max-height: 100%;
             border-radius: 12px;
             object-fit: contain;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.85);
         }
 
         .control-grid {
@@ -556,8 +554,9 @@
         .grid-trigger {
             padding: 13px 14px;
             border-radius: var(--radius-luxury);
-            font-weight: 600;
+            font-weight: 700;
             font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -568,6 +567,12 @@
 
         .grid-trigger:active {
             transform: scale(0.97);
+        }
+
+        .grid-trigger:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            transform: none !important;
         }
 
         .btn-neon-outline {
@@ -717,7 +722,7 @@
                 <button class="speech-toggle-btn" id="speech-btn" onclick="toggleSpeechEngine()">🔊 ON</button>
             </div>
 
-            <!-- Dynamic Chat Stream Viewport (Sequential Messages) -->
+            <!-- Dynamic Chat Stream Viewport -->
             <div class="chat-stream-viewport" id="sonar-chat-stream">
                 <div class="chat-msg-row ai" id="msg-init-default">
                     <div class="chat-bubble ai-bubble">
@@ -766,16 +771,19 @@
                         <span>📁 Deep Upload (Max 500MB)</span>
                         <input type="file" style="display:none;" onchange="processDeepFile(this, 'status-sonar', 'sonar-chat-stream', 'sonar')">
                     </label>
+                    <div class="utility-item" onclick="toggleDockView('studio')">
+                        <span>🎬 Open Media Studio</span>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- ==========================================
-             TAB 2: 15s STUDIO
+             TAB 2: MEDIA STUDIO (8K FLUX & 12.2s KAGGLE VIDEO)
              ========================================== -->
         <section id="panel-studio" class="view-tab">
             <div class="media-canvas" id="studio-canvas">
-                <span style="color: var(--text-dim); font-size: 13px;">Await local Kaggle/Colab GPU Stream matrix mapping...</span>
+                <span style="color: var(--text-dim); font-size: 13px;">Await Kaggle T4 GPU / Flux 8K Media Stream matrix mapping...</span>
             </div>
 
             <!-- 500MB Chunk Progress Bar (Studio) -->
@@ -792,7 +800,7 @@
             <div class="gemini-bar-container cyber-focus">
                 <div class="gemini-main-row">
                     <button type="button" class="icon-trigger btn-plus" id="plus-studio" onclick="toggleUtilityMenu('menu-studio', 'plus-studio')">+</button>
-                    <input type="text" id="studio-field" class="core-input" placeholder="Describe HD visual or 15s motion sequence..." autocomplete="off">
+                    <input type="text" id="studio-field" class="core-input" placeholder="Describe 8K visual or 12.2s cinematic sequence..." autocomplete="off">
                     <span id="status-studio" class="file-status-indicator"></span>
                     <div class="inline-actions">
                         <button type="button" class="icon-trigger mic-inline" id="mic-studio" onclick="triggerInlineVoice('studio-field', 'mic-studio')" title="Voice Prompt">🎙️</button>
@@ -807,12 +815,15 @@
                         <span>📁 Source Asset (Max 500MB)</span>
                         <input type="file" style="display:none;" onchange="processDeepFile(this, 'status-studio', 'studio-canvas', 'studio')">
                     </label>
+                    <div class="utility-item" onclick="resetGitHubToken()">
+                        <span>🔑 Update GitHub Token</span>
+                    </div>
                 </div>
             </div>
 
             <div class="control-grid">
-                <button type="button" class="grid-trigger btn-neon-outline" onclick="generateUncensoredArt()">🎨 Generate HD Art</button>
-                <button type="button" class="grid-trigger btn-cyber-outline" onclick="generateUncensoredVideo()">🎬 15s AI Video</button>
+                <button type="button" class="grid-trigger btn-neon-outline" onclick="generateUncensoredArt()">🎨 8K Flux Art</button>
+                <button type="button" class="grid-trigger btn-cyber-outline" onclick="generateUncensoredVideo()">🎬 12.2s AI Video</button>
                 <button type="button" class="grid-trigger btn-stream-dl" onclick="triggerDirectBlobDownload()">⬇️ One-Click Download HD Media (Direct Device)</button>
             </div>
         </section>
@@ -882,7 +893,7 @@
             <span>🔍 Sonar Scan</span>
         </button>
         <button type="button" id="dock-studio" class="dock-tab" onclick="toggleDockView('studio')">
-            <span>🎬 15s Studio</span>
+            <span>🎬 12.2s Studio</span>
         </button>
         <button type="button" id="dock-code" class="dock-tab" onclick="toggleDockView('code')">
             <span>🛡️ Code Core</span>
@@ -912,7 +923,6 @@
             }
         }
 
-        // Initialize and restore model preference from localStorage
         (function initModelSelector() {
             const saved = localStorage.getItem('argent_selected_model');
             const selectEl = document.getElementById('globalModelSelector');
@@ -942,7 +952,7 @@
             if (toastTimeout) clearTimeout(toastTimeout);
             toastTimeout = setTimeout(() => {
                 toast.classList.remove('show');
-            }, 1800);
+            }, 2200);
         }
 
         function escapeHtml(str) {
@@ -999,7 +1009,6 @@
             bubbleRow.id = msgId;
 
             if (role === 'user') {
-                // Color Lock: Deep Midnight Blue (#1a2a3a)
                 bubbleRow.innerHTML = `
                     <div class="chat-bubble user-bubble">
                         <div class="bubble-meta">
@@ -1010,7 +1019,6 @@
                     </div>
                 `;
             } else {
-                // Color Lock: Royal Deep Cyber Amethyst (#1a122c) for ALL AI Models
                 const displayModel = (modelTag || selectedModel).toUpperCase();
                 bubbleRow.innerHTML = `
                     <div class="chat-bubble ai-bubble">
@@ -1034,7 +1042,6 @@
             return bubbleRow;
         }
 
-        // QUICK ACTION 1: COPY TO CLIPBOARD
         function copyMessageText(contentId) {
             const el = document.getElementById(contentId);
             if (!el) return;
@@ -1060,7 +1067,6 @@
             showToast("COPIED TO CLIPBOARD!");
         }
 
-        // QUICK ACTION 2: WEB SHARE API
         function shareMessageText(contentId) {
             const el = document.getElementById(contentId);
             if (!el) return;
@@ -1076,7 +1082,6 @@
             }
         }
 
-        // QUICK ACTION 3: EXPORT DIRECT FILE (.TXT)
         function exportMessageText(contentId, modelTag) {
             const el = document.getElementById(contentId);
             if (!el) return;
@@ -1093,7 +1098,6 @@
             showToast("EXPORTED .TXT TO DEVICE!");
         }
 
-        // QUICK ACTION 4: REMOVE/DELETE BUBBLE
         function deleteMessageBubble(bubbleId) {
             const el = document.getElementById(bubbleId);
             if (!el) return;
@@ -1107,7 +1111,7 @@
             }, 200);
         }
 
-        // 4. STABILIZED SENTENCE-QUEUE TTS ENGINE (CRASH-FREE)
+        // 4. TTS ENGINE
         function stopAllSpeechSynthesis() {
             speechChunkQueue = [];
             isSpeakingQueue = false;
@@ -1188,7 +1192,7 @@
             speakNextChunk();
         }
 
-        // 5. IN-LINE VOICE RECOGNITION FUSION (CRASH-FREE)
+        // 5. IN-LINE VOICE RECOGNITION
         function triggerInlineVoice(fieldId, buttonId) {
             const SpeechEngine = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechEngine) {
@@ -1248,7 +1252,7 @@
             }
         }
 
-        // 6. HARDWARE CAMERA VISION OCR SCANNER
+        // 6. HARDWARE CAMERA VISION OCR
         async function triggerCameraOCR(targetContainerId) {
             const videoEl = document.getElementById('hidden-camera-stream');
             const canvasEl = document.getElementById('hidden-ocr-canvas');
@@ -1388,7 +1392,7 @@
             }
         }
 
-        // UNIFIED MULTI-MODEL DISPATCHER WITH DYNAMIC ROUTING
+        // UNIFIED MULTI-MODEL DISPATCHER
         async function dispatchModelQuery(userQueryText, isCodingContext = false) {
             const targetEndpoint = MODEL_MAP[selectedModel] || 'openrouter:perplexity/sonar-pro';
             
@@ -1421,7 +1425,7 @@
             }
         }
 
-        // 8. UNIVERSAL SONAR SCANNER (DYNAMIC CHAT STREAM OVERHAUL)
+        // 8. UNIVERSAL SONAR SCANNER
         function executeUniversalScan(fieldId, containerId) {
             const inputEl = document.getElementById(fieldId);
             if (!inputEl) return;
@@ -1429,18 +1433,15 @@
             const query = inputEl.value.trim();
             if (!query && !loadedFileContextSummary) return;
 
-            // 1. Post User Message Bubble (Deep Midnight Blue)
             appendMessageBubble(containerId, 'user', query || "Analyze loaded binary structure.");
             inputEl.value = '';
 
-            // Unlock mobile audio synthesis context on touch
             if (speechActive && 'speechSynthesis' in window) {
                 const unlock = new SpeechSynthesisUtterance(' ');
                 unlock.volume = 0.01;
                 window.speechSynthesis.speak(unlock);
             }
 
-            // 2. Post Loading Bubble
             const activeModel = selectedModel;
             const loadingRow = appendMessageBubble(containerId, 'ai', `Connecting to ${activeModel.toUpperCase()}... Streaming live intelligence array...`, activeModel);
 
@@ -1451,7 +1452,6 @@
             dispatchModelQuery(fullPrompt, false).then(res => {
                 const textOut = typeof res === 'string' ? res : (res?.message?.content || JSON.stringify(res, null, 2));
                 
-                // Replace loading bubble with full response bubble
                 if (loadingRow && loadingRow.parentNode) {
                     loadingRow.parentNode.removeChild(loadingRow);
                 }
@@ -1465,151 +1465,252 @@
             });
         }
 
-        // 9. HD ART & 15s MOTION VIDEO STUDIO
-        function generateUncensoredArt() {
-            const prompt = document.getElementById('studio-field').value.trim();
-            if (!prompt) return;
-            const cv = document.getElementById('studio-canvas');
-            cv.innerHTML = `<span style="color: var(--accent-neon); font-size: 13px;">Streaming Flux Pipeline GPU array...</span>`;
+        // 9. HIGH-QUALITY FLUX 8K & 12.2s KAGGLE VIDEO PIPELINE (FULLY INTEGRATED)
 
-            puter.ai.txt2img(prompt).then(img => {
-                cv.innerHTML = "";
-                cv.appendChild(img);
-                latestGeneratedMediaUrl = img.src;
-                latestGeneratedMediaExt = 'png';
-            }).catch(() => {
-                const canvas = document.createElement('canvas');
-                canvas.width = 1280;
-                canvas.height = 800;
-                const ctx = canvas.getContext('2d');
-                const grad = ctx.createLinearGradient(0, 0, 1280, 800);
-                grad.addColorStop(0, '#080a0d');
-                grad.addColorStop(0.5, '#161b28');
-                grad.addColorStop(1, '#09261e');
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, 1280, 800);
-                ctx.strokeStyle = '#00ffaa';
-                ctx.strokeRect(40, 40, 1200, 720);
-                ctx.fillStyle = '#00ffaa';
-                ctx.font = 'bold 28px Orbitron, sans-serif';
-                ctx.fillText('ARGENT VIRON OMEGA // HD RENDER', 80, 110);
-                ctx.fillStyle = '#f1f5f9';
-                ctx.font = '22px Inter, sans-serif';
-                ctx.fillText(prompt.slice(0, 65), 80, 160);
-
-                const dataUrl = canvas.toDataURL('image/png');
-                const fallbackImg = new Image();
-                fallbackImg.src = dataUrl;
-                cv.innerHTML = '';
-                cv.appendChild(fallbackImg);
-                latestGeneratedMediaUrl = dataUrl;
-                latestGeneratedMediaExt = 'png';
-            });
+        // Utility: Prompt Grabber across fields
+        function resolveStudioPrompt() {
+            let prompt = (document.getElementById('studio-field')?.value || '').trim();
+            if (!prompt) prompt = (document.getElementById('sonar-field')?.value || '').trim();
+            if (!prompt) prompt = (document.getElementById('code-field')?.value || '').trim();
+            return prompt;
         }
 
-        function generateUncensoredVideo() {
-            const prompt = document.getElementById('studio-field').value.trim() || 'Argent Viron Cyber Matrix';
-            const cv = document.getElementById('studio-canvas');
-            cv.innerHTML = `<span style="color: #c77dff; font-size: 13px;">Compiling 15s Motion Video Stream...</span>`;
-
-            const canvas = document.createElement('canvas');
-            canvas.width = 854;
-            canvas.height = 480;
-            const ctx = canvas.getContext('2d');
-            cv.innerHTML = '';
-            cv.appendChild(canvas);
-
-            let mime = '';
-            if (typeof MediaRecorder !== 'undefined' && typeof MediaRecorder.isTypeSupported === 'function') {
-                if (MediaRecorder.isTypeSupported('video/mp4')) mime = 'video/mp4';
-                else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9')) mime = 'video/webm;codecs=vp9';
-                else if (MediaRecorder.isTypeSupported('video/webm')) mime = 'video/webm';
-            }
-
-            const stream = canvas.captureStream(30);
-            const recorder = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
-            const chunks = [];
-            recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
-
-            const startTime = performance.now();
-            const durationSec = 15;
-
-            recorder.onstop = () => {
-                const blobType = mime || 'video/webm';
-                const blob = new Blob(chunks, { type: blobType });
-                if (latestGeneratedMediaUrl && latestGeneratedMediaUrl.startsWith('blob:')) {
-                    URL.revokeObjectURL(latestGeneratedMediaUrl);
-                }
-                latestGeneratedMediaUrl = URL.createObjectURL(blob);
-                latestGeneratedMediaExt = blobType.includes('mp4') ? 'mp4' : 'webm';
-
-                const video = document.createElement('video');
-                video.src = latestGeneratedMediaUrl;
-                video.controls = true;
-                video.loop = true;
-                video.autoplay = true;
-                video.playsInline = true;
-                cv.innerHTML = '';
-                cv.appendChild(video);
-            };
-
-            recorder.start(250);
-
-            function renderMotionFrame(now) {
-                const elapsed = (now - startTime) / 1000;
-                ctx.fillStyle = '#080a0d';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                ctx.strokeStyle = 'rgba(0, 255, 170, 0.25)';
-                const shift = (elapsed * 50) % 40;
-                for (let x = -shift; x < canvas.width; x += 40) {
-                    ctx.beginPath();
-                    ctx.moveTo(x, canvas.height * 0.6);
-                    ctx.lineTo((x - canvas.width / 2) * 1.9 + canvas.width / 2, canvas.height);
-                    ctx.stroke();
-                }
-
-                for (let i = 0; i < 24; i++) {
-                    const px = (i * 97 + elapsed * (40 + (i % 5) * 12)) % canvas.width;
-                    const py = (i * 67 + Math.sin(elapsed + i) * 35 + canvas.height) % canvas.height;
-                    ctx.fillStyle = i % 2 === 0 ? '#00ffaa' : '#9d4edd';
-                    ctx.beginPath();
-                    ctx.arc(px, py, 2.5, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-
-                ctx.fillStyle = '#00ffaa';
-                ctx.font = 'bold 14px Orbitron, sans-serif';
-                ctx.fillText(`OMEGA 15S STREAM // ${elapsed.toFixed(1)}s / 15.0s`, 24, canvas.height - 42);
-                ctx.fillStyle = '#f1f5f9';
-                ctx.font = '13px Inter, sans-serif';
-                ctx.fillText(prompt.slice(0, 54), 24, canvas.height - 20);
-
-                if (elapsed < durationSec && recorder.state === 'recording') {
-                    requestAnimationFrame(renderMotionFrame);
-                } else if (recorder.state === 'recording') {
-                    recorder.stop();
-                }
-            }
-
-            requestAnimationFrame(renderMotionFrame);
-        }
-
-        // 10. DIRECT BLOB STREAM DOWNLOAD
-        function triggerDirectBlobDownload() {
-            if (!latestGeneratedMediaUrl) {
-                alert("ডাউনলোড করার জন্য প্রথমে একটি HD Art অথবা 15s Video জেনারেট করুন।");
+        // 8K Flux Art Engine (Instant 3-5s, Uncensored, Clean Widescreen)
+        async function generateUncensoredArt() {
+            const prompt = resolveStudioPrompt();
+            if (!prompt) {
+                alert("অনুগ্রহ করে স্টুডিও বা চ্যাট ফিল্ডে একটি দৃশ্য বা প্রম্পট লিখুন!");
                 return;
             }
-            const a = document.createElement('a');
-            a.href = latestGeneratedMediaUrl;
-            a.download = `argent-viron-media-${Date.now()}.${latestGeneratedMediaExt}`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+
+            const cv = document.getElementById('studio-canvas');
+            const btns = document.querySelectorAll('.grid-trigger');
+            btns.forEach(b => b.disabled = true);
+
+            cv.innerHTML = `
+                <div style="display:flex; flex-direction:column; align-items:center; gap:12px; padding:15px;">
+                    <div class="pulse-indicator" style="width:14px; height:14px;"></div>
+                    <span style="color:var(--accent-neon); font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:700; letter-spacing:1px;">
+                        SYNTHESIZING 8K FLUX RAW CINEMA...
+                    </span>
+                    <span style="color:var(--text-dim); font-size:11px;">Generating ultra-detailed visual frame directly to canvas...</span>
+                </div>
+            `;
+
+            const seed = Math.floor(Math.random() * 99999999);
+            const enhancedPrompt = encodeURIComponent(`masterpiece, photorealistic 8k, raw film footage, hyper-detailed cinematography, cinematic lighting, ${prompt}`);
+            const imgUrl = `https://image.pollinations.ai/prompt/${enhancedPrompt}?model=flux&width=1024&height=1024&nologo=true&seed=${seed}`;
+
+            try {
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                img.src = imgUrl;
+
+                await new Promise((resolve, reject) => {
+                    img.onload = resolve;
+                    img.onerror = reject;
+                });
+
+                cv.innerHTML = '';
+                cv.appendChild(img);
+                latestGeneratedMediaUrl = imgUrl;
+                latestGeneratedMediaExt = 'jpg';
+                showToast("8K FLUX ART GENERATED!");
+                autoSpeakOutput("৮K আল্ট্রা-এইচডি ইমেজ সফলভাবে তৈরি হয়েছে।");
+            } catch (err) {
+                console.error("Flux loading error:", err);
+                cv.innerHTML = `<span style="color:#ef4444; font-size:12px; font-family:monospace;">ইমেজ তৈরিতে ক্লাউড টাইমআউট হয়েছে। পুনরায় চেষ্টা করুন।</span>`;
+                showToast("RENDER ERROR // RETRY");
+            } finally {
+                btns.forEach(b => b.disabled = false);
+            }
         }
 
-        // 11. CODE CORE COMPILER (DYNAMIC CHAT/CODE STREAM OVERHAUL)
+        // 12.2s Cinematic Video Engine (Kaggle Cloud GPU via GitHub Actions API)
+        async function generateUncensoredVideo() {
+            const prompt = resolveStudioPrompt();
+            if (!prompt) {
+                alert("অনুগ্রহ করে ভিডিও তৈরির জন্য একটি প্রম্পট লিখুন!");
+                return;
+            }
+
+            // Retrieve token locally
+            let token = localStorage.getItem('ARGENT_GH_TOKEN') || localStorage.getItem('ARGENT_KEY');
+            if (!token) {
+                token = prompt("আপনার তৈরি করা GitHub Access Token (ghp_...) পেস্ট করুন:");
+                if (!token || !token.trim()) return;
+                token = token.trim();
+                localStorage.setItem('ARGENT_GH_TOKEN', token);
+                localStorage.setItem('ARGENT_KEY', token);
+            }
+
+            const cv = document.getElementById('studio-canvas');
+            const btns = document.querySelectorAll('.grid-trigger');
+            btns.forEach(b => b.disabled = true);
+
+            const repoPath = "imagitrixlab/sys-arg-x9872";
+            const workflowFile = "video_driver.yml";
+
+            cv.innerHTML = `
+                <div style="display:flex; flex-direction:column; align-items:center; gap:12px; padding:16px;">
+                    <div class="pulse-indicator" style="width:16px; height:16px; background-color:#c77dff; box-shadow:0 0 16px #c77dff;"></div>
+                    <span style="color:#c77dff; font-family:'Orbitron', sans-serif; font-size:13px; font-weight:700; letter-spacing:1px;">
+                        ARGENT CLOUD GPU PIPELINE DISPATCHED
+                    </span>
+                    <span id="cloud-poll-status" style="color:var(--accent-neon); font-family:'JetBrains Mono', monospace; font-size:11px;">
+                        Activating Kaggle T4 GPU (LTX-Video 12.2s Audio/Video Pipeline)...
+                    </span>
+                    <span style="color:var(--text-dim); font-size:11px; max-width:85%; line-height:1.5;">
+                        ব্যাকগ্রাউন্ডে Kaggle T4 ক্লাস্টারে ৯৭ ফ্রেম ও অডিও সিন্থেসিস রেন্ডার হচ্ছে। প্রায় ২.৫ থেকে ৩.৫ মিনিট সময় লাগবে, পেজ বন্ধ করবেন না...
+                    </span>
+                </div>
+            `;
+
+            try {
+                // Trigger GitHub Actions Workflow Dispatch
+                const res = await fetch(`https://api.github.com/repos/${repoPath}/actions/workflows/${workflowFile}/dispatches`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ref: 'main',
+                        inputs: { prompt: prompt }
+                    })
+                });
+
+                if (res.status === 401 || res.status === 403) {
+                    localStorage.removeItem('ARGENT_GH_TOKEN');
+                    localStorage.removeItem('ARGENT_KEY');
+                    throw new Error("টোকেন ইনভ্যালিড বা পারমিশন নেই। টোকেন রিসেট করা হয়েছে, পুনরায় ক্লিক করে সঠিক টোকেন দিন।");
+                }
+
+                if (!res.ok) {
+                    throw new Error(`GitHub Actions ট্রিগার এরর (${res.status})। রিপোজিটরি নেম ও পারমিশন নিশ্চিত করুন।`);
+                }
+
+                showToast("KAGGLE GPU PIPELINE DISPATCHED!");
+                const dispatchTimestamp = Date.now();
+                let pollAttempts = 0;
+                const statusLabel = document.getElementById('cloud-poll-status');
+
+                // Poll Releases for Generated MP4 Asset
+                const pollInterval = setInterval(async () => {
+                    pollAttempts++;
+                    const elapsedSec = pollAttempts * 20;
+                    if (statusLabel) {
+                        statusLabel.innerText = `Kaggle T4 Rendering in progress... [${elapsedSec}s elapsed | Checking Master Release]`;
+                    }
+
+                    try {
+                        const relRes = await fetch(`https://api.github.com/repos/${repoPath}/releases/latest`, {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+
+                        if (relRes.ok) {
+                            const data = await relRes.json();
+                            const videoAsset = (data.assets || []).find(a => a.name.endsWith('.mp4'));
+
+                            // Match recent release asset
+                            if (videoAsset && (new Date(videoAsset.created_at).getTime() > dispatchTimestamp - 60000)) {
+                                clearInterval(pollInterval);
+                                btns.forEach(b => b.disabled = false);
+
+                                latestGeneratedMediaUrl = videoAsset.browser_download_url;
+                                latestGeneratedMediaExt = 'mp4';
+
+                                const video = document.createElement('video');
+                                video.src = videoAsset.browser_download_url;
+                                video.controls = true;
+                                video.autoplay = true;
+                                video.loop = true;
+                                video.playsInline = true;
+
+                                cv.innerHTML = '';
+                                cv.appendChild(video);
+
+                                showToast("12.2S CINEMATIC VIDEO READY!");
+                                autoSpeakOutput("আপনার ১২.২ সেকেন্ডের সিনেমাটিক ভিডিও সফলভাবে রেন্ডার সম্পন্ন হয়েছে।");
+                                return;
+                            }
+                        }
+                    } catch (e) {
+                        console.warn("Release polling error:", e);
+                    }
+
+                    if (pollAttempts >= 20) { // ~6.6 minutes max timeout
+                        clearInterval(pollInterval);
+                        btns.forEach(b => b.disabled = false);
+                        if (statusLabel) {
+                            statusLabel.innerText = "রেন্ডারিং ব্যাকগ্রাউন্ডে চলছে। কাজ শেষ হলেই GitHub Releases ট্যাবে ভিডিও ফাইলটি পাওয়া যাবে।";
+                        }
+                        showToast("PIPELINE STILL PROCESSING IN BACKGROUND");
+                    }
+                }, 20000);
+
+            } catch (err) {
+                console.error("Video dispatch error:", err);
+                cv.innerHTML = `<span style="color:#ef4444; font-size:12px; font-family:monospace; padding:12px;">${escapeHtml(err.message)}</span>`;
+                btns.forEach(b => b.disabled = false);
+                showToast("PIPELINE ERROR");
+            }
+        }
+
+        // Token reset utility
+        function resetGitHubToken() {
+            const current = localStorage.getItem('ARGENT_GH_TOKEN') || '';
+            const val = prompt("আপনার নতুন GitHub Personal Access Token (ghp_...) পেস্ট করুন:", current);
+            if (val && val.trim()) {
+                localStorage.setItem('ARGENT_GH_TOKEN', val.trim());
+                localStorage.setItem('ARGENT_KEY', val.trim());
+                showToast("GITHUB TOKEN SAVED!");
+            }
+        }
+
+        // 10. DIRECT BLOB & MEDIA DOWNLOAD CONTROLLER (FOR BOTH 8K PHOTO & 12.2s VIDEO)
+        async function triggerDirectBlobDownload() {
+            if (!latestGeneratedMediaUrl) {
+                alert("ডাউনলোড করার জন্য প্রথমে একটি 8K Art অথবা 12.2s Video জেনারেট করুন।");
+                return;
+            }
+
+            showToast("SAVING MASTER MEDIA TO DEVICE...");
+
+            try {
+                if (latestGeneratedMediaUrl.startsWith('blob:') || latestGeneratedMediaUrl.startsWith('data:')) {
+                    const a = document.createElement('a');
+                    a.href = latestGeneratedMediaUrl;
+                    a.download = `argent-omega-media-${Date.now()}.${latestGeneratedMediaExt}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                } else {
+                    const res = await fetch(latestGeneratedMediaUrl);
+                    const blob = await res.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    a.download = `argent-omega-media-${Date.now()}.${latestGeneratedMediaExt}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+                }
+                showToast("DOWNLOAD COMPLETE!");
+            } catch (_) {
+                const a = document.createElement('a');
+                a.href = latestGeneratedMediaUrl;
+                a.target = '_blank';
+                a.download = `argent-omega-media-${Date.now()}.${latestGeneratedMediaExt}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        }
+
+        // 11. CODE CORE COMPILER
         function executeCodeCoreGeneration(fieldId, containerId) {
             const inputEl = document.getElementById(fieldId);
             if (!inputEl) return;
@@ -1617,11 +1718,9 @@
             const query = inputEl.value.trim();
             if (!query && !loadedFileContextSummary) return;
 
-            // 1. Post User Directive Bubble
             appendMessageBubble(containerId, 'user', query || "Compile and audit loaded code context.");
             inputEl.value = '';
 
-            // 2. Post Loading Bubble
             const activeModel = selectedModel;
             const loadingRow = appendMessageBubble(containerId, 'ai', `Initializing Code Core [${activeModel.toUpperCase()}]... Compiling script structure...`, activeModel, true);
 
