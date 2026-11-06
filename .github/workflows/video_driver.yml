@@ -55,10 +55,12 @@ jobs:
           EOF
           
           kaggle kernels push -p kaggle_job/
+          echo "Waiting 25 seconds for Kaggle to register job..."
+          sleep 25
 
       - name: Monitor Execution & Retrieve Output
         run: |
-          echo "Waiting for Kaggle GPU cluster to boot and render..."
+          echo "Waiting for Kaggle GPU cluster to render..."
           while true; do
             RAW_STATUS=$(kaggle kernels status ${{ secrets.KAGGLE_USERNAME }}/argent-video-engine)
             echo "$RAW_STATUS"
@@ -73,14 +75,14 @@ jobs:
               cat error_logs/*.log 2>/dev/null || cat error_logs/* 2>/dev/null || true
               exit 1
             fi
-            sleep 20
+            sleep 15
           done
           
           mkdir -p output
           kaggle kernels output ${{ secrets.KAGGLE_USERNAME }}/argent-video-engine -p output/
           
           if [ ! -f "output/argent_render_output.mp4" ]; then
-            echo "Error: Output video file not found in output directory!"
+            echo "Error: Video output file missing!"
             ls -la output/
             exit 1
           fi
