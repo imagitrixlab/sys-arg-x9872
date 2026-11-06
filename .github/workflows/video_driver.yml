@@ -18,7 +18,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Setup Python & Kaggle CLI
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -31,7 +31,7 @@ jobs:
           mkdir -p ~/.kaggle
           echo "{\"username\":\"$KAGGLE_USERNAME\",\"key\":\"$KAGGLE_KEY\"}" > ~/.kaggle/kaggle.json
           chmod 600 ~/.kaggle/kaggle.json
-          pip install --upgrade kaggle
+          pip install --upgrade kaggle six
 
       - name: Dispatch Kernel to Kaggle Cloud GPU
         env:
@@ -58,7 +58,7 @@ jobs:
 
       - name: Monitor Execution & Retrieve Output
         run: |
-          echo "Waiting for Kaggle GPU to boot and render..."
+          echo "Waiting for Kaggle GPU cluster to boot and render..."
           while true; do
             RAW_STATUS=$(kaggle kernels status ${{ secrets.KAGGLE_USERNAME }}/argent-video-engine)
             echo "$RAW_STATUS"
@@ -73,16 +73,25 @@ jobs:
               cat error_logs/*.log 2>/dev/null || cat error_logs/* 2>/dev/null || true
               exit 1
             fi
-            sleep 25
+            sleep 20
           done
           
           mkdir -p output
           kaggle kernels output ${{ secrets.KAGGLE_USERNAME }}/argent-video-engine -p output/
+          
+          if [ ! -f "output/argent_render_output.mp4" ]; then
+            echo "Error: Output video file not found in output directory!"
+            ls -la output/
+            exit 1
+          fi
+          echo "Master video confirmed: $(ls -lh output/argent_render_output.mp4)"
 
       - name: Publish Rendered Video to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: render-build-${{ github.run_number }}
+          name: "Argent Render Build #${{ github.run_number }}"
           files: output/argent_render_output.mp4
+          make_latest: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
