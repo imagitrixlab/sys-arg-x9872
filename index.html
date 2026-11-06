@@ -779,11 +779,11 @@
         </section>
 
         <!-- ==========================================
-             TAB 2: MEDIA STUDIO (8K FLUX & 12.2s KAGGLE VIDEO)
+             TAB 2: MEDIA STUDIO (8K FLUX & 12.2s KAGGLE WAN VIDEO)
              ========================================== -->
         <section id="panel-studio" class="view-tab">
             <div class="media-canvas" id="studio-canvas">
-                <span style="color: var(--text-dim); font-size: 13px;">Await Kaggle T4 GPU / Flux 8K Media Stream matrix mapping...</span>
+                <span style="color: var(--text-dim); font-size: 13px;">Await Kaggle T4 GPU / Wan 2.1 70GB Media Stream mapping...</span>
             </div>
 
             <!-- 500MB Chunk Progress Bar (Studio) -->
@@ -800,7 +800,7 @@
             <div class="gemini-bar-container cyber-focus">
                 <div class="gemini-main-row">
                     <button type="button" class="icon-trigger btn-plus" id="plus-studio" onclick="toggleUtilityMenu('menu-studio', 'plus-studio')">+</button>
-                    <input type="text" id="studio-field" class="core-input" placeholder="Describe 8K visual or 12.2s cinematic sequence..." autocomplete="off">
+                    <input type="text" id="studio-field" class="core-input" placeholder="Describe 8K visual or Wan 2.1 cinematic sequence..." autocomplete="off">
                     <span id="status-studio" class="file-status-indicator"></span>
                     <div class="inline-actions">
                         <button type="button" class="icon-trigger mic-inline" id="mic-studio" onclick="triggerInlineVoice('studio-field', 'mic-studio')" title="Voice Prompt">🎙️</button>
@@ -1465,7 +1465,7 @@
             });
         }
 
-        // 9. HIGH-QUALITY FLUX 8K & 12.2s KAGGLE VIDEO PIPELINE (FULLY INTEGRATED)
+        // 9. HIGH-QUALITY FLUX 8K & WAN 2.1 KAGGLE VIDEO PIPELINE (FULLY INTEGRATED)
 
         // Utility: Prompt Grabber across fields
         function resolveStudioPrompt() {
@@ -1526,7 +1526,7 @@
             }
         }
 
-        // 12.2s Cinematic Video Engine (Kaggle Cloud GPU via GitHub Actions API)
+        // 12.2s Cinematic Video Engine (Kaggle Cloud Dual GPU via GitHub Actions API)
         async function generateUncensoredVideo() {
             const prompt = resolveStudioPrompt();
             if (!prompt) {
@@ -1558,10 +1558,10 @@
                         ARGENT CLOUD GPU PIPELINE DISPATCHED
                     </span>
                     <span id="cloud-poll-status" style="color:var(--accent-neon); font-family:'JetBrains Mono', monospace; font-size:11px;">
-                        Activating Kaggle T4 GPU (LTX-Video 12.2s Audio/Video Pipeline)...
+                        Activating Kaggle T4 Dual GPU (Wan 2.1 Ultra Cinema Architecture)...
                     </span>
                     <span style="color:var(--text-dim); font-size:11px; max-width:85%; line-height:1.5;">
-                        ব্যাকগ্রাউন্ডে Kaggle T4 ক্লাস্টারে ৯৭ ফ্রেম ও অডিও সিন্থেসিস রেন্ডার হচ্ছে। প্রায় ২.৫ থেকে ৩.৫ মিনিট সময় লাগবে, পেজ বন্ধ করবেন না...
+                        Kaggle ক্লাস্টারে 70GB মেমোরি পুল, 81 ফ্রেম মোশন ও DaVinci অডিও সিন্থেসিস রেন্ডার হচ্ছে। পেজ বন্ধ করবেন না, কাজ শেষ হওয়ামাত্রই ভিডিও এখানে প্লে হবে...
                     </span>
                 </div>
             `;
@@ -1594,61 +1594,71 @@
                 showToast("KAGGLE GPU PIPELINE DISPATCHED!");
                 const dispatchTimestamp = Date.now();
                 let pollAttempts = 0;
+                const maxPollAttempts = 72; // ১২ মিনিট পর্যন্ত প্রতি ১০ সেকেন্ড পর পর স্ক্যান করবে
                 const statusLabel = document.getElementById('cloud-poll-status');
 
-                // Poll Releases for Generated MP4 Asset
+                // High-Frequency Cache-Busting Poll Loop
                 const pollInterval = setInterval(async () => {
                     pollAttempts++;
-                    const elapsedSec = pollAttempts * 20;
+                    const elapsedSec = pollAttempts * 10;
                     if (statusLabel) {
-                        statusLabel.innerText = `Kaggle T4 Rendering in progress... [${elapsedSec}s elapsed | Checking Master Release]`;
+                        statusLabel.innerText = `Kaggle T4 Rendering in progress... [${elapsedSec}s elapsed | Polling Master Release]`;
                     }
 
                     try {
-                        const relRes = await fetch(`https://api.github.com/repos/${repoPath}/releases/latest`, {
-                            headers: { 'Authorization': `Bearer ${token}` }
+                        // Cache-busting releases query (fetches latest 3 releases)
+                        const relRes = await fetch(`https://api.github.com/repos/${repoPath}/releases?per_page=3&t=${Date.now()}`, {
+                            headers: { 
+                                'Authorization': `Bearer ${token}`,
+                                'Accept': 'application/vnd.github.v3+json'
+                            }
                         });
 
                         if (relRes.ok) {
-                            const data = await relRes.json();
-                            const videoAsset = (data.assets || []).find(a => a.name.endsWith('.mp4'));
+                            const releases = await relRes.json();
+                            if (Array.isArray(releases) && releases.length > 0) {
+                                // Find any release created after this dispatch was started
+                                for (const rel of releases) {
+                                    const relTime = new Date(rel.created_at).getTime();
+                                    if (relTime > dispatchTimestamp - 90000) {
+                                        const videoAsset = (rel.assets || []).find(a => a.name.endsWith('.mp4'));
+                                        if (videoAsset && videoAsset.browser_download_url) {
+                                            clearInterval(pollInterval);
+                                            btns.forEach(b => b.disabled = false);
 
-                            // Match recent release asset
-                            if (videoAsset && (new Date(videoAsset.created_at).getTime() > dispatchTimestamp - 60000)) {
-                                clearInterval(pollInterval);
-                                btns.forEach(b => b.disabled = false);
+                                            latestGeneratedMediaUrl = videoAsset.browser_download_url;
+                                            latestGeneratedMediaExt = 'mp4';
 
-                                latestGeneratedMediaUrl = videoAsset.browser_download_url;
-                                latestGeneratedMediaExt = 'mp4';
+                                            // Embed video player seamlessly inside the box
+                                            cv.innerHTML = `
+                                                <video id="argentMasterPlayer" controls autoplay loop playsinline style="width:100%; height:100%; border-radius:12px; object-fit:contain; background:#000; box-shadow: 0 0 25px rgba(157, 78, 221, 0.45);">
+                                                    <source src="${videoAsset.browser_download_url}" type="video/mp4">
+                                                    Your browser does not support video playback.
+                                                </video>
+                                            `;
 
-                                const video = document.createElement('video');
-                                video.src = videoAsset.browser_download_url;
-                                video.controls = true;
-                                video.autoplay = true;
-                                video.loop = true;
-                                video.playsInline = true;
-
-                                cv.innerHTML = '';
-                                cv.appendChild(video);
-
-                                showToast("12.2S CINEMATIC VIDEO READY!");
-                                autoSpeakOutput("আপনার ১২.২ সেকেন্ডের সিনেমাটিক ভিডিও সফলভাবে রেন্ডার সম্পন্ন হয়েছে।");
-                                return;
+                                            showToast("WAN 2.1 CINEMATIC VIDEO READY!");
+                                            autoSpeakOutput("আপনার ওয়ান টু পয়েন্ট ওয়ান সিনেমাটিক ভিডিও সফলভাবে রেন্ডার সম্পন্ন হয়েছে।");
+                                            return;
+                                        }
+                                    }
+                                }
                             }
                         }
                     } catch (e) {
                         console.warn("Release polling error:", e);
                     }
 
-                    if (pollAttempts >= 20) { // ~6.6 minutes max timeout
+                    // Max timeout after 12 minutes
+                    if (pollAttempts >= maxPollAttempts) {
                         clearInterval(pollInterval);
                         btns.forEach(b => b.disabled = false);
                         if (statusLabel) {
                             statusLabel.innerText = "রেন্ডারিং ব্যাকগ্রাউন্ডে চলছে। কাজ শেষ হলেই GitHub Releases ট্যাবে ভিডিও ফাইলটি পাওয়া যাবে।";
                         }
-                        showToast("PIPELINE STILL PROCESSING IN BACKGROUND");
+                        showToast("PIPELINE PROCESSING IN BACKGROUND");
                     }
-                }, 20000);
+                }, 10000); // প্রতি ১০ সেকেন্ডে চেক করবে
 
             } catch (err) {
                 console.error("Video dispatch error:", err);
