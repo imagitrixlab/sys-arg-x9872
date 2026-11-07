@@ -409,22 +409,21 @@
         </div>
         
         <div class="header-controls">
+            <!-- শুধু দুটি বিশুদ্ধ ইঞ্জিন: কোনো হার্ডকোডেড মডেল নেই -->
             <select id="globalModelSelector" class="luxury-model-select" onchange="updateSelectedModel(this.value)">
-                <option value="mistral-uncensored">Mistral Uncensored (Fast Code Core)</option>
-                <option value="llama-3.3-70b">Llama 3.3 70B (Deep Intelligence)</option>
-                <option value="deepseek-r1">DeepSeek R1 (Advanced Reasoning)</option>
-                <option value="qwen-2.5">Qwen 2.5 72B (Turbo Neural)</option>
+                <option value="openrouter-auto-free">OpenRouter Auto (Dynamic Free Router)</option>
+                <option value="mistral-uncensored">Mistral Uncensored (Pure Code Core)</option>
             </select>
-            <div class="version-tag" id="core-telemetry">MISTRAL-UNCENSORED</div>
+            <div class="version-tag" id="core-telemetry">OPENROUTER-FREE</div>
         </div>
     </header>
 
     <main class="container-box">
 
-        <!-- TAB 1: INTELLIGENCE CHAT -->
+        <!-- TAB 1: INTELLIGENCE CHAT (OPENROUTER DYNAMIC FREE) -->
         <section id="panel-intel" class="view-tab active">
             <div class="audio-control-layer">
-                <span>ARGENT MULTI-CHANNEL SYNTHESIS ACTIVE</span>
+                <span>OPENROUTER DYNAMIC MULTI-ROUTER ENGINE ACTIVE</span>
                 <button class="speech-toggle-btn" id="speech-btn" onclick="toggleSpeechEngine()">🔊 ON</button>
             </div>
 
@@ -432,10 +431,10 @@
                 <div class="chat-msg-row ai" id="msg-init-default">
                     <div class="chat-bubble ai-bubble">
                         <div class="bubble-meta">
-                            <span class="ai-tag">ARGENT CORE // READY</span>
+                            <span class="ai-tag">ARGENT CORE // DYNAMIC ENGINE</span>
                             <span>ONLINE</span>
                         </div>
-                        <div class="bubble-content" id="msg-init-content">Argent Viron Omega Core initialized. Unrestricted inference and deep reasoning pipeline online.</div>
+                        <div class="bubble-content" id="msg-init-content">OpenRouter Dynamic Free Router online. Ready for queries and deep analysis.</div>
                         <div class="bubble-actions-matrix">
                             <button class="act-btn" onclick="copyMessageText('msg-init-content')">📋 Copy</button>
                             <button class="act-btn" onclick="exportMessageText('msg-init-content', 'init')">💾 Export</button>
@@ -473,7 +472,7 @@
             </div>
         </section>
 
-        <!-- TAB 3: CODE CORE (MISTRAL UNCENSORED হার্ড-লক করা) -->
+        <!-- TAB 3: CODE CORE (MISTRAL UNCENSORED HARD-LOCKED) -->
         <section id="panel-code" class="view-tab">
             <div class="chat-stream-viewport" id="code-chat-stream">
                 <div class="chat-msg-row ai">
@@ -483,7 +482,7 @@
                             <span>ACTIVE & LOCKED</span>
                         </div>
                         <div class="bubble-content mono" id="msg-code-content">// Uncensored code architecture & binary scripting core active.
-// Pure execution pipeline locked. Ready for directives.</div>
+// Pure execution pipeline locked. Direct code execution ready.</div>
                     </div>
                 </div>
             </div>
@@ -515,7 +514,7 @@
     <script>
         const WORKER_GATEWAY = "https://argent-viron-api.agnidas505.workers.dev";
 
-        let selectedModel = 'mistral-uncensored';
+        let selectedModel = 'openrouter-auto-free';
         let speechActive = true;
         let latestGeneratedMediaUrl = null;
         let latestGeneratedMediaExt = 'png';
@@ -534,8 +533,9 @@
 
         function updateSelectedModel(val) {
             selectedModel = val;
-            document.getElementById('core-telemetry').innerText = val.toUpperCase();
-            showToast(`CORE: ${val.toUpperCase()}`);
+            const tag = val === 'mistral-uncensored' ? 'MISTRAL-UNCENSORED' : 'OPENROUTER-FREE';
+            document.getElementById('core-telemetry').innerText = tag;
+            showToast(`CORE: ${tag}`);
         }
 
         function toggleDockView(target) {
@@ -567,9 +567,10 @@
                     </div>
                 `;
             } else {
+                const tagLabel = (modelTag || selectedModel).toUpperCase();
                 bubbleRow.innerHTML = `
                     <div class="chat-bubble ai-bubble">
-                        <div class="bubble-meta"><span class="ai-tag">ARGENT // ${(modelTag || selectedModel).toUpperCase()}</span><span>${timeStr}</span></div>
+                        <div class="bubble-meta"><span class="ai-tag">ARGENT // ${tagLabel}</span><span>${timeStr}</span></div>
                         <div class="bubble-content ${isMono ? 'mono' : ''}" id="${msgId}-body">${escapeHtml(text)}</div>
                         <div class="bubble-actions-matrix">
                             <button class="act-btn" onclick="copyMessageText('${msgId}-body')">📋 Copy</button>
@@ -622,7 +623,8 @@
             appendMessageBubble(streamId, 'user', query);
             f.value = '';
 
-            const loading = appendMessageBubble(streamId, 'ai', `Routing to ${selectedModel.toUpperCase()}...`, selectedModel);
+            const activeTag = selectedModel === 'mistral-uncensored' ? 'MISTRAL-UNCENSORED' : 'OPENROUTER-AUTO';
+            const loading = appendMessageBubble(streamId, 'ai', `Routing dynamically to ${activeTag}...`, activeTag);
 
             try {
                 const res = await fetch(`${WORKER_GATEWAY}/chat`, {
@@ -633,7 +635,7 @@
 
                 const data = await res.json();
                 if (loading) loading.remove();
-                appendMessageBubble(streamId, 'ai', data.reply || "No output returned.", selectedModel);
+                appendMessageBubble(streamId, 'ai', data.reply || "No output returned.", activeTag);
                 speak(data.reply);
             } catch (err) {
                 if (loading) loading.remove();
@@ -641,6 +643,7 @@
             }
         }
 
+        // কোড কোর: সরাসরি আনসেন্সরড মিস্ট্রাল দিয়ে কোডিং এক্সিকিউশন
         async function executeCodeCoreGeneration(fieldId, streamId) {
             const f = document.getElementById(fieldId);
             const query = (f?.value || '').trim();
