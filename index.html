@@ -108,7 +108,6 @@
             font-weight: 600;
             outline: none;
             cursor: pointer;
-            transition: all 0.25s ease;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             -webkit-appearance: none;
             appearance: none;
@@ -307,27 +306,6 @@
         .send-inline { background-color: var(--accent-neon); color: #040608; border: none; font-weight: 700; }
         .send-inline-cyber { background-color: var(--accent-cyber); color: #ffffff; border: none; font-weight: 700; }
 
-        .expanded-utility-menu {
-            display: none;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 8px 4px 4px 4px;
-            border-top: 1px solid var(--border-metal);
-        }
-
-        .utility-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: var(--text-glow);
-            cursor: pointer;
-            padding: 6px 12px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-metal);
-        }
-
         .media-canvas {
             width: 100%;
             flex: 1;
@@ -432,32 +410,32 @@
         
         <div class="header-controls">
             <select id="globalModelSelector" class="luxury-model-select" onchange="updateSelectedModel(this.value)">
-                <option value="uncensored-mistral">uncensored-mistral (Hugging Face Core)</option>
-                <option value="sonar-pro">sonar-pro (Llama 3.3 70B Deep Scan)</option>
-                <option value="sonar-reasoning">sonar-reasoning (DeepSeek R1 Logic)</option>
-                <option value="normal-sonar">normal-sonar (Qwen 2.5 Turbo)</option>
+                <option value="mistral-uncensored">Mistral Uncensored (Fast Code Core)</option>
+                <option value="llama-3.3-70b">Llama 3.3 70B (Deep Intelligence)</option>
+                <option value="deepseek-r1">DeepSeek R1 (Advanced Reasoning)</option>
+                <option value="qwen-2.5">Qwen 2.5 72B (Turbo Neural)</option>
             </select>
-            <div class="version-tag" id="core-telemetry">MISTRAL-7B</div>
+            <div class="version-tag" id="core-telemetry">MISTRAL-UNCENSORED</div>
         </div>
     </header>
 
     <main class="container-box">
 
-        <!-- TAB 1: SCAN & CHAT -->
-        <section id="panel-sonar" class="view-tab active">
+        <!-- TAB 1: INTELLIGENCE CHAT -->
+        <section id="panel-intel" class="view-tab active">
             <div class="audio-control-layer">
                 <span>ARGENT MULTI-CHANNEL SYNTHESIS ACTIVE</span>
                 <button class="speech-toggle-btn" id="speech-btn" onclick="toggleSpeechEngine()">🔊 ON</button>
             </div>
 
-            <div class="chat-stream-viewport" id="sonar-chat-stream">
+            <div class="chat-stream-viewport" id="intel-chat-stream">
                 <div class="chat-msg-row ai" id="msg-init-default">
                     <div class="chat-bubble ai-bubble">
                         <div class="bubble-meta">
                             <span class="ai-tag">ARGENT CORE // READY</span>
                             <span>ONLINE</span>
                         </div>
-                        <div class="bubble-content" id="msg-init-content">Argent Viron Omega Core initialized. Unrestricted inference and deep scan pipeline online.</div>
+                        <div class="bubble-content" id="msg-init-content">Argent Viron Omega Core initialized. Unrestricted inference and deep reasoning pipeline online.</div>
                         <div class="bubble-actions-matrix">
                             <button class="act-btn" onclick="copyMessageText('msg-init-content')">📋 Copy</button>
                             <button class="act-btn" onclick="exportMessageText('msg-init-content', 'init')">💾 Export</button>
@@ -468,18 +446,10 @@
 
             <div class="gemini-bar-container">
                 <div class="gemini-main-row">
-                    <button type="button" class="icon-trigger" onclick="toggleUtilityMenu('menu-sonar')">+</button>
-                    <input type="text" id="sonar-field" class="core-input" placeholder="Type prompt or directive..." autocomplete="off" onkeydown="if(event.key==='Enter') executeUniversalScan('sonar-field', 'sonar-chat-stream')">
+                    <input type="text" id="intel-field" class="core-input" placeholder="Type prompt or directive..." autocomplete="off" onkeydown="if(event.key==='Enter') executeUniversalScan('intel-field', 'intel-chat-stream')">
                     <div class="inline-actions">
-                        <button type="button" class="icon-trigger send-inline" onclick="executeUniversalScan('sonar-field', 'sonar-chat-stream')">⏩</button>
+                        <button type="button" class="icon-trigger send-inline" onclick="executeUniversalScan('intel-field', 'intel-chat-stream')">⏩</button>
                     </div>
-                </div>
-
-                <div class="expanded-utility-menu" id="menu-sonar">
-                    <label class="utility-item">
-                        <span>📁 Upload Asset for Analysis</span>
-                        <input type="file" style="display:none;" onchange="processDeepFile(this, 'sonar-chat-stream')">
-                    </label>
                 </div>
             </div>
         </section>
@@ -493,11 +463,6 @@
             <div class="gemini-bar-container">
                 <div class="gemini-main-row">
                     <input type="text" id="studio-field" class="core-input" placeholder="Describe 8K visual or Wan 2.1 cinematic sequence..." autocomplete="off">
-                </div>
-                <div class="expanded-utility-menu" id="menu-studio" style="display:flex;">
-                    <div class="utility-item" onclick="resetGitHubToken()">
-                        <span>🔑 Set / Update GitHub Token</span>
-                    </div>
                 </div>
             </div>
 
@@ -514,11 +479,11 @@
                 <div class="chat-msg-row ai">
                     <div class="chat-bubble ai-bubble">
                         <div class="bubble-meta">
-                            <span class="ai-tag">CODE CORE // MISTRAL-7B UNCENSORED</span>
+                            <span class="ai-tag">CODE CORE // MISTRAL-UNCENSORED</span>
                             <span>ACTIVE & LOCKED</span>
                         </div>
                         <div class="bubble-content mono" id="msg-code-content">// Uncensored code architecture & binary scripting core active.
-// Hard-locked to Hugging Face luvGPT/mistral-7b-uncensored pipeline.</div>
+// Pure execution pipeline locked. Ready for directives.</div>
                     </div>
                 </div>
             </div>
@@ -536,7 +501,7 @@
     </main>
 
     <nav class="bottom-dock">
-        <button type="button" id="dock-sonar" class="dock-tab active" onclick="toggleDockView('sonar')">
+        <button type="button" id="dock-intel" class="dock-tab active" onclick="toggleDockView('intel')">
             <span>🔍 Intelligence</span>
         </button>
         <button type="button" id="dock-studio" class="dock-tab" onclick="toggleDockView('studio')">
@@ -550,11 +515,10 @@
     <script>
         const WORKER_GATEWAY = "https://argent-viron-api.agnidas505.workers.dev";
 
-        let selectedModel = 'uncensored-mistral';
+        let selectedModel = 'mistral-uncensored';
         let speechActive = true;
         let latestGeneratedMediaUrl = null;
         let latestGeneratedMediaExt = 'png';
-        let loadedFileContextSummary = '';
 
         function showToast(msg) {
             const toast = document.getElementById('luxury-toast');
@@ -570,7 +534,7 @@
 
         function updateSelectedModel(val) {
             selectedModel = val;
-            document.getElementById('core-telemetry').innerText = val.toUpperCase().replace('UNCENSORED-', '');
+            document.getElementById('core-telemetry').innerText = val.toUpperCase();
             showToast(`CORE: ${val.toUpperCase()}`);
         }
 
@@ -584,11 +548,6 @@
                 if (target === 'studio' || target === 'code') tabBtn.classList.add('active-cyber');
                 else tabBtn.classList.add('active');
             }
-        }
-
-        function toggleUtilityMenu(id) {
-            const m = document.getElementById(id);
-            if (m) m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
         }
 
         function appendMessageBubble(containerId, role, text, modelTag = '', isMono = false) {
@@ -658,19 +617,18 @@
         async function executeUniversalScan(fieldId, streamId) {
             const f = document.getElementById(fieldId);
             const query = (f?.value || '').trim();
-            if (!query && !loadedFileContextSummary) return;
+            if (!query) return;
 
-            appendMessageBubble(streamId, 'user', query || "Analyze context.");
+            appendMessageBubble(streamId, 'user', query);
             f.value = '';
 
             const loading = appendMessageBubble(streamId, 'ai', `Routing to ${selectedModel.toUpperCase()}...`, selectedModel);
 
             try {
-                const promptPayload = loadedFileContextSummary ? `${loadedFileContextSummary}\n\nQuery: ${query}` : query;
                 const res = await fetch(`${WORKER_GATEWAY}/chat`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ prompt: promptPayload, model: selectedModel })
+                    body: JSON.stringify({ prompt: query, model: selectedModel })
                 });
 
                 const data = await res.json();
@@ -679,13 +637,10 @@
                 speak(data.reply);
             } catch (err) {
                 if (loading) loading.remove();
-                appendMessageBubble(streamId, 'ai', "Gateway communication timeout.", 'ERROR');
+                appendMessageBubble(streamId, 'ai', `// GATEWAY ERROR: ${err.message}`, 'ERROR');
             }
         }
 
-        // =========================================================
-        // কোড কোর: MISTRAL-7B UNCENSORED ডেডিকেটেড এক্সিকিউশন
-        // =========================================================
         async function executeCodeCoreGeneration(fieldId, streamId) {
             const f = document.getElementById(fieldId);
             const query = (f?.value || '').trim();
@@ -694,9 +649,8 @@
             appendMessageBubble(streamId, 'user', query);
             f.value = '';
 
-            // ওপরের সিলেক্টর যাই থাকুক, কোডিং ট্যাব সরাসরি Uncensored Mistral ব্যবহার করবে
-            const lockedModel = 'uncensored-mistral';
-            const loading = appendMessageBubble(streamId, 'ai', `Synthesizing code via MISTRAL-7B UNCENSORED...`, lockedModel, true);
+            const lockedModel = 'mistral-uncensored';
+            const loading = appendMessageBubble(streamId, 'ai', `Synthesizing code via MISTRAL-UNCENSORED...`, lockedModel, true);
 
             try {
                 const res = await fetch(`${WORKER_GATEWAY}/chat`, {
@@ -714,22 +668,12 @@
                 appendMessageBubble(streamId, 'ai', data.reply || "// Execution completed without payload.", lockedModel, true);
             } catch (err) {
                 if (loading) loading.remove();
-                appendMessageBubble(streamId, 'ai', "// Code engine failed to respond.", 'ERROR', true);
+                appendMessageBubble(streamId, 'ai', `// CODE PIPELINE ERROR: ${err.message}`, 'ERROR', true);
             }
         }
 
-        async function processDeepFile(input, streamId) {
-            const file = input.files && input.files[0];
-            if (!file) return;
-
-            const text = await file.slice(0, 4000).text();
-            loadedFileContextSummary = `[Attached Asset: ${file.name} (${(file.size/1024).toFixed(1)} KB)]\n${text}`;
-            appendMessageBubble(streamId, 'ai', `Asset "${file.name}" indexed into memory context.`, 'FILE');
-            showToast("ASSET LOADED");
-        }
-
         async function generateUncensoredArt() {
-            const prompt = (document.getElementById('studio-field')?.value || document.getElementById('sonar-field')?.value || '').trim();
+            const prompt = (document.getElementById('studio-field')?.value || document.getElementById('intel-field')?.value || '').trim();
             if (!prompt) return alert("প্রম্পট লিখুন!");
 
             const cv = document.getElementById('studio-canvas');
@@ -780,14 +724,6 @@
                 }
             } catch (e) {
                 cv.innerHTML = `<span style="color:#ef4444;">Dispatch Error</span>`;
-            }
-        }
-
-        function resetGitHubToken() {
-            const val = prompt("নতুন GitHub Token (ghp_...) পেস্ট করুন:");
-            if (val) {
-                localStorage.setItem('ARGENT_GH_TOKEN', val.trim());
-                showToast("TOKEN UPDATED");
             }
         }
 
