@@ -97,26 +97,6 @@
             gap: 8px;
         }
 
-        .luxury-model-select {
-            background: linear-gradient(180deg, #161b24 0%, #0d1117 100%);
-            color: var(--accent-neon);
-            border: 1px solid var(--border-metal);
-            border-radius: 10px;
-            padding: 5px 26px 5px 10px;
-            font-size: 11px;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600;
-            outline: none;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-            -webkit-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300ffaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 8px center;
-            background-size: 12px;
-        }
-
         .key-btn {
             background: rgba(157, 78, 221, 0.15);
             border: 1px solid rgba(157, 78, 221, 0.4);
@@ -138,11 +118,11 @@
         .version-tag {
             font-family: 'Orbitron', sans-serif;
             font-size: 10px;
-            color: var(--text-dim);
+            color: var(--accent-neon);
             padding: 4px 8px;
             border-radius: 6px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-metal);
+            background: rgba(0, 255, 170, 0.05);
+            border: 1px solid rgba(0, 255, 170, 0.3);
             white-space: nowrap;
         }
 
@@ -358,153 +338,4 @@
             gap: 8px;
         }
 
-        .btn-neon-outline { background: rgba(0, 255, 170, 0.06); color: var(--accent-neon); border: 1px solid rgba(0, 255, 170, 0.45); }
-        .btn-cyber-outline { background: rgba(157, 78, 221, 0.08); color: #c77dff; border: 1px solid rgba(157, 78, 221, 0.5); }
-        .btn-stream-dl { grid-column: span 2; background: linear-gradient(180deg, var(--panel-elevated) 0%, var(--panel-bg) 100%); color: var(--text-glow); border: 1px solid var(--border-highlight); }
-
-        .bottom-dock {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(17, 21, 28, 0.96);
-            backdrop-filter: blur(16px);
-            border-top: 1px solid var(--border-metal);
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-            z-index: 9999;
-        }
-
-        .dock-tab {
-            background: none;
-            border: 1px solid transparent;
-            color: var(--text-dim);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            padding: 8px 6px;
-            border-radius: 12px;
-            cursor: pointer;
-        }
-
-        .dock-tab.active { color: var(--accent-neon); background: rgba(0, 255, 170, 0.06); border-color: rgba(0, 255, 170, 0.25); }
-        .dock-tab.active-cyber { color: #c77dff; background: rgba(157, 78, 221, 0.08); border-color: rgba(157, 78, 221, 0.3); }
-
-        #luxury-toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-20px);
-            background: rgba(22, 27, 36, 0.95);
-            border: 1px solid var(--accent-neon);
-            color: var(--accent-neon);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-family: 'JetBrains Mono', monospace;
-            opacity: 0;
-            transition: all 0.25s ease;
-            z-index: 99999;
-        }
-        #luxury-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-</head>
-<body>
-
-    <div id="luxury-toast">COPIED TO CLIPBOARD</div>
-
-    <header class="header-panel">
-        <div class="core-status">
-            <div class="pulse-indicator"></div>
-            <span>ARGENT VIRON OMEGA</span>
-        </div>
-        
-        <div class="header-controls">
-            <button type="button" class="key-btn" onclick="configureOpenRouterKey()">🔑 API KEY</button>
-            <select id="globalModelSelector" class="luxury-model-select" onchange="updateSelectedModel(this.value)">
-                <option value="openrouter-auto-free">OpenRouter Auto (Dynamic Free Router)</option>
-                <option value="mistral-uncensored">Mistral Uncensored (Pure Code Core)</option>
-            </select>
-            <div class="version-tag" id="core-telemetry">OPENROUTER-FREE</div>
-        </div>
-    </header>
-
-    <main class="container-box">
-
-        <!-- TAB 1: INTELLIGENCE CHAT -->
-        <section id="panel-intel" class="view-tab active">
-            <div class="audio-control-layer">
-                <span>OPENROUTER DYNAMIC MULTI-ROUTER ENGINE ACTIVE</span>
-                <button class="speech-toggle-btn" id="speech-btn" onclick="toggleSpeechEngine()">🔊 ON</button>
-            </div>
-
-            <div class="chat-stream-viewport" id="intel-chat-stream">
-                <div class="chat-msg-row ai" id="msg-init-default">
-                    <div class="chat-bubble ai-bubble">
-                        <div class="bubble-meta">
-                            <span class="ai-tag">ARGENT CORE // DYNAMIC ENGINE</span>
-                            <span>ONLINE</span>
-                        </div>
-                        <div class="bubble-content" id="msg-init-content">Argent Viron Universal Engine ready. Direct dynamic routing operational.</div>
-                        <div class="bubble-actions-matrix">
-                            <button class="act-btn" onclick="copyMessageText('msg-init-content')">📋 Copy</button>
-                            <button class="act-btn" onclick="exportMessageText('msg-init-content', 'init')">💾 Export</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="gemini-bar-container">
-                <div class="gemini-main-row">
-                    <input type="text" id="intel-field" class="core-input" placeholder="Type prompt or directive..." autocomplete="off" onkeydown="if(event.key==='Enter') executeUniversalScan('intel-field', 'intel-chat-stream')">
-                    <div class="inline-actions">
-                        <button type="button" class="icon-trigger send-inline" onclick="executeUniversalScan('intel-field', 'intel-chat-stream')">⏩</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 2: MEDIA STUDIO -->
-        <section id="panel-studio" class="view-tab">
-            <div class="media-canvas" id="studio-canvas">
-                <span style="color: var(--text-dim); font-size: 13px;">Await Kaggle T4 GPU / Wan 2.1 Media Stream mapping...</span>
-            </div>
-
-            <div class="gemini-bar-container">
-                <div class="gemini-main-row">
-                    <input type="text" id="studio-field" class="core-input" placeholder="Describe 8K visual or Wan 2.1 cinematic sequence..." autocomplete="off">
-                </div>
-            </div>
-
-            <div class="control-grid">
-                <button type="button" class="grid-trigger btn-neon-outline" onclick="generateUncensoredArt()">🎨 8K Flux Art</button>
-                <button type="button" class="grid-trigger btn-cyber-outline" onclick="generateUncensoredVideo()">🎬 12.2s AI Video</button>
-                <button type="button" class="grid-trigger btn-stream-dl" onclick="triggerDirectBlobDownload()">⬇️ Download Media</button>
-            </div>
-        </section>
-
-        <!-- TAB 3: CODE CORE (MISTRAL UNCENSORED HARD-LOCKED) -->
-        <section id="panel-code" class="view-tab">
-            <div class="chat-stream-viewport" id="code-chat-stream">
-                <div class="chat-msg-row ai">
-                    <div class="chat-bubble ai-bubble">
-                        <div class="bubble-meta">
-                            <span class="ai-tag">CODE CORE // MISTRAL-UNCENSORED</span>
-                            <span>ACTIVE & LOCKED</span>
-                        </div>
-                        <div class="bubble-content mono" id="msg-code-content">// Uncensored code architecture & binary scripting core active.
-// Pure execution pipeline locked. Direct code execution ready.</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="gemini-bar-container">
-                <div class="gemini-main-row">
-                    <input type="text" id="code-field" class="core-input" placeholder="Enter programming algorithm or script task..." autocomplete="
+        .btn-neon-outline { background: rgba(0
