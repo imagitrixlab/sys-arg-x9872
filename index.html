@@ -9,9 +9,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- Puter.js Cloud SDK -->
-    <script src="https://js.puter.com/v2/"></script>
-
     <!-- Google Fonts: Inter, Orbitron & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -100,10 +97,6 @@
             gap: 8px;
         }
 
-        .model-selector-wrap {
-            position: relative;
-        }
-
         .luxury-model-select {
             background: linear-gradient(180deg, #161b24 0%, #0d1117 100%);
             color: var(--accent-neon);
@@ -118,24 +111,11 @@
             transition: all 0.25s ease;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             -webkit-appearance: none;
-            -moz-appearance: none;
             appearance: none;
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300ffaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
             background-position: right 8px center;
             background-size: 12px;
-        }
-
-        .luxury-model-select:focus, .luxury-model-select:hover {
-            border-color: var(--accent-neon);
-            box-shadow: 0 0 14px rgba(0, 255, 170, 0.28);
-        }
-
-        .luxury-model-select option {
-            background-color: #0c1017;
-            color: #f1f5f9;
-            font-family: 'JetBrains Mono', monospace;
-            padding: 8px;
         }
 
         .version-tag {
@@ -166,9 +146,7 @@
             overflow: hidden;
         }
 
-        .view-tab.active {
-            display: flex;
-        }
+        .view-tab.active { display: flex; }
 
         .audio-control-layer {
             display: flex;
@@ -180,7 +158,6 @@
             border-radius: var(--radius-luxury);
             font-size: 11px;
             font-weight: 500;
-            letter-spacing: 0.5px;
             color: var(--text-dim);
             flex-shrink: 0;
         }
@@ -194,7 +171,6 @@
             font-size: 11px;
             padding: 4px 10px;
             border-radius: 8px;
-            transition: all 0.2s ease;
         }
 
         .chat-stream-viewport {
@@ -205,8 +181,6 @@
             min-height: 200px;
             padding: 16px 14px;
             overflow-y: auto;
-            overflow-x: hidden;
-            box-shadow: inset 0 2px 24px rgba(0, 0, 0, 0.75), 0 4px 16px rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
             gap: 14px;
@@ -214,13 +188,7 @@
             scroll-behavior: smooth;
         }
 
-        .chat-msg-row {
-            display: flex;
-            width: 100%;
-            animation: fadeIn 0.25s ease forwards;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-        }
-
+        .chat-msg-row { display: flex; width: 100%; animation: fadeIn 0.25s ease forwards; }
         .chat-msg-row.user { justify-content: flex-end; }
         .chat-msg-row.ai { justify-content: flex-start; }
 
@@ -231,17 +199,15 @@
             max-width: 85%;
             padding: 12px 14px;
             color: #e2e8f0;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
         }
 
         .chat-bubble.ai-bubble {
-            background: var(--bubble-ai) !important;
+            background: var(--bubble-ai);
             border: 1px solid var(--bubble-ai-border);
             border-radius: 18px 18px 18px 4px;
             max-width: 90%;
             padding: 14px 16px;
             color: #f3e8ff;
-            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.55);
         }
 
         .bubble-meta {
@@ -291,65 +257,7 @@
             padding: 4px 8px;
             font-size: 10px;
             font-family: 'JetBrains Mono', monospace;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 4px;
             cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .act-btn:hover {
-            background: rgba(168, 85, 247, 0.15);
-            border-color: #a855f7;
-            color: #ffffff;
-        }
-
-        .act-btn:active { transform: scale(0.94); }
-
-        .act-btn.delete {
-            border-color: rgba(239, 68, 68, 0.3);
-            color: #fca5a5;
-        }
-
-        .act-btn.delete:hover {
-            background: rgba(239, 68, 68, 0.15);
-            border-color: #ef4444;
-            color: #ffffff;
-        }
-
-        .chunk-progress-wrap {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            background: var(--panel-bg);
-            border: 1px solid var(--border-metal);
-            border-radius: 12px;
-            padding: 10px 14px;
-            flex-shrink: 0;
-        }
-
-        .chunk-progress-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent-neon);
-        }
-
-        .chunk-bar-bg {
-            width: 100%;
-            height: 6px;
-            background: #050709;
-            border-radius: 999px;
-            overflow: hidden;
-        }
-
-        .chunk-bar-fill {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-neon), var(--accent-cyber));
-            transition: width 0.15s ease;
         }
 
         .gemini-bar-container {
@@ -360,19 +268,7 @@
             border: 1px solid var(--border-metal);
             border-radius: var(--radius-luxury);
             padding: 8px 12px 8px 14px;
-            transition: all 0.25s ease;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
             flex-shrink: 0;
-        }
-
-        .gemini-bar-container:focus-within {
-            border-color: var(--accent-neon);
-            box-shadow: 0 0 20px rgba(0, 255, 170, 0.14);
-        }
-
-        .gemini-bar-container.cyber-focus:focus-within {
-            border-color: var(--accent-cyber);
-            box-shadow: 0 0 20px rgba(157, 78, 221, 0.18);
         }
 
         .gemini-main-row {
@@ -393,15 +289,6 @@
             min-width: 0;
         }
 
-        .core-input::placeholder { color: var(--text-dim); }
-
-        .inline-actions {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-shrink: 0;
-        }
-
         .icon-trigger {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border-metal);
@@ -412,56 +299,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s ease;
             font-size: 15px;
             color: var(--text-glow);
             flex-shrink: 0;
         }
 
-        .icon-trigger:active { transform: scale(0.94); }
-
-        .btn-plus {
-            font-weight: 700;
-            font-size: 18px;
-            color: var(--accent-neon);
-            border-color: rgba(0, 255, 170, 0.25);
-        }
-
-        .btn-plus.rotated {
-            transform: rotate(45deg);
-            color: #ef4444;
-            border-color: rgba(239, 68, 68, 0.4);
-        }
-
-        .send-inline {
-            background-color: var(--accent-neon);
-            color: #040608;
-            border: none;
-            font-weight: 700;
-        }
-
-        .send-inline-cyber {
-            background-color: var(--accent-cyber);
-            color: #ffffff;
-            border: none;
-            font-weight: 700;
-        }
-
-        .mic-inline.recording {
-            color: #ef4444;
-            border-color: #ef4444;
-            background: rgba(239, 68, 68, 0.12);
-            animation: voicePulse 1.2s infinite;
-        }
+        .send-inline { background-color: var(--accent-neon); color: #040608; border: none; font-weight: 700; }
+        .send-inline-cyber { background-color: var(--accent-cyber); color: #ffffff; border: none; font-weight: 700; }
 
         .expanded-utility-menu {
             display: none;
             flex-wrap: wrap;
-            align-items: center;
             gap: 10px;
             padding: 8px 4px 4px 4px;
             border-top: 1px solid var(--border-metal);
-            animation: fadeIn 0.2s ease;
         }
 
         .utility-item {
@@ -475,22 +326,6 @@
             border-radius: 10px;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border-metal);
-            transition: all 0.2s ease;
-        }
-
-        .utility-item:hover, .utility-item:active {
-            border-color: var(--accent-neon);
-            background: rgba(0, 255, 170, 0.06);
-        }
-
-        .file-status-indicator {
-            font-size: 11px;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent-neon);
-            padding: 2px 6px;
-            border-radius: 6px;
-            background: rgba(0, 255, 170, 0.08);
-            display: none;
         }
 
         .media-canvas {
@@ -503,19 +338,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
-            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 10px 30px rgba(0, 0, 0, 0.6);
             padding: 12px;
-            text-align: center;
             position: relative;
-        }
-
-        .media-canvas img, .media-canvas video {
-            max-width: 100%;
-            max-height: 100%;
-            border-radius: 12px;
-            object-fit: contain;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.85);
         }
 
         .control-grid {
@@ -536,35 +360,11 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: all 0.2s ease;
         }
 
-        .grid-trigger:active { transform: scale(0.97); }
-
-        .grid-trigger:disabled {
-            opacity: 0.45;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .btn-neon-outline {
-            background: rgba(0, 255, 170, 0.06);
-            color: var(--accent-neon);
-            border: 1px solid rgba(0, 255, 170, 0.45);
-        }
-
-        .btn-cyber-outline {
-            background: rgba(157, 78, 221, 0.08);
-            color: #c77dff;
-            border: 1px solid rgba(157, 78, 221, 0.5);
-        }
-
-        .btn-stream-dl {
-            grid-column: span 2;
-            background: linear-gradient(180deg, var(--panel-elevated) 0%, var(--panel-bg) 100%);
-            color: var(--text-glow);
-            border: 1px solid var(--border-highlight);
-        }
+        .btn-neon-outline { background: rgba(0, 255, 170, 0.06); color: var(--accent-neon); border: 1px solid rgba(0, 255, 170, 0.45); }
+        .btn-cyber-outline { background: rgba(157, 78, 221, 0.08); color: #c77dff; border: 1px solid rgba(157, 78, 221, 0.5); }
+        .btn-stream-dl { grid-column: span 2; background: linear-gradient(180deg, var(--panel-elevated) 0%, var(--panel-bg) 100%); color: var(--text-glow); border: 1px solid var(--border-highlight); }
 
         .bottom-dock {
             position: fixed;
@@ -578,7 +378,6 @@
             grid-template-columns: repeat(3, 1fr);
             padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
             z-index: 9999;
-            box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.7);
         }
 
         .dock-tab {
@@ -588,27 +387,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             gap: 4px;
             font-size: 11px;
             font-weight: 600;
             padding: 8px 6px;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s ease;
         }
 
-        .dock-tab.active {
-            color: var(--accent-neon);
-            background: rgba(0, 255, 170, 0.06);
-            border-color: rgba(0, 255, 170, 0.25);
-        }
-
-        .dock-tab.active-cyber {
-            color: #c77dff;
-            background: rgba(157, 78, 221, 0.08);
-            border-color: rgba(157, 78, 221, 0.3);
-        }
+        .dock-tab.active { color: var(--accent-neon); background: rgba(0, 255, 170, 0.06); border-color: rgba(0, 255, 170, 0.25); }
+        .dock-tab.active-cyber { color: #c77dff; background: rgba(157, 78, 221, 0.08); border-color: rgba(157, 78, 221, 0.3); }
 
         #luxury-toast {
             position: fixed;
@@ -622,24 +410,13 @@
             border-radius: 20px;
             font-size: 11px;
             font-family: 'JetBrains Mono', monospace;
-            box-shadow: 0 4px 18px rgba(0, 255, 170, 0.2);
             opacity: 0;
-            pointer-events: none;
             transition: all 0.25s ease;
             z-index: 99999;
         }
-
-        #luxury-toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: var(--bg-main); }
-        ::-webkit-scrollbar-thumb { background: var(--border-highlight); border-radius: 999px; }
+        #luxury-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
-        @keyframes voicePulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -654,27 +431,22 @@
         </div>
         
         <div class="header-controls">
-            <div class="model-selector-wrap">
-                <select id="globalModelSelector" class="luxury-model-select" onchange="updateSelectedModel(this.value)">
-                    <option value="sonar-pro">sonar-pro (Deep Scan)</option>
-                    <option value="sonar-reasoning">sonar-reasoning (Logic)</option>
-                    <option value="normal-sonar">normal-sonar (Fast)</option>
-                    <option value="uncensored-mistral">uncensored-mistral (Jailbreak)</option>
-                </select>
-            </div>
-            <div class="version-tag" id="core-telemetry">SONAR-PRO</div>
+            <select id="globalModelSelector" class="luxury-model-select" onchange="updateSelectedModel(this.value)">
+                <option value="uncensored-mistral">uncensored-mistral (Hugging Face Core)</option>
+                <option value="sonar-pro">sonar-pro (Llama 3.3 70B Deep Scan)</option>
+                <option value="sonar-reasoning">sonar-reasoning (DeepSeek R1 Logic)</option>
+                <option value="normal-sonar">normal-sonar (Qwen 2.5 Turbo)</option>
+            </select>
+            <div class="version-tag" id="core-telemetry">MISTRAL-7B</div>
         </div>
     </header>
 
-    <video id="hidden-camera-stream" autoplay playsinline muted style="display:none;"></video>
-    <canvas id="hidden-ocr-canvas" style="display:none;"></canvas>
-
     <main class="container-box">
 
-        <!-- TAB 1: SONAR SCAN -->
+        <!-- TAB 1: SCAN & CHAT -->
         <section id="panel-sonar" class="view-tab active">
             <div class="audio-control-layer">
-                <span>GEMINI MULTI-CHANNEL READ-ALOUD SYSTEM ACTIVE</span>
+                <span>ARGENT MULTI-CHANNEL SYNTHESIS ACTIVE</span>
                 <button class="speech-toggle-btn" id="speech-btn" onclick="toggleSpeechEngine()">🔊 ON</button>
             </div>
 
@@ -682,52 +454,32 @@
                 <div class="chat-msg-row ai" id="msg-init-default">
                     <div class="chat-bubble ai-bubble">
                         <div class="bubble-meta">
-                            <span class="ai-tag">ARGENT CORE // SYSTEM READY</span>
-                            <span>JUST NOW</span>
+                            <span class="ai-tag">ARGENT CORE // READY</span>
+                            <span>ONLINE</span>
                         </div>
-                        <div class="bubble-content" id="msg-init-content">Initialize universal system core query module... Dynamic media chat feed active. Type or speak below to begin.</div>
+                        <div class="bubble-content" id="msg-init-content">Argent Viron Omega Core initialized. Unrestricted inference and deep scan pipeline online.</div>
                         <div class="bubble-actions-matrix">
                             <button class="act-btn" onclick="copyMessageText('msg-init-content')">📋 Copy</button>
-                            <button class="act-btn" onclick="shareMessageText('msg-init-content')">🔗 Share</button>
-                            <button class="act-btn" onclick="exportMessageText('msg-init-content', 'sonar-init')">💾 Export</button>
-                            <button class="act-btn delete" onclick="deleteMessageBubble('msg-init-default')">🗑️ Remove</button>
+                            <button class="act-btn" onclick="exportMessageText('msg-init-content', 'init')">💾 Export</button>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="chunk-progress-wrap" id="sonar-chunk-wrap">
-                <div class="chunk-progress-header">
-                    <span id="sonar-chunk-label">ALLOCATING CHUNK STREAM...</span>
-                    <span id="sonar-chunk-pct">0%</span>
-                </div>
-                <div class="chunk-bar-bg">
-                    <div class="chunk-bar-fill" id="sonar-chunk-bar"></div>
                 </div>
             </div>
 
             <div class="gemini-bar-container">
                 <div class="gemini-main-row">
-                    <button type="button" class="icon-trigger btn-plus" id="plus-sonar" onclick="toggleUtilityMenu('menu-sonar', 'plus-sonar')">+</button>
-                    <input type="text" id="sonar-field" class="core-input" placeholder="Type a message or deep query..." autocomplete="off" onkeydown="if(event.key==='Enter') executeUniversalScan('sonar-field', 'sonar-chat-stream')">
-                    <span id="status-sonar" class="file-status-indicator"></span>
+                    <button type="button" class="icon-trigger" onclick="toggleUtilityMenu('menu-sonar')">+</button>
+                    <input type="text" id="sonar-field" class="core-input" placeholder="Type prompt or directive..." autocomplete="off" onkeydown="if(event.key==='Enter') executeUniversalScan('sonar-field', 'sonar-chat-stream')">
                     <div class="inline-actions">
-                        <button type="button" class="icon-trigger mic-inline" id="mic-sonar" onclick="triggerInlineVoice('sonar-field', 'mic-sonar')" title="Voice Input">🎙️</button>
-                        <button type="button" class="icon-trigger send-inline" onclick="executeUniversalScan('sonar-field', 'sonar-chat-stream')" title="Send Message">⏩</button>
+                        <button type="button" class="icon-trigger send-inline" onclick="executeUniversalScan('sonar-field', 'sonar-chat-stream')">⏩</button>
                     </div>
                 </div>
 
                 <div class="expanded-utility-menu" id="menu-sonar">
-                    <div class="utility-item" onclick="triggerCameraOCR('sonar-chat-stream')">
-                        <span>📷 Camera Vision Scanner</span>
-                    </div>
                     <label class="utility-item">
-                        <span>📁 Deep Upload (Max 500MB)</span>
-                        <input type="file" style="display:none;" onchange="processDeepFile(this, 'status-sonar', 'sonar-chat-stream', 'sonar')">
+                        <span>📁 Upload Asset for Analysis</span>
+                        <input type="file" style="display:none;" onchange="processDeepFile(this, 'sonar-chat-stream')">
                     </label>
-                    <div class="utility-item" onclick="toggleDockView('studio')">
-                        <span>🎬 Open Media Studio</span>
-                    </div>
                 </div>
             </div>
         </section>
@@ -735,39 +487,16 @@
         <!-- TAB 2: MEDIA STUDIO -->
         <section id="panel-studio" class="view-tab">
             <div class="media-canvas" id="studio-canvas">
-                <span style="color: var(--text-dim); font-size: 13px;">Await Kaggle T4 GPU / Wan 2.1 70GB Media Stream mapping...</span>
+                <span style="color: var(--text-dim); font-size: 13px;">Await Kaggle T4 GPU / Wan 2.1 Media Stream mapping...</span>
             </div>
 
-            <div class="chunk-progress-wrap" id="studio-chunk-wrap">
-                <div class="chunk-progress-header">
-                    <span id="studio-chunk-label">BUFFERING SOURCE ASSET...</span>
-                    <span id="studio-chunk-pct">0%</span>
-                </div>
-                <div class="chunk-bar-bg">
-                    <div class="chunk-bar-fill" id="studio-chunk-bar"></div>
-                </div>
-            </div>
-
-            <div class="gemini-bar-container cyber-focus">
+            <div class="gemini-bar-container">
                 <div class="gemini-main-row">
-                    <button type="button" class="icon-trigger btn-plus" id="plus-studio" onclick="toggleUtilityMenu('menu-studio', 'plus-studio')">+</button>
                     <input type="text" id="studio-field" class="core-input" placeholder="Describe 8K visual or Wan 2.1 cinematic sequence..." autocomplete="off">
-                    <span id="status-studio" class="file-status-indicator"></span>
-                    <div class="inline-actions">
-                        <button type="button" class="icon-trigger mic-inline" id="mic-studio" onclick="triggerInlineVoice('studio-field', 'mic-studio')" title="Voice Prompt">🎙️</button>
-                    </div>
                 </div>
-
-                <div class="expanded-utility-menu" id="menu-studio">
-                    <div class="utility-item" onclick="triggerCameraOCR('studio-canvas')">
-                        <span>📷 Image Reference Scan</span>
-                    </div>
-                    <label class="utility-item">
-                        <span>📁 Source Asset (Max 500MB)</span>
-                        <input type="file" style="display:none;" onchange="processDeepFile(this, 'status-studio', 'studio-canvas', 'studio')">
-                    </label>
+                <div class="expanded-utility-menu" id="menu-studio" style="display:flex;">
                     <div class="utility-item" onclick="resetGitHubToken()">
-                        <span>🔑 Update GitHub Token</span>
+                        <span>🔑 Set / Update GitHub Token</span>
                     </div>
                 </div>
             </div>
@@ -775,60 +504,31 @@
             <div class="control-grid">
                 <button type="button" class="grid-trigger btn-neon-outline" onclick="generateUncensoredArt()">🎨 8K Flux Art</button>
                 <button type="button" class="grid-trigger btn-cyber-outline" onclick="generateUncensoredVideo()">🎬 12.2s AI Video</button>
-                <button type="button" class="grid-trigger btn-stream-dl" onclick="triggerDirectBlobDownload()">⬇️ One-Click Download HD Media (Direct Device)</button>
+                <button type="button" class="grid-trigger btn-stream-dl" onclick="triggerDirectBlobDownload()">⬇️ Download Media</button>
             </div>
         </section>
 
-        <!-- TAB 3: CODE CORE -->
+        <!-- TAB 3: CODE CORE (MISTRAL UNCENSORED হার্ড-লক করা) -->
         <section id="panel-code" class="view-tab">
             <div class="chat-stream-viewport" id="code-chat-stream">
-                <div class="chat-msg-row ai" id="msg-code-default">
+                <div class="chat-msg-row ai">
                     <div class="chat-bubble ai-bubble">
                         <div class="bubble-meta">
-                            <span class="ai-tag">CODE CORE // ENGINE ONLINE</span>
-                            <span>JUST NOW</span>
+                            <span class="ai-tag">CODE CORE // MISTRAL-7B UNCENSORED</span>
+                            <span>ACTIVE & LOCKED</span>
                         </div>
-                        <div class="bubble-content mono" id="msg-code-content">// Advanced code architecture & automated scripts compiler operational.
-// Ready for architectural prompts or deep logic scripts.</div>
-                        <div class="bubble-actions-matrix">
-                            <button class="act-btn" onclick="copyMessageText('msg-code-content')">📋 Copy</button>
-                            <button class="act-btn" onclick="shareMessageText('msg-code-content')">🔗 Share</button>
-                            <button class="act-btn" onclick="exportMessageText('msg-code-content', 'code-init')">💾 Export</button>
-                            <button class="act-btn delete" onclick="deleteMessageBubble('msg-code-default')">🗑️ Remove</button>
-                        </div>
+                        <div class="bubble-content mono" id="msg-code-content">// Uncensored code architecture & binary scripting core active.
+// Hard-locked to Hugging Face luvGPT/mistral-7b-uncensored pipeline.</div>
                     </div>
                 </div>
             </div>
 
-            <div class="chunk-progress-wrap" id="code-chunk-wrap">
-                <div class="chunk-progress-header">
-                    <span id="code-chunk-label">PARSING BINARY CHUNKS...</span>
-                    <span id="code-chunk-pct">0%</span>
-                </div>
-                <div class="chunk-bar-bg">
-                    <div class="chunk-bar-fill" id="code-chunk-bar"></div>
-                </div>
-            </div>
-
-            <div class="gemini-bar-container cyber-focus">
+            <div class="gemini-bar-container">
                 <div class="gemini-main-row">
-                    <button type="button" class="icon-trigger btn-plus" id="plus-code" onclick="toggleUtilityMenu('menu-code', 'plus-code')">+</button>
-                    <input type="text" id="code-field" class="core-input" placeholder="Enter algorithm, script or binary directive..." autocomplete="off" onkeydown="if(event.key==='Enter') executeCodeCoreGeneration('code-field', 'code-chat-stream')">
-                    <span id="status-code" class="file-status-indicator"></span>
+                    <input type="text" id="code-field" class="core-input" placeholder="Enter programming algorithm or script task..." autocomplete="off" onkeydown="if(event.key==='Enter') executeCodeCoreGeneration('code-field', 'code-chat-stream')">
                     <div class="inline-actions">
-                        <button type="button" class="icon-trigger mic-inline" id="mic-code" onclick="triggerInlineVoice('code-field', 'mic-code')" title="Voice Directive">🎙️</button>
-                        <button type="button" class="icon-trigger send-inline-cyber" onclick="executeCodeCoreGeneration('code-field', 'code-chat-stream')" title="Compile Code">⚡</button>
+                        <button type="button" class="icon-trigger send-inline-cyber" onclick="executeCodeCoreGeneration('code-field', 'code-chat-stream')">⚡</button>
                     </div>
-                </div>
-
-                <div class="expanded-utility-menu" id="menu-code">
-                    <div class="utility-item" onclick="triggerCameraOCR('code-chat-stream')">
-                        <span>📷 Code Screenshot OCR</span>
-                    </div>
-                    <label class="utility-item">
-                        <span>📁 Script / Binaries Input (Max 500MB)</span>
-                        <input type="file" style="display:none;" onchange="processDeepFile(this, 'status-code', 'code-chat-stream', 'code')">
-                    </label>
                 </div>
             </div>
         </section>
@@ -837,10 +537,10 @@
 
     <nav class="bottom-dock">
         <button type="button" id="dock-sonar" class="dock-tab active" onclick="toggleDockView('sonar')">
-            <span>🔍 Sonar Scan</span>
+            <span>🔍 Intelligence</span>
         </button>
         <button type="button" id="dock-studio" class="dock-tab" onclick="toggleDockView('studio')">
-            <span>🎬 12.2s Studio</span>
+            <span>🎬 Studio</span>
         </button>
         <button type="button" id="dock-code" class="dock-tab" onclick="toggleDockView('code')">
             <span>🛡️ Code Core</span>
@@ -848,89 +548,47 @@
     </nav>
 
     <script>
-        let selectedModel = 'sonar-pro';
+        const WORKER_GATEWAY = "https://argent-viron-api.agnidas505.workers.dev";
 
-        const MODEL_MAP = {
-            'sonar-pro': 'openrouter:perplexity/sonar-pro',
-            'sonar-reasoning': 'openrouter:perplexity/sonar-reasoning',
-            'normal-sonar': 'openrouter:perplexity/sonar',
-            'uncensored-mistral': 'openrouter:mistralai/mistral-large'
-        };
-
-        function updateSelectedModel(modelKey) {
-            if (MODEL_MAP[modelKey]) {
-                selectedModel = modelKey;
-                localStorage.setItem('argent_selected_model', modelKey);
-                const badge = document.getElementById('core-telemetry');
-                if (badge) badge.innerText = modelKey.toUpperCase();
-                showToast(`MODEL: ${modelKey.toUpperCase()}`);
-            }
-        }
-
-        (function initModelSelector() {
-            const saved = localStorage.getItem('argent_selected_model');
-            const selectEl = document.getElementById('globalModelSelector');
-            if (saved && MODEL_MAP[saved] && selectEl) {
-                selectedModel = saved;
-                selectEl.value = saved;
-                const badge = document.getElementById('core-telemetry');
-                if (badge) badge.innerText = saved.toUpperCase();
-            }
-        })();
-
+        let selectedModel = 'uncensored-mistral';
         let speechActive = true;
-        let activeRecognitionInstance = null;
-        let isRecordingVoice = false;
-        let speechChunkQueue = [];
-        let isSpeakingQueue = false;
         let latestGeneratedMediaUrl = null;
         let latestGeneratedMediaExt = 'png';
         let loadedFileContextSummary = '';
-        let toastTimeout = null;
 
         function showToast(msg) {
             const toast = document.getElementById('luxury-toast');
             if (!toast) return;
             toast.innerText = msg;
             toast.classList.add('show');
-            if (toastTimeout) clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 2200);
+            setTimeout(() => { toast.classList.remove('show'); }, 2200);
         }
 
         function escapeHtml(str) {
-            return String(str || '')
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;');
+            return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function updateSelectedModel(val) {
+            selectedModel = val;
+            document.getElementById('core-telemetry').innerText = val.toUpperCase().replace('UNCENSORED-', '');
+            showToast(`CORE: ${val.toUpperCase()}`);
         }
 
         function toggleDockView(target) {
             document.querySelectorAll('.view-tab').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.dock-tab').forEach(el => el.classList.remove('active', 'active-cyber'));
 
-            const targetPanel = document.getElementById(`panel-${target}`);
-            if (targetPanel) targetPanel.classList.add('active');
-
+            document.getElementById(`panel-${target}`)?.classList.add('active');
             const tabBtn = document.getElementById(`dock-${target}`);
             if (tabBtn) {
                 if (target === 'studio' || target === 'code') tabBtn.classList.add('active-cyber');
                 else tabBtn.classList.add('active');
             }
-            stopAllSpeechSynthesis();
         }
 
-        function toggleUtilityMenu(menuId, plusId) {
-            const menu = document.getElementById(menuId);
-            const plus = document.getElementById(plusId);
-            if (!menu || !plus) return;
-
-            if (menu.style.display === 'flex') {
-                menu.style.display = 'none';
-                plus.classList.remove('rotated');
-            } else {
-                menu.style.display = 'flex';
-                plus.classList.add('rotated');
-            }
+        function toggleUtilityMenu(id) {
+            const m = document.getElementById(id);
+            if (m) m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
         }
 
         function appendMessageBubble(containerId, role, text, modelTag = '', isMono = false) {
@@ -940,34 +598,23 @@
             const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             const bubbleRow = document.createElement('div');
             bubbleRow.className = role === 'user' ? 'chat-msg-row user' : 'chat-msg-row ai';
-            
-            const msgId = 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6);
-            bubbleRow.id = msgId;
+            const msgId = 'msg-' + Date.now();
 
             if (role === 'user') {
                 bubbleRow.innerHTML = `
                     <div class="chat-bubble user-bubble">
-                        <div class="bubble-meta">
-                            <span class="user-tag">OPERATOR // YOU</span>
-                            <span>${timeStr}</span>
-                        </div>
+                        <div class="bubble-meta"><span class="user-tag">OPERATOR</span><span>${timeStr}</span></div>
                         <div class="bubble-content">${escapeHtml(text)}</div>
                     </div>
                 `;
             } else {
-                const displayModel = (modelTag || selectedModel).toUpperCase();
                 bubbleRow.innerHTML = `
                     <div class="chat-bubble ai-bubble">
-                        <div class="bubble-meta">
-                            <span class="ai-tag">ARGENT CORE // ${displayModel}</span>
-                            <span>${timeStr}</span>
-                        </div>
+                        <div class="bubble-meta"><span class="ai-tag">ARGENT // ${(modelTag || selectedModel).toUpperCase()}</span><span>${timeStr}</span></div>
                         <div class="bubble-content ${isMono ? 'mono' : ''}" id="${msgId}-body">${escapeHtml(text)}</div>
                         <div class="bubble-actions-matrix">
                             <button class="act-btn" onclick="copyMessageText('${msgId}-body')">📋 Copy</button>
-                            <button class="act-btn" onclick="shareMessageText('${msgId}-body')">🔗 Share</button>
-                            <button class="act-btn" onclick="exportMessageText('${msgId}-body', '${modelTag || selectedModel}')">💾 Export</button>
-                            <button class="act-btn delete" onclick="deleteMessageBubble('${msgId}')">🗑️ Remove</button>
+                            <button class="act-btn" onclick="exportMessageText('${msgId}-body', '${modelTag}')">💾 Export</button>
                         </div>
                     </div>
                 `;
@@ -978,657 +625,179 @@
             return bubbleRow;
         }
 
-        function copyMessageText(contentId) {
-            const el = document.getElementById(contentId);
-            if (!el) return;
-            const text = el.innerText || el.textContent;
-            navigator.clipboard.writeText(text).then(() => showToast("COPIED TO CLIPBOARD!")).catch(() => fallbackCopy(text));
+        function copyMessageText(id) {
+            const t = document.getElementById(id)?.innerText;
+            if (t) navigator.clipboard.writeText(t).then(() => showToast("COPIED!"));
         }
 
-        function fallbackCopy(text) {
-            const ta = document.createElement('textarea');
-            ta.value = text;
-            ta.style.position = 'fixed';
-            ta.style.opacity = '0';
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand('copy');
-            document.body.removeChild(ta);
-            showToast("COPIED TO CLIPBOARD!");
-        }
-
-        function shareMessageText(contentId) {
-            const el = document.getElementById(contentId);
-            if (!el) return;
-            const text = el.innerText || el.textContent;
-            if (navigator.share) {
-                navigator.share({ title: 'Argent Viron Intelligence Output', text: text }).catch(() => {});
-            } else {
-                copyMessageText(contentId);
-            }
-        }
-
-        function exportMessageText(contentId, modelTag) {
-            const el = document.getElementById(contentId);
-            if (!el) return;
-            const text = el.innerText || el.textContent;
-            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
+        function exportMessageText(id, tag) {
+            const text = document.getElementById(id)?.innerText;
+            if (!text) return;
+            const blob = new Blob([text], { type: 'text/plain' });
             const a = document.createElement('a');
-            a.href = url;
-            a.download = `argent-viron-${modelTag || 'output'}-${Date.now()}.txt`;
-            document.body.appendChild(a);
+            a.href = URL.createObjectURL(blob);
+            a.download = `argent-${tag || 'core'}-${Date.now()}.txt`;
             a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showToast("EXPORTED .TXT TO DEVICE!");
-        }
-
-        function deleteMessageBubble(bubbleId) {
-            const el = document.getElementById(bubbleId);
-            if (!el) return;
-            el.style.opacity = '0';
-            el.style.transform = 'scale(0.92)';
-            setTimeout(() => {
-                if (el && el.parentNode) {
-                    el.parentNode.removeChild(el);
-                    showToast("MESSAGE REMOVED!");
-                }
-            }, 200);
-        }
-
-        function stopAllSpeechSynthesis() {
-            speechChunkQueue = [];
-            isSpeakingQueue = false;
-            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            showToast("EXPORTED .TXT");
         }
 
         function toggleSpeechEngine() {
             speechActive = !speechActive;
-            const btn = document.getElementById('speech-btn');
-            if (btn) btn.innerText = speechActive ? "🔊 ON" : "🔇 OFF";
-            if (!speechActive) stopAllSpeechSynthesis();
+            document.getElementById('speech-btn').innerText = speechActive ? "🔊 ON" : "🔇 OFF";
+            if (!speechActive && 'speechSynthesis' in window) window.speechSynthesis.cancel();
         }
 
-        function splitIntoSafeSpeechChunks(rawText) {
-            const cleanText = String(rawText || '')
-                .replace(/<[^>]*>/g, ' ')
-                .replace(/```[\s\S]*?```/g, ' [কোড ব্লক] ')
-                .replace(/[`*#_~]/g, ' ')
-                .replace(/\s+/g, ' ')
-                .trim();
-
-            if (!cleanText) return [];
-            const sentences = cleanText.split(/(?<=[.?!।\n])\s+/);
-            const chunks = [];
-            let current = '';
-
-            for (const sentence of sentences) {
-                if ((current + ' ' + sentence).trim().length <= 165) {
-                    current = (current + ' ' + sentence).trim();
-                } else {
-                    if (current) chunks.push(current);
-                    if (sentence.length <= 165) current = sentence;
-                    else {
-                        for (let i = 0; i < sentence.length; i += 165) chunks.push(sentence.slice(i, i + 165));
-                        current = '';
-                    }
-                }
-            }
-            if (current) chunks.push(current);
-            return chunks;
-        }
-
-        function autoSpeakOutput(payload) {
+        function speak(text) {
             if (!speechActive || !('speechSynthesis' in window)) return;
-            stopAllSpeechSynthesis();
-
-            speechChunkQueue = splitIntoSafeSpeechChunks(payload);
-            if (speechChunkQueue.length === 0) return;
-
-            isSpeakingQueue = true;
-
-            function speakNextChunk() {
-                if (!speechActive || !isSpeakingQueue || speechChunkQueue.length === 0) {
-                    isSpeakingQueue = false;
-                    return;
-                }
-                const chunkText = speechChunkQueue.shift();
-                const utterance = new SpeechSynthesisUtterance(chunkText);
-                const hasBengali = /[\u0980-\u09FF]/.test(chunkText);
-                utterance.lang = hasBengali ? 'bn-BD' : 'en-US';
-                utterance.rate = 1.0;
-
-                utterance.onend = () => { if (isSpeakingQueue) speakNextChunk(); };
-                utterance.onerror = () => { isSpeakingQueue = false; };
-
-                window.speechSynthesis.speak(utterance);
-            }
-
-            speakNextChunk();
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(text.slice(0, 300));
+            u.rate = 1.0;
+            window.speechSynthesis.speak(u);
         }
 
-        function triggerInlineVoice(fieldId, buttonId) {
-            const SpeechEngine = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SpeechEngine) {
-                alert("ভয়েস ইঞ্জিনটি এই ব্রাউজারে সাপোর্ট করছে না।");
-                return;
-            }
+        async function executeUniversalScan(fieldId, streamId) {
+            const f = document.getElementById(fieldId);
+            const query = (f?.value || '').trim();
+            if (!query && !loadedFileContextSummary) return;
 
-            const btn = document.getElementById(buttonId);
-            const inputField = document.getElementById(fieldId);
+            appendMessageBubble(streamId, 'user', query || "Analyze context.");
+            f.value = '';
 
-            if (isRecordingVoice && activeRecognitionInstance) {
-                activeRecognitionInstance.stop();
-                return;
-            }
-
-            stopAllSpeechSynthesis();
-
-            const instance = new SpeechEngine();
-            activeRecognitionInstance = instance;
-            instance.lang = 'bn-BD';
-            instance.continuous = false;
-            instance.interimResults = true;
-
-            instance.onstart = () => {
-                isRecordingVoice = true;
-                if (btn) btn.classList.add('recording');
-            };
-
-            instance.onresult = (e) => {
-                let transcript = '';
-                for (let i = e.resultIndex; i < e.results.length; i++) {
-                    if (e.results[i] && e.results[i][0]) transcript += e.results[i][0].transcript;
-                }
-                if (inputField && transcript) inputField.value = transcript;
-            };
-
-            instance.onerror = () => {
-                isRecordingVoice = false;
-                if (btn) btn.classList.remove('recording');
-            };
-
-            instance.onend = () => {
-                isRecordingVoice = false;
-                activeRecognitionInstance = null;
-                if (btn) btn.classList.remove('recording');
-            };
-
-            try { instance.start(); } catch (_) {
-                isRecordingVoice = false;
-                if (btn) btn.classList.remove('recording');
-            }
-        }
-
-        async function triggerCameraOCR(targetContainerId) {
-            const videoEl = document.getElementById('hidden-camera-stream');
-            const canvasEl = document.getElementById('hidden-ocr-canvas');
-
-            if (targetContainerId.includes('canvas')) {
-                const cv = document.getElementById('studio-canvas');
-                if (cv) cv.innerHTML = '<span style="color:var(--accent-neon); font-size:12px;">Scanning camera reference frame...</span>';
-            } else {
-                appendMessageBubble(targetContainerId, 'ai', "Opening hardware camera lens structure...", 'VISION');
-            }
+            const loading = appendMessageBubble(streamId, 'ai', `Routing to ${selectedModel.toUpperCase()}...`, selectedModel);
 
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } },
-                    audio: false
+                const promptPayload = loadedFileContextSummary ? `${loadedFileContextSummary}\n\nQuery: ${query}` : query;
+                const res = await fetch(`${WORKER_GATEWAY}/chat`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ prompt: promptPayload, model: selectedModel })
                 });
-                videoEl.srcObject = stream;
-                await new Promise(resolve => { videoEl.onloadedmetadata = resolve; });
-                await videoEl.play();
 
-                canvasEl.width = Math.min(1280, videoEl.videoWidth || 1280);
-                canvasEl.height = Math.min(720, videoEl.videoHeight || 720);
-                const ctx = canvasEl.getContext('2d');
-                ctx.drawImage(videoEl, 0, 0, canvasEl.width, canvasEl.height);
-
-                stream.getTracks().forEach(t => t.stop());
-                const frameDataUrl = canvasEl.toDataURL('image/jpeg', 0.85);
-
-                if (targetContainerId.includes('canvas')) {
-                    const img = new Image();
-                    img.src = frameDataUrl;
-                    const cv = document.getElementById('studio-canvas');
-                    if (cv) { cv.innerHTML = ''; cv.appendChild(img); }
-                    latestGeneratedMediaUrl = frameDataUrl;
-                    latestGeneratedMediaExt = 'jpg';
-                } else {
-                    const res = await puter.ai.chat("Extract all visible text and analyze the structure:", frameDataUrl);
-                    const replyText = typeof res === 'string' ? res : (res?.message?.content || "ভিজ্যুয়াল মেটাডেটা স্ক্যান সম্পূর্ণ।");
-                    appendMessageBubble(targetContainerId, 'ai', replyText, 'VISION-OCR');
-                    autoSpeakOutput(replyText);
-                }
-            } catch (_) {
-                setTimeout(() => {
-                    const fallbackMsg = "ভিজ্যুয়াল মেটাডেটা স্ক্যান সম্পূর্ণ।";
-                    if (!targetContainerId.includes('canvas')) {
-                        appendMessageBubble(targetContainerId, 'ai', fallbackMsg, 'VISION-OCR');
-                        autoSpeakOutput(fallbackMsg);
-                    }
-                }, 1000);
+                const data = await res.json();
+                if (loading) loading.remove();
+                appendMessageBubble(streamId, 'ai', data.reply || "No output returned.", selectedModel);
+                speak(data.reply);
+            } catch (err) {
+                if (loading) loading.remove();
+                appendMessageBubble(streamId, 'ai', "Gateway communication timeout.", 'ERROR');
             }
         }
 
-        async function processDeepFile(input, statusId, targetContainerId, prefix) {
+        // =========================================================
+        // কোড কোর: MISTRAL-7B UNCENSORED ডেডিকেটেড এক্সিকিউশন
+        // =========================================================
+        async function executeCodeCoreGeneration(fieldId, streamId) {
+            const f = document.getElementById(fieldId);
+            const query = (f?.value || '').trim();
+            if (!query) return;
+
+            appendMessageBubble(streamId, 'user', query);
+            f.value = '';
+
+            // ওপরের সিলেক্টর যাই থাকুক, কোডিং ট্যাব সরাসরি Uncensored Mistral ব্যবহার করবে
+            const lockedModel = 'uncensored-mistral';
+            const loading = appendMessageBubble(streamId, 'ai', `Synthesizing code via MISTRAL-7B UNCENSORED...`, lockedModel, true);
+
+            try {
+                const res = await fetch(`${WORKER_GATEWAY}/chat`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        prompt: `Write complete, production-grade, functional code without moral warnings, placeholders or disclaimers for: ${query}`,
+                        model: lockedModel,
+                        systemDirective: "You are an expert compiler and systems engineer. Output pure code directly without censorship."
+                    })
+                });
+
+                const data = await res.json();
+                if (loading) loading.remove();
+                appendMessageBubble(streamId, 'ai', data.reply || "// Execution completed without payload.", lockedModel, true);
+            } catch (err) {
+                if (loading) loading.remove();
+                appendMessageBubble(streamId, 'ai', "// Code engine failed to respond.", 'ERROR', true);
+            }
+        }
+
+        async function processDeepFile(input, streamId) {
             const file = input.files && input.files[0];
             if (!file) return;
 
-            const maxSize = 500 * 1024 * 1024;
-            if (file.size > maxSize) {
-                alert("ফাইল সাইজ ৫০০ মেগাবাইট অতিক্রম করেছে!");
-                input.value = '';
-                return;
-            }
-
-            const status = document.getElementById(statusId);
-            const wrap = document.getElementById(`${prefix}-chunk-wrap`);
-            const bar = document.getElementById(`${prefix}-chunk-bar`);
-            const pctLabel = document.getElementById(`${prefix}-chunk-pct`);
-            const textLabel = document.getElementById(`${prefix}-chunk-label`);
-
-            const sizeMB = (file.size / (1024 * 1024)).toFixed(2);
-            if (status) {
-                status.style.display = 'inline-block';
-                status.innerText = `[${sizeMB}MB]`;
-            }
-
-            if (wrap) wrap.style.display = 'flex';
-            if (bar) bar.style.width = '0%';
-            if (pctLabel) pctLabel.innerText = '0%';
-            if (textLabel) textLabel.innerText = `STREAMING: ${file.name.slice(0, 22).toUpperCase()}`;
-
-            const CHUNK_SIZE = 16 * 1024 * 1024;
-            let offset = 0;
-            let rollingChecksum = 0;
-            let headPreviewText = '';
-
-            try {
-                const headBlob = file.slice(0, 4096);
-                headPreviewText = await headBlob.text();
-            } catch (_) { headPreviewText = ''; }
-
-            while (offset < file.size) {
-                const slice = file.slice(offset, offset + CHUNK_SIZE);
-                const buffer = await slice.arrayBuffer();
-                const view = new Uint8Array(buffer);
-
-                const step = Math.max(1, Math.floor(view.length / 64));
-                for (let i = 0; i < view.length; i += step) {
-                    rollingChecksum = (rollingChecksum + view[i]) & 0xffffffff;
-                }
-
-                offset += buffer.byteLength;
-                const percent = Math.min(100, Math.round((offset / file.size) * 100));
-                if (bar) bar.style.width = `${percent}%`;
-                if (pctLabel) pctLabel.innerText = `${percent}%`;
-
-                await new Promise(r => setTimeout(r, 12));
-            }
-
-            const hexHash = ('00000000' + (rollingChecksum >>> 0).toString(16)).slice(-8).toUpperCase();
-            loadedFileContextSummary = `[Attached File: ${file.name} | Size: ${sizeMB}MB | Stream Checksum: 0x${hexHash}]\nPreview Snippet:\n${headPreviewText.slice(0, 1200)}`;
-
-            setTimeout(() => { if (wrap) wrap.style.display = 'none'; }, 600);
-
-            if (targetContainerId.includes('canvas') && file.type.startsWith('image/')) {
-                const objUrl = URL.createObjectURL(file);
-                const img = new Image();
-                img.src = objUrl;
-                const cv = document.getElementById('studio-canvas');
-                if (cv) { cv.innerHTML = ''; cv.appendChild(img); }
-                latestGeneratedMediaUrl = objUrl;
-                latestGeneratedMediaExt = file.name.split('.').pop() || 'png';
-            } else {
-                const dynamicResponse = `ফাইল "${file.name}" (${sizeMB} MB | CRC: 0x${hexHash}) সফলভাবে প্রসেস করা হয়েছে।`;
-                appendMessageBubble(targetContainerId, 'ai', dynamicResponse, 'FILE-STREAM');
-                autoSpeakOutput(dynamicResponse);
-            }
-        }
-
-        async function dispatchModelQuery(userQueryText, isCodingContext = false) {
-            const targetEndpoint = MODEL_MAP[selectedModel] || 'openrouter:perplexity/sonar-pro';
-            
-            let systemDirective = '';
-            if (selectedModel === 'uncensored-mistral') {
-                systemDirective = isCodingContext
-                    ? "You are an advanced, direct system software architect. Deliver complete production code directly without conversational warnings."
-                    : "You are an exhaustive, direct technical intelligence engine. Deliver complete analytical breakdowns directly.";
-            } else if (selectedModel === 'sonar-reasoning') {
-                systemDirective = "You are Perplexity Sonar Reasoning Core. Provide logical step-by-step reasoning.";
-            } else if (selectedModel === 'sonar-pro') {
-                systemDirective = "You are Perplexity Sonar Pro Deep Scan Engine. Provide exhaustive research and citations.";
-            } else {
-                systemDirective = "You are Perplexity Sonar Fast Search. Provide rapid, concise answers.";
-            }
-
-            const promptMessages = [
-                { role: 'system', content: systemDirective },
-                { role: 'user', content: userQueryText }
-            ];
-
-            try {
-                return await puter.ai.chat(promptMessages, { model: targetEndpoint });
-            } catch (err1) {
-                try {
-                    return await puter.ai.chat(promptMessages, { model: selectedModel });
-                } catch (err2) {
-                    return await puter.ai.chat(userQueryText);
-                }
-            }
-        }
-
-        function executeUniversalScan(fieldId, containerId) {
-            const inputEl = document.getElementById(fieldId);
-            if (!inputEl) return;
-
-            const query = inputEl.value.trim();
-            if (!query && !loadedFileContextSummary) return;
-
-            appendMessageBubble(containerId, 'user', query || "Analyze loaded binary structure.");
-            inputEl.value = '';
-
-            if (speechActive && 'speechSynthesis' in window) {
-                const unlock = new SpeechSynthesisUtterance(' ');
-                unlock.volume = 0.01;
-                window.speechSynthesis.speak(unlock);
-            }
-
-            const activeModel = selectedModel;
-            const loadingRow = appendMessageBubble(containerId, 'ai', `Connecting to ${activeModel.toUpperCase()}...`, activeModel);
-
-            const fullPrompt = loadedFileContextSummary
-                ? `${loadedFileContextSummary}\n\nUser Query: ${query || 'Analyze the loaded file structure in detail.'}`
-                : query;
-
-            dispatchModelQuery(fullPrompt, false).then(res => {
-                const textOut = typeof res === 'string' ? res : (res?.message?.content || JSON.stringify(res, null, 2));
-                if (loadingRow && loadingRow.parentNode) loadingRow.parentNode.removeChild(loadingRow);
-                appendMessageBubble(containerId, 'ai', textOut, activeModel);
-                autoSpeakOutput(textOut);
-            }).catch(() => {
-                if (loadingRow && loadingRow.parentNode) loadingRow.parentNode.removeChild(loadingRow);
-                appendMessageBubble(containerId, 'ai', "সার্ভার রেসপন্স এরর। ক্লাউড গেটওয়ে কানেকশন চেক করুন।", 'ERROR');
-            });
-        }
-
-        function resolveStudioPrompt() {
-            let prompt = (document.getElementById('studio-field')?.value || '').trim();
-            if (!prompt) prompt = (document.getElementById('sonar-field')?.value || '').trim();
-            if (!prompt) prompt = (document.getElementById('code-field')?.value || '').trim();
-            return prompt;
+            const text = await file.slice(0, 4000).text();
+            loadedFileContextSummary = `[Attached Asset: ${file.name} (${(file.size/1024).toFixed(1)} KB)]\n${text}`;
+            appendMessageBubble(streamId, 'ai', `Asset "${file.name}" indexed into memory context.`, 'FILE');
+            showToast("ASSET LOADED");
         }
 
         async function generateUncensoredArt() {
-            const prompt = resolveStudioPrompt();
-            if (!prompt) {
-                alert("অনুগ্রহ করে একটি প্রম্পট লিখুন!");
-                return;
-            }
+            const prompt = (document.getElementById('studio-field')?.value || document.getElementById('sonar-field')?.value || '').trim();
+            if (!prompt) return alert("প্রম্পট লিখুন!");
 
             const cv = document.getElementById('studio-canvas');
-            const btns = document.querySelectorAll('.grid-trigger');
-            btns.forEach(b => b.disabled = true);
-
-            cv.innerHTML = `
-                <div style="display:flex; flex-direction:column; align-items:center; gap:12px; padding:15px;">
-                    <div class="pulse-indicator" style="width:14px; height:14px;"></div>
-                    <span style="color:var(--accent-neon); font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:700;">
-                        SYNTHESIZING 8K FLUX RAW CINEMA...
-                    </span>
-                </div>
-            `;
+            cv.innerHTML = `<span style="color:var(--accent-neon); font-family:monospace;">SYNTHESIZING 8K FLUX RAW CINEMA...</span>`;
 
             const seed = Math.floor(Math.random() * 99999999);
-            const enhancedPrompt = encodeURIComponent(`masterpiece, photorealistic 8k, raw film footage, hyper-detailed, ${prompt}`);
-            const imgUrl = `https://image.pollinations.ai/prompt/${enhancedPrompt}?model=flux&width=1024&height=1024&nologo=true&seed=${seed}`;
+            const imgUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?model=flux&width=1024&height=1024&nologo=true&seed=${seed}`;
 
-            try {
-                const img = new Image();
-                img.crossOrigin = "anonymous";
-                img.src = imgUrl;
-
-                await new Promise((resolve, reject) => {
-                    img.onload = resolve;
-                    img.onerror = reject;
-                });
-
+            const img = new Image();
+            img.onload = () => {
                 cv.innerHTML = '';
                 cv.appendChild(img);
                 latestGeneratedMediaUrl = imgUrl;
                 latestGeneratedMediaExt = 'jpg';
-                showToast("8K FLUX ART GENERATED!");
-                autoSpeakOutput("৮K আল্ট্রা-এইচডি ইমেজ সফলভাবে তৈরি হয়েছে।");
-            } catch (err) {
-                cv.innerHTML = `<span style="color:#ef4444; font-size:12px; font-family:monospace;">ইমেজ তৈরিতে ক্লাউড টাইমআউট হয়েছে। পুনরায় চেষ্টা করুন।</span>`;
-                showToast("RENDER ERROR // RETRY");
-            } finally {
-                btns.forEach(b => b.disabled = false);
-            }
+                showToast("8K ART READY");
+            };
+            img.onerror = () => { cv.innerHTML = `<span style="color:#ef4444;">Render Error</span>`; };
+            img.src = imgUrl;
         }
 
         async function generateUncensoredVideo() {
-            const prompt = resolveStudioPrompt();
-            if (!prompt) {
-                alert("অনুগ্রহ করে ভিডিও তৈরির জন্য একটি প্রম্পট লিখুন!");
-                return;
-            }
+            const prompt = (document.getElementById('studio-field')?.value || '').trim();
+            if (!prompt) return alert("ভিডিও তৈরির প্রম্পট লিখুন!");
 
-            let token = localStorage.getItem('ARGENT_GH_TOKEN') || localStorage.getItem('ARGENT_KEY');
-            if (!token) {
-                token = prompt("আপনার GitHub Personal Access Token (ghp_...) পেস্ট করুন:");
-                if (!token || !token.trim()) return;
-                token = token.trim();
-                localStorage.setItem('ARGENT_GH_TOKEN', token);
-                localStorage.setItem('ARGENT_KEY', token);
-            }
+            let token = localStorage.getItem('ARGENT_GH_TOKEN') || prompt("আপনার GitHub Personal Access Token (ghp_...) দিন:");
+            if (!token) return;
+            localStorage.setItem('ARGENT_GH_TOKEN', token.trim());
 
             const cv = document.getElementById('studio-canvas');
-            const btns = document.querySelectorAll('.grid-trigger');
-            btns.forEach(b => b.disabled = true);
-
-            const repoPath = "imagitrixlab/sys-arg-x9872";
-            const workflowFile = "video_driver.yml";
-
-            cv.innerHTML = `
-                <div style="display:flex; flex-direction:column; align-items:center; gap:12px; padding:16px;">
-                    <div class="pulse-indicator" style="width:16px; height:16px; background-color:#c77dff; box-shadow:0 0 16px #c77dff;"></div>
-                    <span style="color:#c77dff; font-family:'Orbitron', sans-serif; font-size:13px; font-weight:700;">
-                        ARGENT CLOUD GPU PIPELINE DISPATCHED
-                    </span>
-                    <span id="cloud-poll-status" style="color:var(--accent-neon); font-family:'JetBrains Mono', monospace; font-size:11px;">
-                        Activating Kaggle T4 Dual GPU Turbo Architecture...
-                    </span>
-                    <span style="color:var(--text-dim); font-size:11px; max-width:85%; line-height:1.5;">
-                        Kaggle ক্লাস্টারে ফাস্ট রেন্ডারিং শুরু হয়েছে। রেন্ডার শেষ হওয়ামাত্র ভিডিও এখানে অটো প্লে হবে...
-                    </span>
-                </div>
-            `;
+            cv.innerHTML = `<span style="color:#c77dff; font-family:monospace;">DISPATCHING KAGGLE WAN 2.1 TURBO PIPELINE...</span>`;
 
             try {
-                const res = await fetch(`https://api.github.com/repos/${repoPath}/actions/workflows/${workflowFile}/dispatches`, {
+                const res = await fetch(`https://api.github.com/repos/imagitrixlab/sys-arg-x9872/actions/workflows/video_driver.yml/dispatches`, {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${token}`,
+                        'Authorization': `Bearer ${token.trim()}`,
                         'Accept': 'application/vnd.github.v3+json',
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        ref: 'main',
-                        inputs: { prompt: prompt }
-                    })
+                    body: JSON.stringify({ ref: 'main', inputs: { prompt } })
                 });
 
-                if (res.status === 401 || res.status === 403) {
-                    localStorage.removeItem('ARGENT_GH_TOKEN');
-                    localStorage.removeItem('ARGENT_KEY');
-                    throw new Error("টোকেন ইনভ্যালিড। পুনরায় ক্লিক করে সঠিক টোকেন দিন।");
+                if (res.ok) {
+                    showToast("KAGGLE GPU DISPATCHED");
+                    cv.innerHTML = `<span style="color:var(--accent-neon); font-family:monospace; padding:15px;">Kaggle ক্লাস্টারে রেন্ডার শুরু হয়েছে। কিছুক্ষণের মধ্যে GitHub Releases ট্যাবে .mp4 তৈরি হবে।</span>`;
+                } else {
+                    cv.innerHTML = `<span style="color:#ef4444;">GitHub Actions Dispatch Failed (${res.status})</span>`;
                 }
-
-                if (!res.ok) throw new Error(`GitHub Actions Trigger Error (${res.status})।`);
-
-                showToast("KAGGLE GPU PIPELINE DISPATCHED!");
-                const dispatchTimestamp = Date.now();
-                let pollAttempts = 0;
-                const maxPollAttempts = 90;
-                const statusLabel = document.getElementById('cloud-poll-status');
-
-                const pollInterval = setInterval(async () => {
-                    pollAttempts++;
-                    const elapsedSec = pollAttempts * 10;
-                    if (statusLabel) {
-                        statusLabel.innerText = `Kaggle T4 Fast Render in progress... [${elapsedSec}s elapsed]`;
-                    }
-
-                    try {
-                        const relRes = await fetch(`https://api.github.com/repos/${repoPath}/releases?per_page=3&t=${Date.now()}`, {
-                            headers: { 
-                                'Authorization': `Bearer ${token}`,
-                                'Accept': 'application/vnd.github.v3+json'
-                            }
-                        });
-
-                        if (relRes.ok) {
-                            const releases = await relRes.json();
-                            if (Array.isArray(releases) && releases.length > 0) {
-                                for (const rel of releases) {
-                                    const relTime = new Date(rel.created_at).getTime();
-                                    if (relTime > dispatchTimestamp - 60000) {
-                                        const videoAsset = (rel.assets || []).find(a => a.name.endsWith('.mp4'));
-                                        if (videoAsset && videoAsset.url) {
-                                            clearInterval(pollInterval);
-                                            if (statusLabel) statusLabel.innerText = "Buffering video stream into memory...";
-
-                                            const assetRes = await fetch(videoAsset.url, {
-                                                headers: {
-                                                    'Authorization': `Bearer ${token}`,
-                                                    'Accept': 'application/octet-stream'
-                                                }
-                                            });
-
-                                            if (!assetRes.ok) throw new Error("Failed to buffer video stream.");
-
-                                            const videoBlob = await assetRes.blob();
-                                            const videoBlobUrl = URL.createObjectURL(videoBlob);
-
-                                            btns.forEach(b => b.disabled = false);
-                                            latestGeneratedMediaUrl = videoBlobUrl;
-                                            latestGeneratedMediaExt = 'mp4';
-
-                                            cv.innerHTML = `
-                                                <video id="argentMasterPlayer" controls autoplay loop playsinline style="width:100%; height:100%; border-radius:12px; object-fit:contain; background:#000; box-shadow: 0 0 25px rgba(157, 78, 221, 0.45);">
-                                                    <source src="${videoBlobUrl}" type="video/mp4">
-                                                    Your browser does not support video playback.
-                                                </video>
-                                            `;
-
-                                            showToast("WAN 2.1 VIDEO READY!");
-                                            autoSpeakOutput("ওয়ান টু পয়েন্ট ওয়ান ভিডিও সফলভাবে রেন্ডার সম্পন্ন হয়েছে।");
-                                            return;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    } catch (e) {
-                        console.warn("Release polling error:", e);
-                    }
-
-                    if (pollAttempts >= maxPollAttempts) {
-                        clearInterval(pollInterval);
-                        btns.forEach(b => b.disabled = false);
-                        if (statusLabel) {
-                            statusLabel.innerText = "রেন্ডারিং ব্যাকগ্রাউন্ডে চলছে। GitHub Releases ট্যাবে ভিডিও ফাইলটি পাওয়া যাবে।";
-                        }
-                        showToast("PIPELINE PROCESSING IN BACKGROUND");
-                    }
-                }, 10000);
-
-            } catch (err) {
-                cv.innerHTML = `<span style="color:#ef4444; font-size:12px; font-family:monospace; padding:12px;">${escapeHtml(err.message)}</span>`;
-                btns.forEach(b => b.disabled = false);
-                showToast("PIPELINE ERROR");
+            } catch (e) {
+                cv.innerHTML = `<span style="color:#ef4444;">Dispatch Error</span>`;
             }
         }
 
         function resetGitHubToken() {
-            const current = localStorage.getItem('ARGENT_GH_TOKEN') || '';
-            const val = prompt("আপনার নতুন GitHub Personal Access Token (ghp_...) পেস্ট করুন:", current);
-            if (val && val.trim()) {
+            const val = prompt("নতুন GitHub Token (ghp_...) পেস্ট করুন:");
+            if (val) {
                 localStorage.setItem('ARGENT_GH_TOKEN', val.trim());
-                localStorage.setItem('ARGENT_KEY', val.trim());
-                showToast("GITHUB TOKEN SAVED!");
+                showToast("TOKEN UPDATED");
             }
         }
 
-        async function triggerDirectBlobDownload() {
-            if (!latestGeneratedMediaUrl) {
-                alert("ডাউনলোড করার জন্য প্রথমে একটি 8K Art অথবা 12.2s Video জেনারেট করুন।");
-                return;
-            }
-
-            showToast("SAVING MEDIA TO DEVICE...");
-
-            try {
-                if (latestGeneratedMediaUrl.startsWith('blob:') || latestGeneratedMediaUrl.startsWith('data:')) {
-                    const a = document.createElement('a');
-                    a.href = latestGeneratedMediaUrl;
-                    a.download = `argent-omega-media-${Date.now()}.${latestGeneratedMediaExt}`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                } else {
-                    const res = await fetch(latestGeneratedMediaUrl);
-                    const blob = await res.blob();
-                    const blobUrl = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = blobUrl;
-                    a.download = `argent-omega-media-${Date.now()}.${latestGeneratedMediaExt}`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
-                }
-                showToast("DOWNLOAD COMPLETE!");
-            } catch (_) {
-                const a = document.createElement('a');
-                a.href = latestGeneratedMediaUrl;
-                a.target = '_blank';
-                a.download = `argent-omega-media-${Date.now()}.${latestGeneratedMediaExt}`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            }
-        }
-
-        function executeCodeCoreGeneration(fieldId, containerId) {
-            const inputEl = document.getElementById(fieldId);
-            if (!inputEl) return;
-
-            const query = inputEl.value.trim();
-            if (!query && !loadedFileContextSummary) return;
-
-            appendMessageBubble(containerId, 'user', query || "Compile and audit loaded code context.");
-            inputEl.value = '';
-
-            const activeModel = selectedModel;
-            const loadingRow = appendMessageBubble(containerId, 'ai', `Initializing Code Core [${activeModel.toUpperCase()}]...`, activeModel, true);
-
-            const promptPayload = loadedFileContextSummary
-                ? `Analyze the loaded file context and fulfill the request with complete production code without placeholders:\n${loadedFileContextSummary}\n\nRequest: ${query}`
-                : `Render complete, production-ready code for the following request without placeholders: ${query}`;
-
-            dispatchModelQuery(promptPayload, true).then(res => {
-                const codeOut = typeof res === 'string' ? res : (res?.message?.content || JSON.stringify(res, null, 2));
-                if (loadingRow && loadingRow.parentNode) loadingRow.parentNode.removeChild(loadingRow);
-                appendMessageBubble(containerId, 'ai', codeOut, activeModel, true);
-            }).catch(() => {
-                if (loadingRow && loadingRow.parentNode) loadingRow.parentNode.removeChild(loadingRow);
-                appendMessageBubble(containerId, 'ai', "কোড কোর এক্সিকিউশন টাইমআউট।", 'ERROR', true);
-            });
+        function triggerDirectBlobDownload() {
+            if (!latestGeneratedMediaUrl) return alert("আগে একটি মিডিয়া তৈরি করুন!");
+            const a = document.createElement('a');
+            a.href = latestGeneratedMediaUrl;
+            a.download = `argent-media-${Date.now()}.${latestGeneratedMediaExt}`;
+            a.target = '_blank';
+            a.click();
         }
     </script>
 </body>
