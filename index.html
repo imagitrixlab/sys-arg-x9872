@@ -351,7 +351,7 @@
             position: absolute;
             top: calc(100% + 8px);
             left: 0;
-            width: 278px;
+            width: 282px;
             background: rgba(15, 17, 24, 0.96);
             backdrop-filter: blur(22px);
             border: 1px solid var(--border-active);
@@ -410,7 +410,7 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .opt-icon-box.gpt { background: rgba(52, 211, 153, 0.12); color: #34d399; }
+        .opt-icon-box.groq { background: rgba(52, 211, 153, 0.12); color: #34d399; }
         .opt-icon-box.qwen { background: rgba(96, 165, 250, 0.12); color: #60a5fa; }
         .opt-icon-box.colab { background: rgba(168, 85, 247, 0.14); color: #c084fc; }
 
@@ -1155,7 +1155,7 @@
             .sidebar-backdrop.show { display: block; }
             .menu-btn { display: flex; }
             .model-trigger { font-size: 12px; padding: 6px 10px; }
-            .model-menu { width: 255px; }
+            .model-menu { width: 258px; }
             .quick-grid { grid-template-columns: 1fr; }
             .hero-title { font-size: 25px; }
             .pill-label { display: none; }
@@ -1215,18 +1215,18 @@
                     <button type="button" class="model-trigger" id="modelTrigger" onclick="toggleModelMenu(event)">
                         <span class="status-dot" id="engineDot"></span>
                         <span class="m-icon" id="activeModelIcon"></span>
-                        <span id="activeModelLabel">GPT-4o Mini • Natural</span>
+                        <span id="activeModelLabel">Groq 70B • Ultra Fast</span>
                         <svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
 
                     <div class="model-menu" id="modelMenu">
-                        <button type="button" class="model-opt" data-val="github" onclick="selectEngine('github')">
-                            <span class="opt-icon-box gpt">
-                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C12.8 7.5 16.5 11.2 22 12C16.5 12.8 12.8 16.5 12 22C11.2 16.5 7.5 12.8 2 12C7.5 11.2 11.2 7.5 12 2Z"/></svg>
+                        <button type="button" class="model-opt" data-val="groq" onclick="selectEngine('groq')">
+                            <span class="opt-icon-box groq">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                             </span>
                             <span class="opt-text">
-                                <span class="opt-title">GPT-4o Mini • Natural</span>
-                                <span class="opt-sub">Smart chat & auto-language core</span>
+                                <span class="opt-title">Groq 70B • Ultra Fast</span>
+                                <span class="opt-sub">Instant natural chat & auto-language</span>
                             </span>
                             <svg class="opt-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                         </button>
@@ -1374,10 +1374,10 @@
         const SVG_TRASH = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
 
         const MODELS = {
-            github: {
-                label: "GPT-4o Mini • Natural",
+            groq: {
+                label: "Groq 70B • Ultra Fast",
                 dot: "#34d399",
-                icon: `<svg viewBox="0 0 24 24" fill="#34d399"><path d="M12 2C12.8 7.5 16.5 11.2 22 12C16.5 12.8 12.8 16.5 12 22C11.2 16.5 7.5 12.8 2 12C7.5 11.2 11.2 7.5 12 2Z"/></svg>`,
+                icon: `<svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
             },
             code: {
                 label: "Qwen 2.5 Coder 32B",
@@ -1392,7 +1392,10 @@
         };
 
         let activeEngine = localStorage.getItem("argent_active_engine");
-        if (!MODELS[activeEngine]) activeEngine = "github";
+        if (activeEngine === "github" || !MODELS[activeEngine]) {
+            activeEngine = "groq";
+            localStorage.setItem("argent_active_engine", "groq");
+        }
 
         let chats = JSON.parse(localStorage.getItem("argent_chats_v2") || "[]");
         let activeChatId = null;
@@ -1424,7 +1427,7 @@
         }
 
         function updateEngineUI() {
-            const cfg = MODELS[activeEngine] || MODELS.github;
+            const cfg = MODELS[activeEngine] || MODELS.groq;
             document.getElementById("activeModelLabel").textContent = cfg.label;
             document.getElementById("activeModelIcon").innerHTML = cfg.icon;
             const dot = document.getElementById("engineDot");
@@ -1437,7 +1440,7 @@
         }
 
         function selectEngine(val, silent = false) {
-            if (!MODELS[val]) val = "github";
+            if (!MODELS[val]) val = "groq";
             activeEngine = val;
             localStorage.setItem("argent_active_engine", val);
             updateEngineUI();
@@ -1517,7 +1520,6 @@
             try {
                 localStorage.setItem("argent_chats_v2", JSON.stringify(trimmed));
             } catch (_) {
-                // Storage full হলে পুরনো চ্যাট থেকে শুধু ইমেজ প্রিভিউ বাদ দিয়ে টেক্সট সেভ রাখবে
                 const lightweight = trimmed.map((c, idx) => ({
                     ...c,
                     messages: c.messages.map(m => (idx > 2 ? { ...m, image: null } : m)),
@@ -1672,7 +1674,7 @@
                     <div class="hero-welcome">
                         <div class="hero-emblem">${SVG_SPARK}</div>
                         <div class="hero-title">Argent Omega</div>
-                        <div class="hero-sub">GPT-4o Mini, Qwen 2.5 Coder, Vision Scanner, 500MB File Reader & Uncensored Colab GPU.</div>
+                        <div class="hero-sub">Groq Ultra-Fast 70B, Qwen 2.5 Coder, Vision Scanner, 500MB File Reader & Uncensored Colab GPU.</div>
                         <div class="quick-grid">
                             <div class="quick-card" onclick="quickPrompt('একটি পরিষ্কার Python অটোমেশন স্ক্রিপ্ট লিখে দাও', 'code')">
                                 <div class="qc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
@@ -1929,7 +1931,7 @@
             }
         }
 
-        // Speech Recognition (Auto-ready without extra language toggle box)
+        // Speech Recognition
         function toggleVoiceInput() {
             const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SR) return showToast("Speech input unavailable in this browser");
